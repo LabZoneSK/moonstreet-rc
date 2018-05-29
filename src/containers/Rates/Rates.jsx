@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import * as RatesActions from './actions';
-import * as cc from '../../cryptocompare';
-
 
 class Rates extends React.Component {
 
@@ -16,7 +12,7 @@ class Rates extends React.Component {
     const { rates, ratesHistorical } = this.props; 
     let ratesTable = '';
 
-    if ((rates != undefined) && (ratesHistorical != undefined)) {
+    if ((rates !== undefined) && (ratesHistorical !== undefined)) {
       ratesTable = rates.toSeq().map((rate, key) => {
         let deltaBTC = Number(100 * (rate.get('BTC') / ratesHistorical.getIn([key, 'BTC'])) - 100).toFixed(2)
         let deltaEUR = Number(100 * (rate.get('EUR') / ratesHistorical.getIn([key, 'EUR'])) - 100).toFixed(2)

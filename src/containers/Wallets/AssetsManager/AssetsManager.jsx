@@ -7,8 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -23,12 +21,7 @@ import * as RatesHistoricalActions from '../../RatesHistorical/actions';
 import moment from 'moment';
 
 
-import { 
-  showAssets,
-  findWallet,
-  mergeWallets,
-  findWalletKey,
-} from '../WalletsUtils/';
+import { findWalletKey } from '../WalletsUtils/';
 
 import * as cc from '../../../cryptocompare';
 
@@ -67,10 +60,10 @@ class AssetsManager extends React.Component {
   handleAssetAdd(e) {
     const { addAsset, addRate, addRate24h } = this.props;
 
-    if ((this.state.assetKey.toUpperCase() != "") &&
-        (this.state.assetKey.toUpperCase() != undefined) &&
-        (this.state.assetAmmount != 0) &&
-        (this.state.assetAmmount != undefined)) {
+    if ((this.state.assetKey.toUpperCase() !== "") &&
+        (this.state.assetKey.toUpperCase() !== undefined) &&
+        (this.state.assetAmmount !== 0) &&
+        (this.state.assetAmmount !== undefined)) {
 
           database.ref(this.props.user.getIn(['uid'])).child('clients/own/wallets/' + this.state.currentWalletKey + '/assets/' + this.state.assetKey.toUpperCase()).set(Number(this.state.assetAmmount));
 

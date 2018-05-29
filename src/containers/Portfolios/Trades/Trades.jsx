@@ -7,14 +7,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS, List } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { database } from '../../../firebase';
-
-import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 
 import * as PortfoliosActions from '../actions';
 
@@ -46,7 +42,7 @@ class Trades extends React.Component {
 
     let tradeList = (<tbody><tr><td>no trades</td></tr></tbody>)
 
-    if (trades != undefined && rates != undefined) {
+    if (trades !== undefined && rates !== undefined) {
       tradeList = trades.entrySeq().map(trade => {
 
         const date = trade[1].getIn(['date'])
@@ -66,7 +62,7 @@ class Trades extends React.Component {
         let colorClassEUR = ''
         let colorClassBTC = ''
 
-        if (orderType == 'sell') {
+        if (orderType === 'sell') {
           colorClassEUR = roiEUR < 0 ? 'pos' : 'neg'
           colorClassBTC = roiBTC < 0 ? 'pos' : 'neg'
         } else {

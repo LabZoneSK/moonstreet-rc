@@ -1,11 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom';
 import * as RatesActions from '../actions';
 import * as cc from '../../../cryptocompare';
 
@@ -23,7 +20,7 @@ class RateRefresh extends React.Component {
   refreshRates() {
     const { rates, addRate } = this.props;
 
-    if (rates != undefined) {
+    if (rates !== undefined) {
       cc.priceMulti(rates.keySeq().toArray(), ['BTC', 'USD', 'EUR'])
         .then(prices => {
           Object.entries(prices).forEach(

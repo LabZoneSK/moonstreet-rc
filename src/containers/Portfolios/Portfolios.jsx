@@ -6,9 +6,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -21,19 +19,18 @@ import Portfolio from './Portfolio'
 
 class Portfolios extends React.Component {
 
-
   render() {
     const { portfolioID } = this.props.match.params;
 
     return (
       <div>
-        {portfolioID == undefined &&
+        {portfolioID === undefined &&
           <div>
             <PortfoliosManager />
             <p>Portfolios summary here</p>
           </div>
         }
-        {portfolioID != undefined &&
+        {portfolioID !== undefined &&
           <div>
             <Portfolio />
           </div>

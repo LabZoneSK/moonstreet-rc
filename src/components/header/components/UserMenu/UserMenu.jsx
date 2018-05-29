@@ -9,7 +9,7 @@ class UserMenu extends React.Component {
   render() {
     const { user } = this.props;
     return (
-      <a className='user' href='#'>{user.get('email')}</a>
+      <a className='user' href='#usermenu'>{user.get('email')}</a>
     )
   }
 };

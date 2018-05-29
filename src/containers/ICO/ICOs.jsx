@@ -23,7 +23,7 @@ class ICOs extends React.Component {
   componentDidMount() {
     //this.props.fetchICOs(this.props.user.getIn(['uid']));
 
-    if (this.props.icos != undefined) {
+    if (this.props.icos !== undefined) {
       this.setState({
         icos: this.props.icos
       })

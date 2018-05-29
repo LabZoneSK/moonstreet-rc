@@ -7,8 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -17,17 +15,8 @@ import { database } from '../../../firebase';
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 
 import * as PortfoliosActions from '../actions';
-import { 
-  showAssets,
-  findWallet,
-  mergeWallets,
-  findWalletKey,
-} from '../../Wallets/WalletsUtils/';
 
-import { 
-  findInMap,
-  mergeMaps,
-} from '../../../utils/Iterable';
+import { findInMap } from '../../../utils/Iterable';
 
 class PortfoliosManager extends React.Component {
   
@@ -52,14 +41,14 @@ class PortfoliosManager extends React.Component {
 
     e.preventDefault();
 
-    if (this.state.newPortfolioName != "") {
+    if (this.state.newPortfolioName !== "") {
 
-      if (this.props.portfolios != undefined) {
+      if (this.props.portfolios !== undefined) {
 
         // findWallet should be remaned into generic util
         let existingPortfolio = findInMap(this.props.portfolios, this.state.newPortfolioName, 'name');
 
-      if (existingPortfolio != undefined) {
+      if (existingPortfolio !== undefined) {
         alert('Portfolio already exists.')
       } else {
 

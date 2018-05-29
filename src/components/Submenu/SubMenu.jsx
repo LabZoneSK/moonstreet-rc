@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { NavLink } from 'react-router-dom';
 
-import classes from './SubMenu.scss';
-
 const SubMenu = ({ group, links, active, visible }) => {
-  const navlinks = links.map((link, index) => {
+  const navlinks = links.map((link) => {
     return (
       <li key={`${group}-${link.name}-list-item`}>
         <NavLink exact key={`${group}-${link.name}-submenu-link`} activeClassName={active} to={link.path}>{link.name}</NavLink>

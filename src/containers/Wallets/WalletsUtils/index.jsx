@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Map } from 'immutable';
+
 import { 
   findInMap,
   mergeMaps,
@@ -14,9 +14,7 @@ import GetTotal from '../../Rates/GetTotal';
 /* TODO: Need specify UI */
 export function showAssets(assets, walletKey) {
   
-  if (assets != null) {
-    let totalBTC = 0
-    let totalUSD = 0
+  if (assets !== null) {
 
     const assetsView = assets.toSeq().map((amount, symbol, i) => {
       return (
@@ -32,7 +30,7 @@ export function showAssets(assets, walletKey) {
           <td>
             <GetValue assetKey={symbol} assetVolume={amount} assetRate="USD" />
           </td>
-          {walletKey != undefined &&
+          {walletKey !== undefined &&
             <td>
               <AssetActions assetKey={symbol} walletKey={walletKey}/>
             </td>
@@ -50,7 +48,7 @@ export function showAssets(assets, walletKey) {
             <th>BTC</th>
             <th>EUR</th>
             <th>USD</th>
-            {walletKey != undefined &&
+            {walletKey !== undefined &&
               <th>Actions</th>
             }
           </tr>
@@ -70,7 +68,7 @@ export function showAssets(assets, walletKey) {
               <td>
                 <GetTotal assets={assets} assetRate="USD" />
               </td>
-              {walletKey != undefined &&
+              {walletKey !== undefined &&
                 <td></td>
               }
             </tr>

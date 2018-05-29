@@ -8,7 +8,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -21,15 +20,9 @@ import Trades from '../Trades';
 
 import * as PortfoliosActions from '../actions';
 import { 
-  showAssets,
   findWallet,
   findWalletKey,
 } from '../../Wallets/WalletsUtils';
-
-import { 
-  findInMap,
-  mergeMaps,
-} from '../../../utils/Iterable';
 
 class Portfolio extends React.Component {
 
@@ -96,7 +89,7 @@ class Portfolio extends React.Component {
    
     const actualPortfolio = findWallet(portfolios, this.state.currentPortfolioName, 'name');
 
-    if (actualPortfolio != undefined) {
+    if (actualPortfolio !== undefined) {
 
       const portfolioKey = findWalletKey(portfolios, this.state.currentPortfolioName, 'name');
 

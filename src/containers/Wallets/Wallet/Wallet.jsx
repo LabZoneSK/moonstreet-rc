@@ -8,7 +8,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -67,7 +66,7 @@ class Wallet extends React.Component {
    
     const actualWallet = findWallet(wallets, this.state.currentWalletName, 'name');
 
-    if (actualWallet != undefined) {
+    if (actualWallet !== undefined) {
 
       const walletKey = findWalletKey(wallets, this.state.currentWalletName, 'name');
 

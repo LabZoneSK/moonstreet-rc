@@ -26,7 +26,7 @@ export function mergeMaps(maps, innerMapKey, mergeFunc) {
   let mergedMap = Map();
   maps.forEach((map) => {
     //make sure wallet has assets
-    if (map.get('assets') != undefined) {
+    if (map.get('assets') !== undefined) {
       map.get(innerMapKey).map((value, key) => { 
         if (mergedMap.get(key)) {
           mergedMap = mergedMap.update(key, v => mergeFunc(v, value));

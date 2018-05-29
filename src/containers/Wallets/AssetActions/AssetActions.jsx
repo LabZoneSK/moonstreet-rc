@@ -7,21 +7,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { database } from '../../../firebase';
 
 import * as WalletsActions from '../actions';
-import {
-  showAssets,
-  findWallet,
-  mergeWallets,
-  findWalletKey,
-} from '../WalletsUtils/';
-
 
 class AssetActions extends React.Component {
   

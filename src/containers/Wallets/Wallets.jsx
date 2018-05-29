@@ -6,9 +6,7 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -31,7 +29,7 @@ class Wallets extends React.Component {
     const { wallets } = this.props;
     let { walletID } = this.props.match.params;
 
-    if (wallets != undefined) {
+    if (wallets !== undefined) {
 
       if (walletID === undefined) {
 

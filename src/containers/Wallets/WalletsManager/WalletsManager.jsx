@@ -7,8 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -17,12 +15,7 @@ import { database } from '../../../firebase';
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 
 import * as WalletsActions from '../actions';
-import { 
-  showAssets,
-  findWallet,
-  mergeWallets,
-  findWalletKey,
-} from '../WalletsUtils/';
+import { findWallet } from '../WalletsUtils/';
 
 class WalletsManager extends React.Component {
   
@@ -47,12 +40,12 @@ class WalletsManager extends React.Component {
 
     e.preventDefault();
 
-    if (this.state.newWalletName != "") {
+    if (this.state.newWalletName !== "") {
 
-      if (this.props.wallets != undefined) {
+      if (this.props.wallets !== undefined) {
         let existingWallet = findWallet(this.props.wallets, this.state.newWalletName, 'name');
 
-      if (existingWallet != undefined) {
+      if (existingWallet !== undefined) {
         alert('Wallet already exists.')
       } else {
 

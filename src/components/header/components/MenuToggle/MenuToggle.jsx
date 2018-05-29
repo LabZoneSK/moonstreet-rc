@@ -7,7 +7,7 @@ function handleClick(e) {
 }
 
 const menuToggle = (props) => (
-    <a id='menu' href='#' onClick={handleClick}>M</a>
+    <a id='menu' href='#menu' onClick={handleClick}>M</a>
 );
 
 export default menuToggle;

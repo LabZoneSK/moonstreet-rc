@@ -27,7 +27,7 @@ const Home = (props) => (
           </tr>
           <tr>
             <td>
-              <a href="#">data</a>
+              <a href="#data">data</a>
             </td>
             <td>data</td>
             <td>data</td>

@@ -1,5 +1,3 @@
-'use strict';
-/* global fetch */
 
 var baseUrl = 'https://min-api.cryptocompare.com/data/';
 

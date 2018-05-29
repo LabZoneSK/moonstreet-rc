@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 
 class GetValue extends React.Component {
@@ -19,9 +16,9 @@ class GetValue extends React.Component {
 
     return (
       <div>
-        { this.props.assetRate == 'BTC' ? '₿' : ''}
-        { this.props.assetRate == 'EUR' ? '€' : ''}
-        { this.props.assetRate == 'USD' ? '$' : ''}
+        { this.props.assetRate === 'BTC' ? '₿' : ''}
+        { this.props.assetRate === 'EUR' ? '€' : ''}
+        { this.props.assetRate === 'USD' ? '$' : ''}
         {Number(value).toFixed(4)} 
         <span className={'detlaSpan ' + (delta < 0 ? 'neg' : 'pos')}>{Number(delta).toFixed(2)}%</span>
       </div>

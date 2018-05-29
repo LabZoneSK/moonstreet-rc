@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { fromJS } from 'immutable';
 import { database, auth, storageKey, isAutheticated } from '../../firebase';
 import * as AppActions from './actions';
@@ -24,7 +23,7 @@ require('../../styles/style.css');
 class App extends React.Component {
 
   componentDidMount() {
-    const { loadUserEmail, loadUserSettings, addPortfolio, initialPortfolio, addWallet, addAsset, addRate, addRate24h, addTrade, rates, addICO } = this.props;
+    const { loadUserEmail, loadUserSettings, addPortfolio, initialPortfolio, addWallet, addAsset, addRate, addRate24h, addTrade, addICO } = this.props;
 
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -50,7 +49,7 @@ class App extends React.Component {
             loadUserSettings(dbData.getIn(['settings']))
           }
  
-          if (dbData != null || dbData != "") {
+          if (dbData !== null || dbData !== "") {
             
             const wallets = dbData.getIn(['clients', 'own', 'wallets']);
             const portfolios = dbData.getIn(['clients', 'own', 'portfolios']);
@@ -58,21 +57,21 @@ class App extends React.Component {
             let collectedRates = [];
 
 
-            if (wallets != undefined) {
+            if (wallets !== undefined) {
               
               wallets.entrySeq().forEach(element => {
                 addWallet(element[0], element[1].getIn(['name']));
                 
                 let assets = element[1].getIn(['assets'])
                 
-                if (assets != undefined) {
+                if (assets !== undefined) {
 
                   //TODO: rewrite price feth to priceMulti to lower API requets
                   assets.entrySeq().forEach(walletAsset => {
                     addAsset(element[0], walletAsset[0], walletAsset[1])
 
                     // same thing used on line 113, extract it!
-                    if (collectedRates.includes(walletAsset[0]) == false) {
+                    if (collectedRates.includes(walletAsset[0]) === false) {
                       collectedRates.push(walletAsset[0])
                     }
                 
@@ -84,13 +83,13 @@ class App extends React.Component {
             } 
 
 
-            if (portfolios != undefined) {
+            if (portfolios !== undefined) {
               portfolios.entrySeq().forEach(element => {
                 addPortfolio(element[0], element[1].getIn(['name']));
                 initialPortfolio(element[0], element[1].getIn(['initial']));
 
                 let trades = element[1].getIn(['trades']);
-                if (trades != undefined) {
+                if (trades !== undefined) {
                   trades.entrySeq().forEach(trade => {
                     addTrade(
                       element[0],
@@ -104,7 +103,7 @@ class App extends React.Component {
                     );
 
 
-                    if (collectedRates.includes(trade[1].getIn(['currency'])) == false) {
+                    if (collectedRates.includes(trade[1].getIn(['currency'])) === false) {
                       collectedRates.push(trade[1].getIn(['currency']))
                     }
 
@@ -133,7 +132,7 @@ class App extends React.Component {
             })
 
             
-            if (icos != undefined) {
+            if (icos !== undefined) {
               icos.entrySeq().forEach(element => {
                 addICO(element[0], element[1]);
               })

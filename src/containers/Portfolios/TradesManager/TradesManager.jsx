@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -11,17 +9,6 @@ import * as RatesActions from '../../Rates/actions';
 import * as RatesHistoricalActions from '../../RatesHistorical/actions';
 import moment from 'moment';
 import * as PortfoliosActions from '../actions';
-import { 
-  showAssets,
-  findWallet,
-  findWalletKey,
-} from '../../Wallets/WalletsUtils';
-
-import { 
-  findInMap,
-  mergeMaps,
-} from '../../../utils/Iterable';
-
 import * as cc from '../../../cryptocompare';
 
 class TradesManager extends React.Component {

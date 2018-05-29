@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { Map, fromJS } from 'immutable';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
@@ -29,14 +28,14 @@ class Sidebar extends React.Component {
             <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
             <li>
               <NavLink activeClassName="active" to="/portfolios">Portfolios</NavLink>
-              {portfolios != undefined &&
+              {portfolios !== undefined &&
                 <SubMenu group="portfolios" links={getLinks(portfolios, '/portfolios/')} active="active" visible={location.pathname.includes('portfolio')} />
               }
             </li>
             
             <li>
               <NavLink activeClassName="active" to="/wallets">Wallets</NavLink>
-              {wallets != undefined &&
+              {wallets !== undefined &&
                 <SubMenu group="wallets" links={getLinks(wallets, '/wallets/')} active="active" visible={location.pathname.includes('wallet')} />
               }
             </li>
