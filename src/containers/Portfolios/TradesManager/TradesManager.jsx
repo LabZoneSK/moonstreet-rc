@@ -49,7 +49,7 @@ class TradesManager extends React.Component {
     let newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios/' + this.state.currentPortfolioKey + '/trades/').push({
       'date': this.state.date,
       'orderType': this.state.orderType,
-      'currency': this.state.currency, 
+      'currency': this.state.currency.toUpperCase(), 
       'amount': this.state.amount, 
       'priceEUR': this.state.priceEUR,
       'priceBTC': this.state.priceBTC
@@ -61,20 +61,20 @@ class TradesManager extends React.Component {
       newRef.key,
       this.state.date,
       this.state.orderType,
-      this.state.currency, 
+      this.state.currency.toUpperCase(), 
       this.state.amount, 
       this.state.priceEUR,
       this.state.priceBTC
     )
 
-    cc.price(this.state.currency, ['BTC', 'USD', 'EUR'])
+    cc.price(this.state.currency.toUpperCase(), ['BTC', 'USD', 'EUR'])
     .then(prices => {
-      addRate(this.state.currency, prices)
+      addRate(this.state.currency.toUpperCase(), prices)
     }).catch(console.error)
 
-    cc.priceHistorical(this.state.currency, ['BTC', 'USD', 'EUR'], new Date(moment().subtract(1, 'day').format('YYYY-MM-DD')))
+    cc.priceHistorical(this.state.currency.toUpperCase(), ['BTC', 'USD', 'EUR'], new Date(moment().subtract(1, 'day').format('YYYY-MM-DD')))
       .then(prices => {
-        addRate24h(this.state.currency, prices)
+        addRate24h(this.state.currency.toUpperCase(), prices)
       }).catch(console.error)
   }
 
