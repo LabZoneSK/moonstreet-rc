@@ -1,0 +1,43 @@
+* {
+    box-sizing: inherit
+}
+
+body,
+html {
+    height: 100%;
+    font-size: 14px;
+    min-width: 480px;
+}
+
+body {
+    font-family: var(--primary-font-family);
+    background: var(--primary-color);
+    color: var(--primary-font-color);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#root,
+#root > div, 
+#root > div > div {
+    height: 100%;
+}
+
+a {
+    color: var(--primary-font-color);
+}
+
+.main {
+    min-height: calc(100% - 50px);  
+    display: flex;
+    position: relative;
+}
+
+.tRight {
+    text-align: right;
+}
+
+.tLeft {
+    text-align: left;
+}

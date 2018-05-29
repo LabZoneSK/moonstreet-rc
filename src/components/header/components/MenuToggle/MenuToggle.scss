@@ -1,0 +1,15 @@
+// due to webpack css order this file is imported manually into scss in styles folder
+
+a[id="menu"] {
+    width: 60px;
+    background-color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+
+    // remove menu button if it doesn't make sense to show/hide menu
+    @include ubreakpoint("large") {
+        display: none;
+    }
+}

@@ -1,0 +1,49 @@
+.sidebar {
+    border-right: 1px solid var(--layout-boder);
+    background-color: var(--sidebar-background);
+    min-height: 100%;
+    width: 180px;
+    margin-left: -180px;
+    transition: .2s margin-left;
+    position: absolute;
+    height: 100%;
+
+    @include ubreakpoint("large") {
+        position: relative;
+        height: auto;
+        margin-left: 0px;
+    }
+
+}
+
+.toggle-menu .sidebar {
+    margin-left: 0px;
+}
+
+    .sidebar nav > ul {
+        padding-left: 24px;
+    }
+
+    .sidebar nav ul {
+        list-style: none;
+    }
+
+    .sidebar nav ul a {
+        text-decoration: none;
+
+        &.active {
+            text-decoration: underline;
+        }
+    }
+
+    .footer {
+        padding: 10px 24px; 
+        line-height: 30px;
+        font-size: 12px;
+        color: var(--secondary-font-color);
+        border-top: 1px solid var(--layout-boder);
+    }
+
+.submenu {
+    padding-left: 10px;
+}

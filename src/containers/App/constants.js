@@ -1,0 +1,2 @@
+export const LOAD_USER_EMAIL = 'LOAD_USER_EMAIL';
+export const LOAD_USER_SETTINGS = 'LOAD_USER_SETTINGS';

@@ -1,0 +1,28 @@
+//tables
+
+table {
+  width: 100%;
+  text-align: left;
+  //border-collapse: collapse;
+  color: #aaa;
+  margin-bottom: 10px;
+  
+  tr {
+    transition: .2s color;
+
+    &:hover  {
+      color: #fff;
+    }
+  }
+
+  th,
+  td {
+    padding: 4px;
+    border-bottom: 1px solid rgba(99, 99, 99, 0.50);
+  }
+  
+  th {
+    color: #fff
+  }
+
+}

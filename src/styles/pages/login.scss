@@ -1,0 +1,17 @@
+.login {
+    align-items: center;
+    display: flex;
+    height: 100%;
+}
+
+    .login__form {
+        background-color: var(--primary-color-light);
+        padding: 25px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .login__form h1 {
+        font-size: 24px;
+        font-weight: normal;
+    }

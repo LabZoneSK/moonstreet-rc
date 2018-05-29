@@ -1,0 +1,24 @@
+@import "core/vars";
+@import "core/mixins";
+@import "core/base";
+
+@import "modules/forms";
+@import "modules/tables";
+
+
+
+// component specific scss 
+@import "../components/header/Header";
+@import "../components/header/components/MenuToggle/MenuToggle";
+@import "../components/header/components/Logo/Logo";
+@import "../components/header/components/UserMenu/UserMenu";
+@import "../components/Submenu/SubMenu";
+
+@import "../containers/Rates/Rates";
+
+@import "../containers/Wallets/WalletsUtils/WalletUtils";
+
+@import "layout/sidebar";
+@import "layout/dashboard";
+
+@import "pages/login";
