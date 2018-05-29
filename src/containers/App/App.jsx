@@ -122,14 +122,30 @@ class App extends React.Component {
               );
             }).catch(console.error)
 
+
+            //fetch and process historical rates
+
+            let countdown = collectedRates.length;
+            let historicalPrices = [];
+
             collectedRates.forEach((symbol, index) => {
               window.setTimeout(() => {
               cc.priceHistorical(symbol, ['BTC', 'USD', 'EUR'], new Date(moment().subtract(1, 'day').format('YYYY-MM-DD')))
                 .then(prices => {
-                  addRate24h(symbol, prices)
+                  historicalPrices.push({symbol, prices})
+                  countdown--;
+                  if (countdown === 0) {
+                    recordHistorical()
+                  }
                 }).catch(console.error)
               }, (1100 * index))
             })
+
+            function recordHistorical() {
+              historicalPrices.forEach((item) => {
+                addRate24h(item.symbol, item.prices)
+              })
+            }
 
             
             if (icos !== undefined) {
