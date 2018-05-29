@@ -30,7 +30,7 @@ import {
   findWalletKey,
 } from '../WalletsUtils/';
 
-const cc = require('cryptocompare')
+import * as cc from '../../../cryptocompare';
 
 class AssetsManager extends React.Component {
   

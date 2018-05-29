@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "cryptocompare": "^0.4.0",
     "firebase": "^5.0.4",
     "immutable": "^3.8.2",
     "moment": "^2.20.1",

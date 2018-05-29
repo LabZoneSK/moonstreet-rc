@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 
 import * as RatesActions from '../actions';
-const cc = require('cryptocompare')
+import * as cc from '../../../cryptocompare';
 
 class RateRefresh extends React.Component {
 

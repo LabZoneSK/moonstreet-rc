@@ -22,7 +22,7 @@ import {
   mergeMaps,
 } from '../../../utils/Iterable';
 
-const cc = require('cryptocompare')
+import * as cc from '../../../cryptocompare';
 
 class TradesManager extends React.Component {
 

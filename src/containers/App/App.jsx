@@ -17,7 +17,7 @@ import Header from '../../components/header';
 import Main from '../../components/main';
 import Login from '../../containers/Login/';
 
-const cc = require('cryptocompare')
+import * as cc from '../../cryptocompare';
 
 require('../../styles/style.css');
 
