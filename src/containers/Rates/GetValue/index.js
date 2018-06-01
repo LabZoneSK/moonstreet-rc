@@ -1,3 +1,2 @@
-import GetValue from './GetValue';
+export { default } from './GetValue';
 
-export default GetValue;

@@ -1,3 +1,1 @@
-import ICOs from './ICOs';
-
-export default ICOs;
+export { default } from './ICOs';

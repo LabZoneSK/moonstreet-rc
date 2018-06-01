@@ -1,3 +1,2 @@
-import WalletsManager from './WalletsManager.jsx';
+export { default } from './WalletsManager.jsx';
 
-export default WalletsManager;
