@@ -1,3 +1,2 @@
-import Trades from './Trades.jsx';
+export { default } from './Trades.jsx';
 
-export default Trades;
