@@ -1,2 +1,2 @@
-http://moonstreet.netlify.com/* http://moonstreet.netlify.com/:splat 301!
+http://moonstreet.netlify.com/* https://moonstreet.netlify.com/:splat 301!
 /*  /index.html  200
