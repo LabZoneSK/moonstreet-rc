@@ -1,3 +1,2 @@
-import RateRefresh from './RateRefresh';
+export { default } from './RateRefresh';
 
-export default RateRefresh;

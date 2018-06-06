@@ -1,3 +1,2 @@
-import GetTotal from './GetTotal';
+export { default } from './GetTotal';
 
-export default GetTotal;
