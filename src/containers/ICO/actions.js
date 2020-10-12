@@ -7,8 +7,6 @@ import {
     ICO_LOADED
   } from './constants';
   
-let loading = false;
-
 const loadICOs = (userID) => {
   return dispatch => {
     dispatch(requestICOs());
@@ -51,7 +49,7 @@ export function requestICOs() {
 
 export function loadedICOs(loadedData) {
   console.log(loadedData);
-  loading = false;
+  // loading = false;
   return {
     type: ICO_LOADED,
     icos: loadedData,
