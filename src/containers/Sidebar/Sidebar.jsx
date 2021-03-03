@@ -41,6 +41,7 @@ class Sidebar extends React.Component {
             </li>
             <li><NavLink exact activeClassName="active" to="/rates">Rates</NavLink></li>
             <li><NavLink exact activeClassName="active" to="/ico">ICO</NavLink></li>
+            <li><NavLink exact activeClassName="active" to="/coinPotential">Coin potential</NavLink></li>
             <li><RefreshButton /></li>
           </ul>
         </nav>
