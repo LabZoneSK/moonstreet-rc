@@ -1,20 +1,32 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
+import moment from 'moment';
+
 import { database, auth, storageKey, isAutheticated } from '../../firebase';
 import * as AppActions from './actions';
 import * as WalletsActions from '../Wallets/actions';
 import * as RatesActions from '../Rates/actions';
 import * as RatesHistoricalActions from '../RatesHistorical/actions';
-import moment from 'moment';
+import GlobalProvider, { GlobalConsumer } from './GlobalProvider';
+
 import * as PortfoliosActions from '../Portfolios/actions';
 import * as ICOActions from '../ICO/actions';
 import Header from '../../components/header';
-import Main from '../../components/main';
 import Login from '../../containers/Login/';
+
+import Sidebar from '../../containers/Sidebar';
+
+/** Containers */
+import Home from '../../templates/Home';
+import Portfolios from '../../containers/Portfolios';
+import Wallets from '../../containers/Wallets';
+import Rates from '../../containers/Rates'
+import ICOs from '../../containers/ICO';
+import CoinPotential from '../../containers/CoinPotential/CoinPotential';
 
 import * as cc from '../../cryptocompare';
 
@@ -168,20 +180,47 @@ class App extends React.Component {
   }
 
   render() {
-    function Page(props) {
+    function Page() {
       // if user is autenticated they'll see actuall app instead of login window
       if (isAutheticated()) {
-        return(
+        return (
           <div>
-            <Header />
-            <Main />
+            <GlobalProvider>
+              <GlobalConsumer>
+                {context => (
+                  <React.Fragment>
+                    <Header />
+                    <main className="main">
+                      <Sidebar />
+                      <section className="dashboard">
+                        <Switch>
+                          <Route exact path="/" component={Home} />
+                          <Route exact path="/portfolios" component={Portfolios} />
+                          <Route path="/portfolios/:portfolioID" component={Portfolios} />
+                          <Route exact path="/wallets" component={Wallets} />
+                          <Route path="/wallets/:walletID" component={Wallets} />
+                          <Route exact path="/rates" component={Rates} />
+                          <Route exact path="/ico" component={ICOs} />
+                          <Route exact path="/coinPotential" render={props => <CoinPotential context={context} {...props} />} />
+                        </Switch>
+                      </section>
+                    </main>
+                  </React.Fragment>)}
+              </GlobalConsumer>
+            </GlobalProvider>
           </div>
         );
-      } else {
-        return(
-          <Login />
-        )
       }
+
+      return (
+        <GlobalProvider>
+          <GlobalConsumer>
+            {context => (
+              <Login context={context} />
+            )}
+          </GlobalConsumer>
+        </GlobalProvider>
+      )
     }
 
     return (

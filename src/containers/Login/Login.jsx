@@ -1,65 +1,46 @@
-import React from 'react';
-import { connect } from "react-redux";
-import { auth } from "../../firebase.jsx";
+import React, { useState } from 'react';
+import { auth } from '../../firebase';
 
 
-class Login extends React.Component {
+const Login = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
     
-    constructor() {
-        super();
-        this.email = '';
-        this.password = '';
 
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
-        this.state = {
-            errorMsg: ''
-        }
-    }
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  }
 
-    handleEmailChange(event) {
-         this.email = event.target.value;
-    }
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    auth.signInWithEmailAndPassword(email, password).then(() => {
+      // dispatch loading user data
 
-    handlePasswordChange(event) {
-        this.password = event.target.value;
-    }
+    }).catch((error) => {
+      setErrorMsg({errorMsg: error.message });
+    });
+  };
 
-    handleSubmit = (evt) => {
-        evt.preventDefault();
-        auth.signInWithEmailAndPassword(this.email, this.password).then(() => {
-            // dispatch loading user data
+  return (
+    <div className="login">
+      <div className="login__form">
+        <form onSubmit={handleSubmit}>
+          <h1>MoonStreet</h1>
+          <input type="text" placeholder="username/email" defaultValue={email} onChange={handleEmailChange} /><br />
+          <input type="password" defaultValue={password} onChange={handlePasswordChange} /><br />
+          <button type="submit">Login</button>
+          <p>{errorMsg}</p>
+        </form>
+      </div>
+    </div>
+  )
 
-        }).catch((error) => {
-            this.setState({errorMsg: error.message});
-        });
-    }    
-
-    render() {
-        return(
-            <div className="login">
-
-                <div className="login__form">
-                    <form onSubmit={this.handleSubmit}>
-                        <h1>MoonStreet</h1>
-                        <input type="text" placeholder="username/email" defaultValue={this.props.email} onChange={this.handleEmailChange} /><br />
-                        <input type="password" defaultValue={this.props.password} onChange={this.handlePasswordChange} /><br />
-                        <button type="submit">Login</button>
-                        <p>{this.state.errorMsg}</p>
-                    </form>
-                </div>
-            </div>
-        )
-    }
 }
 
-// container part
-const mapStateToProps = (state) => {
-    return {
-        ...state
-    };
-};
-
-export default connect ( mapStateToProps ) (Login);
+export default Login;

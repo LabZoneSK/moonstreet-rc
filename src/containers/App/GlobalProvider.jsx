@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
+import * as cc from '../../cryptocompare';
+import { database, auth, storageKey, isAutheticated } from '../../firebase';
+
 export const GlobalContext = React.createContext();
 export const GlobalConsumer = GlobalContext.Consumer;
 
@@ -18,7 +21,7 @@ class GlobalProvider extends Component {
     return (
       <GlobalContext.Provider
         value={{
-          state: this.state
+          state: this.state,
         }}
       >
         {/* eslint-disable-next-line react/prop-types */}
