@@ -24,7 +24,7 @@ class RateRefresh extends React.Component {
       cc.priceMulti(rates.keySeq().toArray(), ['BTC', 'USD', 'EUR'])
         .then(prices => {
           Object.entries(prices).forEach(
-            ([symbol, price]) => addRate(symbol, price) 
+            ([symbol, price]) => addRate(symbol, price)
           );
         }).catch(console.error)
     }

@@ -9,7 +9,7 @@ class Rates extends React.Component {
 
   render() {
 
-    const { rates, ratesHistorical } = this.props; 
+    const { rates, ratesHistorical } = this.props;
     let ratesTable = '';
 
     if ((rates !== undefined) && (ratesHistorical !== undefined)) {
@@ -17,7 +17,7 @@ class Rates extends React.Component {
         let deltaBTC = Number(100 * (rate.get('BTC') / ratesHistorical.getIn([key, 'BTC'])) - 100).toFixed(2)
         let deltaEUR = Number(100 * (rate.get('EUR') / ratesHistorical.getIn([key, 'EUR'])) - 100).toFixed(2)
         let deltaUSD = Number(100 * (rate.get('USD') / ratesHistorical.getIn([key, 'USD'])) - 100).toFixed(2)
-   
+
         return(
           <tr key={key}>
             <td className="tLeft">{key}</td>

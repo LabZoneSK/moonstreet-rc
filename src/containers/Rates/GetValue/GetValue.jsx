@@ -8,7 +8,7 @@ class GetValue extends React.Component {
 
   render() {
 
-    const { rates, ratesHistorical } = this.props; 
+    const { rates, ratesHistorical } = this.props;
 
     let delta = (100 * (rates.getIn([this.props.assetKey, this.props.assetRate]) / ratesHistorical.getIn([this.props.assetKey, this.props.assetRate]))) - 100;
 
@@ -19,7 +19,7 @@ class GetValue extends React.Component {
         { this.props.assetRate === 'BTC' ? '₿' : ''}
         { this.props.assetRate === 'EUR' ? '€' : ''}
         { this.props.assetRate === 'USD' ? '$' : ''}
-        {Number(value).toFixed(4)} 
+        {Number(value).toFixed(4)}
         <span className={'detlaSpan ' + (delta < 0 ? 'neg' : 'pos')}>{Number(delta).toFixed(2)}%</span>
       </div>
     )

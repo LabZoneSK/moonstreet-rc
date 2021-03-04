@@ -25,18 +25,18 @@ const portfoliosReducer = (state = initialState, action) => {
         .mergeIn([action.portfolioKey], fromJS({ initial: action.initialInvestment }));
     case TRADE_ADD:
       return state
-        .mergeIn([action.portfolioKey, 'trades', action.tradeKey ], 
-                fromJS({ 
+        .mergeIn([action.portfolioKey, 'trades', action.tradeKey ],
+                fromJS({
                   'date': action.tradeDate,
                   'orderType': action.tradeOrderType,
                   'currency': action.tradeCurrency,
                   'amount': action.tradeAmmount,
                   'priceEUR': action.tradePriceEUR,
                   'priceBTC': action.tradePriceBTC
-                })); 
+                }));
     case TRADE_REMOVE:
       return state
-        .deleteIn([ action.portfolioKey, 'trades', action.tradeKey]);     
+        .deleteIn([ action.portfolioKey, 'trades', action.tradeKey]);
     default:
       return state;
   }

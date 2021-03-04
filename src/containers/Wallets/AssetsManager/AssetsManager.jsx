@@ -26,7 +26,7 @@ import { findWalletKey } from '../WalletsUtils/';
 import * as cc from '../../../cryptocompare';
 
 class AssetsManager extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -56,7 +56,7 @@ class AssetsManager extends React.Component {
   handleInputChange(event) {
     handleInputChangesGeneric(event, this);
   }
-  
+
   handleAssetAdd(e) {
     const { addAsset, addRate, addRate24h } = this.props;
 
@@ -84,7 +84,7 @@ class AssetsManager extends React.Component {
       alert("Missing key or ammount")
     }
   }
-  
+
   handleAssetRemove(e) {
     const { removeAsset } = this.props;
 

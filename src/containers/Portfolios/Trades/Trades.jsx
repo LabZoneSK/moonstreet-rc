@@ -32,12 +32,12 @@ class Trades extends React.Component {
 
       removeTrade(portfolioKey, e.target.getAttribute('tradekey'))
     }
-     
+
   }
 
   render() {
     const { portfolios, portfolioKey, rates } = this.props;
-    
+
     const trades = portfolios.getIn([portfolioKey, 'trades']);
 
     let tradeList = (<tbody><tr><td>no trades</td></tr></tbody>)
@@ -58,7 +58,7 @@ class Trades extends React.Component {
         const roiEUR = Number(((((rates.getIn([currency, 'EUR'])) * amount) / priceEUR) * 100) - 100).toFixed(2)
         const roiBTC = Number(((((rates.getIn([currency, 'BTC'])) * amount) / priceBTC) * 100) - 100).toFixed(2)
 
-        
+
         let colorClassEUR = ''
         let colorClassBTC = ''
 
@@ -88,7 +88,7 @@ class Trades extends React.Component {
               <td>₿{currentBTC}</td>
               <td><span className={colorClassBTC}>{roiBTC}%</span></td>
             </tr>
-            
+
             <tr>
               <td colSpan="8">&nbsp;</td>
             </tr>

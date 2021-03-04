@@ -21,7 +21,7 @@ class TradesManager extends React.Component {
       'date': '', //2017-11-16
       'orderType': '', //sell, buy, sell w BTC...
       'currency': '', // XMR
-      'amount': 0, 
+      'amount': 0,
       'priceEUR': 0,
       'priceBTC': 0
     }
@@ -33,7 +33,7 @@ class TradesManager extends React.Component {
 
   componentDidMount() {
     const { portfolioKey } = this.props;
-    
+
     this.setState({
       currentPortfolioKey: portfolioKey
     })
@@ -49,20 +49,20 @@ class TradesManager extends React.Component {
     let newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios/' + this.state.currentPortfolioKey + '/trades/').push({
       'date': this.state.date,
       'orderType': this.state.orderType,
-      'currency': this.state.currency.toUpperCase(), 
-      'amount': this.state.amount, 
+      'currency': this.state.currency.toUpperCase(),
+      'amount': this.state.amount,
       'priceEUR': this.state.priceEUR,
       'priceBTC': this.state.priceBTC
     });
 
- 
+
     addTrade(
       this.state.currentPortfolioKey,
       newRef.key,
       this.state.date,
       this.state.orderType,
-      this.state.currency.toUpperCase(), 
-      this.state.amount, 
+      this.state.currency.toUpperCase(),
+      this.state.amount,
       this.state.priceEUR,
       this.state.priceBTC
     )

@@ -53,17 +53,17 @@ class ICOManager extends React.Component {
       <form id="addICO">
         <label>
           Name:
-          <input 
+          <input
             type="text"
             name="ICOName"
             value={this.state.ICOName}
-            onChange={this.handleInputChange} 
+            onChange={this.handleInputChange}
             required />
           </label>
           <br/>
           <label>
             Inital Investment Amount:
-          <input 
+          <input
               type="number"
               name="initialInvestment"
               value={this.state.initialInvestment}
@@ -73,7 +73,7 @@ class ICOManager extends React.Component {
           <br/>
           <label>
             Inital Investment Currency:
-          <input 
+          <input
               type="text"
               name="initialInvestmentCurrency"
               value={this.state.initialInvestmentCurrency}
@@ -82,7 +82,7 @@ class ICOManager extends React.Component {
           </label>
           <label>
             Symbol:
-            <input 
+            <input
               type="text"
               name="investmentCurrencySymbol"
               value={this.state.investmentCurrencySymbol}

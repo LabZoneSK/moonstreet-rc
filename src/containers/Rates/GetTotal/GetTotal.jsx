@@ -7,19 +7,19 @@ class GetTotal extends React.Component {
 
   render() {
 
-    const { rates, ratesHistorical, assets } = this.props; 
-    
+    const { rates, ratesHistorical, assets } = this.props;
+
     let sum = 0;
     let sumHisto = 0;
 
-     //TODO: this is really shitty piece of code 
+     //TODO: this is really shitty piece of code
     assets.toSeq().forEach((amount, symbol, i) => {
       sum += (Number(rates.getIn([symbol, this.props.assetRate])) * amount)
       sumHisto += (Number(ratesHistorical.getIn([symbol, this.props.assetRate])) * amount)
     })
 
     let delta = (100 * (sum / sumHisto)) - 100;
-    
+
     return (
       <div>
         { this.props.assetRate === 'BTC' ? '₿' : ''}

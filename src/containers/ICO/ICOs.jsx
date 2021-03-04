@@ -11,7 +11,7 @@ import ICOManager from './ICOManager';
 import ICOListView from './ICOListView';
 
 class ICOs extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -47,11 +47,11 @@ const mapStateToProps = (state) => {
     ...state,
   }
 };
-  
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     ...ICOActions,
   }, dispatch);
 };
-  
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ICOs));

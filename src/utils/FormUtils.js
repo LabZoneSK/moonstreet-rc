@@ -1,7 +1,7 @@
 /**
  * Handles input changes in forms. Updates inner state of component.
- * 
- * @param {Object} event change event 
+ *
+ * @param {Object} event change event
  * @param {React.Component} self Component in which form is used
  */
 export function handleInputChangesGeneric(event, self) {

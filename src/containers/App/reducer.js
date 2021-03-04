@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
-import { 
+import {
   LOAD_USER_EMAIL,
-  LOAD_USER_SETTINGS 
+  LOAD_USER_SETTINGS
 } from './constants';
 
 /* TODO: Load userstuff from database */

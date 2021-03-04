@@ -4,8 +4,8 @@ import {
     ASSET_ADD,
     ASSET_REMOVE,
   } from './constants';
-  
-  
+
+
   /* Action Creators */
   export function addWallet(walletKey, walletName) {
     return {
@@ -14,7 +14,7 @@ import {
       walletName
     };
   }
-  
+
   export function removeWallet(walletKey) {
     return {
       type: WALLET_REMOVE,
@@ -30,7 +30,7 @@ import {
       assetAmmount
     };
   }
-  
+
   export function removeAsset(walletKey, assetKey) {
     return {
       type: ASSET_REMOVE,

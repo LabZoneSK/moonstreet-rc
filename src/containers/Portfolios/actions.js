@@ -5,8 +5,8 @@ import {
     TRADE_ADD,
     TRADE_REMOVE,
   } from './constants';
-  
-  
+
+
 /* Action Creators */
 export function addPortfolio(portfolioKey, portfolioName) {
   return {
@@ -32,8 +32,8 @@ export function initialPortfolio(portfolioKey, initialInvestment) {
 }
 
 export function addTrade(
-  portfolioKey, 
-  tradeKey, 
+  portfolioKey,
+  tradeKey,
   tradeDate,
   tradeOrderType,
   tradeCurrency,

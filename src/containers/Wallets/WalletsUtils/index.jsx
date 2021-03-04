@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-import { 
+import {
   findInMap,
   mergeMaps,
 } from '../../../utils/Iterable';
@@ -13,7 +13,7 @@ import GetTotal from '../../Rates/GetTotal';
 
 /* TODO: Need specify UI */
 export function showAssets(assets, walletKey) {
-  
+
   if (assets !== null) {
 
     const assetsView = assets.toSeq().map((amount, symbol, i) => {
@@ -81,39 +81,39 @@ export function showAssets(assets, walletKey) {
     )
   }
 
-  
+
 }
 
 
 /**
  * Functions find wallet by specified key.
- * 
- * @param {Immutable.Map} wallets 
- * @param {String} walletID 
- * @param {String} key 
+ *
+ * @param {Immutable.Map} wallets
+ * @param {String} walletID
+ * @param {String} key
  * @return {Immutable.Map} actual wallet
  */
-export function findWallet(wallets, walletID, key) { 
-  return findInMap(wallets, walletID, key); 
+export function findWallet(wallets, walletID, key) {
+  return findInMap(wallets, walletID, key);
 }
 
 /**
  * Function merge all assets from wallets.
- * 
+ *
  * @param {Immutable.Map} wallets
  * @return {Immutable.Map} merged wallet
  */
 export function mergeWallets(wallets) {
-  return mergeMaps(wallets, 'assets', (sum, current) => roundNumber(sum + current, 12)); 
+  return mergeMaps(wallets, 'assets', (sum, current) => roundNumber(sum + current, 12));
 }
 
 
 /**
  * Function to find apropriate wallet key by wallet name.
- * 
+ *
  * @param {Immutable.Map} wallets
- * @param {String} walletID 
- * @param {String} key 
+ * @param {String} walletID
+ * @param {String} key
  * @return {String} walletKey reference for firebase
  */
 export function findWalletKey(wallets, walletID, key) {

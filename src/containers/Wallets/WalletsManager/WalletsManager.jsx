@@ -18,7 +18,7 @@ import * as WalletsActions from '../actions';
 import { findWallet } from '../WalletsUtils/';
 
 class WalletsManager extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -55,7 +55,7 @@ class WalletsManager extends React.Component {
 
         addWallet(newRef.key, this.state.newWalletName);
       }
-        
+
       } else {
         let newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/wallets').push({
           name: this.state.newWalletName

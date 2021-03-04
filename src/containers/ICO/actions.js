@@ -6,7 +6,7 @@ import {
     ICO_LOAD,
     ICO_LOADED
   } from './constants';
-  
+
 const loadICOs = (userID) => {
   return dispatch => {
     dispatch(requestICOs());
