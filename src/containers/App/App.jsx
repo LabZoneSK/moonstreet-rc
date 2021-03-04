@@ -60,9 +60,9 @@ class App extends React.Component {
           } else {
             loadUserSettings(dbData.getIn(['settings']))
           }
- 
+
           if (dbData !== null || dbData !== "") {
-            
+
             const wallets = dbData.getIn(['clients', 'own', 'wallets']);
             const portfolios = dbData.getIn(['clients', 'own', 'portfolios']);
             const icos = dbData.getIn(['clients', 'own', 'icos']);
@@ -70,12 +70,12 @@ class App extends React.Component {
 
 
             if (wallets !== undefined) {
-              
+
               wallets.entrySeq().forEach(element => {
                 addWallet(element[0], element[1].getIn(['name']));
-                
+
                 let assets = element[1].getIn(['assets'])
-                
+
                 if (assets !== undefined) {
 
                   //TODO: rewrite price feth to priceMulti to lower API requets
@@ -86,13 +86,13 @@ class App extends React.Component {
                     if (collectedRates.includes(walletAsset[0]) === false) {
                       collectedRates.push(walletAsset[0])
                     }
-                
+
                   })
                 }
                });
-   
+
                loadUserSettings(dbData.getIn(['settings']))
-            } 
+            }
 
 
             if (portfolios !== undefined) {
@@ -108,8 +108,8 @@ class App extends React.Component {
                       trade[0],
                       trade[1].getIn(['date']),
                       trade[1].getIn(['orderType']),
-                      trade[1].getIn(['currency']), 
-                      trade[1].getIn(['amount']), 
+                      trade[1].getIn(['currency']),
+                      trade[1].getIn(['amount']),
                       trade[1].getIn(['priceEUR']),
                       trade[1].getIn(['priceBTC'])
                     );
@@ -130,7 +130,7 @@ class App extends React.Component {
             cc.priceMulti(collectedRates, ['BTC', 'USD', 'EUR'])
             .then(prices => {
               Object.entries(prices).forEach(
-                ([symbol, price]) => addRate(symbol, price) 
+                ([symbol, price]) => addRate(symbol, price)
               );
             }).catch(console.error)
 
@@ -159,14 +159,14 @@ class App extends React.Component {
               })
             }
 
-            
+
             if (icos !== undefined) {
               icos.entrySeq().forEach(element => {
                 addICO(element[0], element[1]);
               })
             }
-            
-            
+
+
           } else {
             console.log("no data.")
           }
@@ -226,7 +226,7 @@ class App extends React.Component {
     return (
       <div>
         <Page />
-      </div>		
+      </div>
     )
   }
 }
