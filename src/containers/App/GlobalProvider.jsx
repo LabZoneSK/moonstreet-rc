@@ -13,8 +13,29 @@ class GlobalProvider extends Component {
     super(props);
 
     this.state = {
-      globallyAccesibleThing: "vooooo"
+      globallyAccesibleThing: "vooooo",
+      userData: {},
+      testValue: '',
+      setTestValue: ({ value }) => this.setState({ testValue: value }),
     };
+  };
+
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        //window.localStorage.setItem(storageKey, user.uid);
+
+        database.ref(user.uid).once('value').then((snapshot) => {
+          let dbData = snapshot.node_.val();
+          this.setState({
+            userData: dbData
+          })
+        });
+      }
+
+      window.localStorage.removeItem(storageKey);
+
+    })
   };
 
   render() {
@@ -42,9 +63,9 @@ GlobalProvider.propTypes = {
       })
     })
   };
-  
+
   GlobalProvider.defaultProps = {
     match: { params: { id: null } }
   };
-  
+
   export default withRouter(props => <GlobalProvider {...props} />);
