@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-import * as CoinPotentialActions from './actions';
+
+
+import * as cc from '../../cryptocompare';
 
 const CoinPotential = (props) => {
   const { rates } = props;
+  const [coinData, setCoinData] = useState({});
 
   useEffect(() => {
-    console.log('component mounted: ', rates.toSeq().valueSeq().toArray());
+    if (rates.toSeq().valueSeq().toArray().length > 0) {
+      console.log("stuff")
+      //cc.priceFull()
+    }
   }, [rates]);
 
   return (
@@ -18,7 +24,7 @@ const CoinPotential = (props) => {
       <p> Coin potential here </p>
 
       {rates && rates.toSeq().valueSeq().toArray().length > 0 && (
-        rates.toSeq().map((rates, coin) => <p key={rates}>{ coin }</p>).valueSeq().toArray()
+        rates.toSeq().map((coinRates, coin) => <p key={coinRates}>{ coin }</p>).valueSeq().toArray()
       )}
     </div>
   );
@@ -32,9 +38,7 @@ const mapStateToProps = state => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  ...CoinPotentialActions,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoinPotential));

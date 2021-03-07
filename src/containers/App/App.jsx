@@ -13,7 +13,6 @@ import * as RatesActions from '../Rates/actions';
 import * as RatesHistoricalActions from '../RatesHistorical/actions';
 import * as PortfoliosActions from '../Portfolios/actions';
 import * as ICOActions from '../ICO/actions';
-import * as CoinPotentialActions from '../CoinPotential/actions';
 
 import Header from '../../components/header';
 import Login from '../../containers/Login/';
@@ -42,7 +41,6 @@ class App extends React.Component {
       addInitialRates,
       addInitialRates24h,
       addICO,
-      addCoinList,
     } = this.props;
 
     auth.onAuthStateChanged((user) => {
@@ -127,9 +125,6 @@ class App extends React.Component {
                 addInitialRates(prices);
               }).catch(console.error);
 
-            // create coin list for CoinPotential
-            addCoinList(collectedRates);
-
             // fetch and process historical rates
 
             let countdown = collectedRates.length;
@@ -210,7 +205,6 @@ App.propTypes = {
   loadUserEmail: PropTypes.func.isRequired,
   loadUserSettings: PropTypes.func.isRequired,
   addICO: PropTypes.func.isRequired,
-  addCoinList: PropTypes.func.isRequired,
   setInitialWallets: PropTypes.func.isRequired,
   setInitialPortfolios: PropTypes.func.isRequired,
   addInitialRates: PropTypes.func.isRequired,
@@ -229,7 +223,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   ...RatesActions,
   ...RatesHistoricalActions,
   ...ICOActions,
-  ...CoinPotentialActions,
 }, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
