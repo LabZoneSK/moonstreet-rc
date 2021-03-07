@@ -5,6 +5,7 @@ import {
   WALLET_REMOVE,
   ASSET_ADD,
   ASSET_REMOVE,
+  WALLETS_INITIAL,
 } from './constants';
 
 /* TODO: Revisit if initial state below is needed, since it isn't really used for anything */
@@ -21,10 +22,12 @@ const walletsReducer = (state = initialState, action) => {
         .delete(action.walletKey)
     case ASSET_ADD:
       return state
-        .mergeIn([ action.walletKey, 'assets'], fromJS({ [action.assetKey] : action.assetAmmount }));
+        .mergeIn([action.walletKey, 'assets'], fromJS({ [action.assetKey]: action.assetAmmount }));
     case ASSET_REMOVE:
       return state
-        .deleteIn([ action.walletKey, 'assets', action.assetKey]);
+        .deleteIn([action.walletKey, 'assets', action.assetKey]);
+    case WALLETS_INITIAL:
+      return fromJS(action.walletData);
     default:
       return state;
   }

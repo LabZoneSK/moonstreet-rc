@@ -8,6 +8,7 @@ import rates from '../containers/Rates/reducer';
 import ratesHistorical from '../containers/RatesHistorical/reducer';
 import user from '../containers/App/reducer';
 import icos from '../containers/ICO/reducer';
+import coinPotential from '../containers/CoinPotential/reducer';
 
 const reducers = combineReducers({
   /* Add imported reducers */
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   ratesHistorical,
   user,
   icos,
+  coinPotential,
 });
 
 export default reducers;

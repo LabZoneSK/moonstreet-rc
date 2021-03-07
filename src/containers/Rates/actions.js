@@ -1,5 +1,6 @@
 import {
-  RATE_ADD
+  RATE_ADD,
+  RATES_INITIAL,
 } from './constants';
 
 
@@ -11,3 +12,11 @@ export function addRate(currency, rates) {
     rates
   };
 }
+
+export function addInitialRates(rates) {
+  return {
+    type: RATES_INITIAL,
+    rates,
+  };
+}
+

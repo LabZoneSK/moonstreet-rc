@@ -2,6 +2,7 @@ import {
     PORTFOLIO_ADD,
     PORTFOLIO_REMOVE,
     PORTFOLIO_INITIAL,
+    PORTFOLIOS_INITIAL,
     TRADE_ADD,
     TRADE_REMOVE,
   } from './constants';
@@ -27,7 +28,7 @@ export function initialPortfolio(portfolioKey, initialInvestment) {
   return {
     type: PORTFOLIO_INITIAL,
     portfolioKey,
-    initialInvestment
+    initialInvestment,
   };
 }
 
@@ -39,7 +40,7 @@ export function addTrade(
   tradeCurrency,
   tradeAmmount,
   tradePriceEUR,
-  tradePriceBTC
+  tradePriceBTC,
 ) {
   return {
     type: TRADE_ADD,
@@ -50,7 +51,7 @@ export function addTrade(
     tradeCurrency,
     tradeAmmount,
     tradePriceEUR,
-    tradePriceBTC
+    tradePriceBTC,
   };
 }
 
@@ -59,5 +60,12 @@ export function removeTrade(portfolioKey, tradeKey) {
     type: TRADE_REMOVE,
     portfolioKey,
     tradeKey,
+  };
+}
+
+export function setInitialPortfolios(portfoliosData) {
+  return {
+    type: PORTFOLIOS_INITIAL,
+    portfoliosData,
   };
 }

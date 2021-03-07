@@ -32,7 +32,7 @@ class Sidebar extends React.Component {
                 <SubMenu group="portfolios" links={getLinks(portfolios, '/portfolios/')} active="active" visible={location.pathname.includes('portfolio')} />
               }
             </li>
-            
+
             <li>
               <NavLink activeClassName="active" to="/wallets">Wallets</NavLink>
               {wallets !== undefined &&

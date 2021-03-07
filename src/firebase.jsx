@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-let config = {
+const config = {
   	apiKey: process.env.REACT_APP_FIREBASE_apiKey,
     authDomain: process.env.REACT_APP_FIREBASE_authDomain,
     databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,

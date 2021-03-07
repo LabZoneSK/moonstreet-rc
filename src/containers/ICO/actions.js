@@ -23,7 +23,6 @@ const loadICOs = (userID) => {
 
 /* Action Creators */
 export function addICO(key, ICOObj) {
-  console.log('action');
   return {
     type: ICO_ADD,
     key,
