@@ -4,7 +4,7 @@ table {
   width: 100%;
   text-align: left;
   //border-collapse: collapse;
-  color: #aaa;
+  color: var(--gray-brown);
   margin-bottom: 10px;
 
   tr {
@@ -22,7 +22,7 @@ table {
   }
 
   th {
-    color: #fff
+    color: var(--sidebar-background);
   }
 
 }

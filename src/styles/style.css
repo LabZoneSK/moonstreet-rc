@@ -6,7 +6,12 @@
   --secondary-color: #fd9c2a;
   --layout-boder: #464646;
   --header-background: #fff;
-  --sidebar-background: #1a2b2d;
+  --sidebar-background: #1D1A1F;
+  --sidebar-nav-active: #6BA470;
+  --content-widgets-foreground: #E2E4DB;
+  --content-background: #c7c8c4;
+  --gray-brown: #656566;
+  --gray-brown-green: #868E75;
   /* typography */
   --primary-font-color: #fff;
   --secondary-font-color: #94A0A2;
@@ -19,13 +24,13 @@
 body,
 html {
   height: 100%;
-  font-size: 14px;
+  font-size: 16px;
   min-width: 480px; }
 
 body {
   font-family: var(--primary-font-family);
-  background: var(--primary-color);
-  color: var(--primary-font-color);
+  background: var(--content-background);
+  color: var(--gray-brown);
   margin: 0;
   padding: 0;
   box-sizing: border-box; }
@@ -163,7 +168,7 @@ label {
 table {
   width: 100%;
   text-align: left;
-  color: #aaa;
+  color: var(--gray-brown);
   margin-bottom: 10px; }
   table tr {
     transition: .2s color; }
@@ -174,16 +179,17 @@ table {
     padding: 4px;
     border-bottom: 1px solid rgba(99, 99, 99, 0.5); }
   table th {
-    color: #fff; }
+    color: var(--sidebar-background); }
 
 .header {
-  background-color: var(--header-background);
+  background-color: var(--content-background);
+  border-bottom: 1px solid var(--sidebar-nav-active);
   min-height: 50px;
   display: flex; }
 
 a[id="menu"] {
   width: 60px;
-  background-color: var(--secondary-color);
+  background-color: var(--sidebar-background);
   text-decoration: none;
   font-size: 18px;
   line-height: 50px;
@@ -194,14 +200,14 @@ a[id="menu"] {
 
 .moonstreet {
   width: 180px;
-  background-color: var(--primary-color-light);
+  background-color: var(--sidebar-nav-active);
   text-decoration: none;
   font-size: 18px;
   line-height: 50px;
   text-align: center; }
 
 .user {
-  color: var(--primary-color-light);
+  color: var(--sidebar-nav-active);
   margin-left: auto;
   line-height: 50px;
   padding: 0 24px; }
@@ -216,18 +222,20 @@ a[id="menu"] {
   font-size: 0.75em;
   padding-left: 10px;
   width: 50px;
-  display: inline-block; }
+  display: inline-block;
+  font-weight: 700; }
 
 .neg {
   color: #ff2500; }
 
 .pos {
-  color: #26ff00; }
+  color: #007931; }
 
 /* Styles for feature component */
 .sumRow {
   color: #fff;
-  font-size: 1.25em; }
+  font-size: 1.25em;
+  background-color: var(--sidebar-background); }
   .sumRow td {
     border-top: 1px solid #fff;
     border-bottom: 1px solid #fff; }
@@ -248,7 +256,8 @@ a[id="menu"] {
       margin-left: 0px; } }
 
 .toggle-menu .sidebar {
-  margin-left: 0px; }
+  margin-left: 0px;
+  width: 100%; }
 
 .sidebar nav > ul {
   padding-left: 24px; }
@@ -257,9 +266,13 @@ a[id="menu"] {
   list-style: none; }
 
 .sidebar nav ul a {
-  text-decoration: none; }
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 5px 15px 5px 0;
+  display: inline-block;
+  font-size: .8rem; }
   .sidebar nav ul a.active {
-    text-decoration: underline; }
+    color: var(--sidebar-nav-active); }
 
 .footer {
   padding: 10px 24px;

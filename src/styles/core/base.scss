@@ -5,14 +5,14 @@
 body,
 html {
     height: 100%;
-    font-size: 14px;
+    font-size: 16px;
     min-width: 480px;
 }
 
 body {
     font-family: var(--primary-font-family);
-    background: var(--primary-color);
-    color: var(--primary-font-color);
+    background: var(--content-background);
+    color: var(--gray-brown);
     margin: 0;
     padding: 0;
     box-sizing: border-box;

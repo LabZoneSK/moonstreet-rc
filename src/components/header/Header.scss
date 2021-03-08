@@ -1,5 +1,6 @@
 .header {
-    background-color: var(--header-background);
+    background-color: var(--content-background);
+    border-bottom: 1px solid var(--sidebar-nav-active);
     min-height: 50px;
     display: flex;
 }

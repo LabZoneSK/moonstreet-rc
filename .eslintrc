@@ -5,6 +5,7 @@
             "required": {
                 "every": [ "id" ]
             }
-        }]
+        }],
+        "linebreak-style": 0
     }
 }

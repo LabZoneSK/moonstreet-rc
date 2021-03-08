@@ -18,6 +18,7 @@
 
 .toggle-menu .sidebar {
     margin-left: 0px;
+    width: 100%;
 }
 
     .sidebar nav > ul {
@@ -30,9 +31,13 @@
 
     .sidebar nav ul a {
         text-decoration: none;
+        text-transform: uppercase;
+        padding: 5px 15px 5px 0;
+        display: inline-block;
+        font-size: .8rem;
 
         &.active {
-            text-decoration: underline;
+            color: var(--sidebar-nav-active);
         }
     }
 

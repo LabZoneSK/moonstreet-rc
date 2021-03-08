@@ -18,6 +18,8 @@ const CoinPotential = (props) => {
     <div>
       <p>Coin potential here </p>
       <p>Note: Potential is calculated agains BTC market cappacity in USD @ ${btcCAP}</p>
+      <p>max USD: value of a single coin with same market capitalisation as Bitcoin</p>
+      <p>current strength: how close a coin is to its max USD</p><br />
 
       {rates && rates.toSeq().valueSeq().toArray().length > 0 && (
         rates.toSeq().map((coinRates, coin) => {
@@ -30,11 +32,14 @@ const CoinPotential = (props) => {
             usdPotential = Number(btcCAP / (coinRates.getIn(['USD', 'MKTCAP']) / coinRates.getIn(['USD', 'PRICE']))).toFixed(2);
           }
 
-          const currentStrength = (coinRates.getIn(['USD', 'PRICE']) / (usdPotential / 100));
+          const currentStrength = Number((coinRates.getIn(['USD', 'PRICE']) / (usdPotential / 100))).toFixed(2);
 
           return (
             <p key={coinRates}>
-              { coin } max USD @ ${ usdPotential }, current strenght @ { currentStrength }%
+              <strong>{ coin }</strong> max USD @
+              <strong> ${ usdPotential }</strong>, current strength @
+              <strong> { currentStrength }%</strong>
+              <span> calculated against supply of {coinRates.getIn(['USD', 'SUPPLY'])}</span>
             </p>
           );
         }).valueSeq().toArray()
