@@ -1,11 +1,11 @@
 import {
-    PORTFOLIO_ADD,
-    PORTFOLIO_REMOVE,
-    PORTFOLIO_INITIAL,
-    PORTFOLIOS_INITIAL,
-    TRADE_ADD,
-    TRADE_REMOVE,
-  } from './constants';
+  PORTFOLIO_ADD,
+  PORTFOLIO_REMOVE,
+  PORTFOLIO_INITIAL,
+  PORTFOLIOS_INITIAL,
+  TRADE_ADD,
+  TRADE_REMOVE,
+} from './constants';
 
 
 /* Action Creators */
@@ -13,7 +13,7 @@ export function addPortfolio(portfolioKey, portfolioName) {
   return {
     type: PORTFOLIO_ADD,
     portfolioKey,
-    portfolioName
+    portfolioName,
   };
 }
 

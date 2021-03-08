@@ -13,31 +13,28 @@ import GetTotal from '../../Rates/GetTotal';
 
 /* TODO: Need specify UI */
 export function showAssets(assets, walletKey) {
-
   if (assets !== null) {
-
-    const assetsView = assets.toSeq().map((amount, symbol, i) => {
-      return (
-        <tr key={symbol}>
-          <td className="tLeft">{symbol}</td>
-          <td>{amount}</td>
-          <td>
-            <GetValue assetKey={symbol} assetVolume={amount} assetRate="BTC" />
-          </td>
-          <td>
-            <GetValue assetKey={symbol} assetVolume={amount} assetRate="EUR" />
-          </td>
-          <td>
-            <GetValue assetKey={symbol} assetVolume={amount} assetRate="USD" />
-          </td>
-          {walletKey !== undefined &&
-            <td>
-              <AssetActions assetKey={symbol} walletKey={walletKey}/>
-            </td>
+    const assetsView = assets.toSeq().map((amount, symbol) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <tr key={symbol}>
+        <td className="tLeft">{symbol}</td>
+        <td>{amount}</td>
+        <td>
+          <GetValue assetKey={symbol} assetVolume={amount} assetRate="BTC" />
+        </td>
+        <td>
+          <GetValue assetKey={symbol} assetVolume={amount} assetRate="EUR" />
+        </td>
+        <td>
+          <GetValue assetKey={symbol} assetVolume={amount} assetRate="USD" />
+        </td>
+        {walletKey !== undefined &&
+        <td>
+          <AssetActions assetKey={symbol} walletKey={walletKey} />
+        </td>
           }
-        </tr>
-      );
-    }).valueSeq().toArray();
+      </tr>
+    )).valueSeq().toArray();
 
     return (
       <table className="tRight">
@@ -58,30 +55,27 @@ export function showAssets(assets, walletKey) {
         </tbody>
         <tfoot>
           <tr className="sumRow">
-              <td className="tLeft" colSpan="2">Sum</td>
-              <td>
-                <GetTotal assets={assets} assetRate="BTC" />
-              </td>
-              <td>
-                <GetTotal assets={assets} assetRate="EUR" />
-              </td>
-              <td>
-                <GetTotal assets={assets} assetRate="USD" />
-              </td>
-              {walletKey !== undefined &&
-                <td></td>
+            <td className="tLeft" colSpan="2">Sum</td>
+            <td>
+              <GetTotal assets={assets} assetRate="BTC" />
+            </td>
+            <td>
+              <GetTotal assets={assets} assetRate="EUR" />
+            </td>
+            <td>
+              <GetTotal assets={assets} assetRate="USD" />
+            </td>
+            {walletKey !== undefined &&
+            <td />
               }
-            </tr>
+          </tr>
         </tfoot>
       </table>
     );
-  } else {
-    return (
-      <div>No assets found.</div>
-    )
   }
-
-
+  return (
+    <div>No assets found.</div>
+  );
 }
 
 
@@ -117,6 +111,8 @@ export function mergeWallets(wallets) {
  * @return {String} walletKey reference for firebase
  */
 export function findWalletKey(wallets, walletID, key) {
-  // collet wallet key, transform them to array, filter the one that is actuall wallet displayed right now in wallet container
-  return  wallets.keySeq().toArray().filter((e) => (walletID === (wallets.getIn([e, key])))).toString()
+  // identify displayed right now in wallet container
+  return wallets.keySeq().toArray().filter(e => (
+    walletID === (wallets.getIn([e, key]))
+  )).toString();
 }

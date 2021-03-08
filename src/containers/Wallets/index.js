@@ -1,2 +1,2 @@
-export { default } from './Wallets.jsx';
+export { default } from './Wallets';
 

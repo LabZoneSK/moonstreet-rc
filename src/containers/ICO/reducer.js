@@ -15,7 +15,7 @@ const icosReducer = (state = initialState, action) => {
         .set(action.key, fromJS(action.ICOObj));
     case ICO_REMOVE:
       return state
-        .delete(action.key)
+        .delete(action.key);
     default:
       return state;
   }
