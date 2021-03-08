@@ -11,20 +11,36 @@ import * as cc from '../../cryptocompare';
 const CoinPotential = (props) => {
   const { rates } = props;
   const [coinData, setCoinData] = useState({});
+  const [btcCAP, setBtcCAP] = useState(0);
 
   useEffect(() => {
     if (rates.toSeq().valueSeq().toArray().length > 0) {
-      console.log("stuff")
-      //cc.priceFull()
+      setBtcCAP(rates.getIn(['BTC', 'USD', 'MKTCAP']))
     }
   }, [rates]);
 
   return (
     <div>
-      <p> Coin potential here </p>
+      <p>Coin potential here </p>
+      <p>Note: Potential is calculated agains BTC market cappacity in USD @ ${btcCAP}</p>
 
       {rates && rates.toSeq().valueSeq().toArray().length > 0 && (
-        rates.toSeq().map((coinRates, coin) => <p key={coinRates}>{ coin }</p>).valueSeq().toArray()
+        rates.toSeq().map((coinRates, coin) => {
+          let usdPotential = 0;
+
+          // hardcoded fixes for some of the coins cause CC API doesn't return correct stuff
+          if (coin === 'ENJ') {
+            usdPotential = Number(btcCAP / 834313757).toFixed(2);
+          } else {
+            usdPotential = Number(btcCAP / (coinRates.getIn(['USD', 'MKTCAP']) / coinRates.getIn(['USD', 'PRICE']))).toFixed(2);
+          }
+
+          const currentStrength = (coinRates.getIn(['USD', 'PRICE']) / (usdPotential / 100));
+
+          return (
+            <p key={coinRates}>{ coin } max USD @ ${ usdPotential }, current strenght @ { currentStrength }%</p>
+          )
+        }).valueSeq().toArray()
       )}
     </div>
   );

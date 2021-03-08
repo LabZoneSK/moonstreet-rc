@@ -27,13 +27,13 @@ class Rates extends React.Component {
               <span className={'detlaSpan ' + (deltaBTC < 0 ? 'neg' : 'pos')}>{deltaBTC}%</span>
             </td>
             <td>
-              €{rate.getIn('EUR', 'PRICE')}
+              €{rate.getIn(['EUR', 'PRICE'])}
             </td>
             <td>
               <span className={'detlaSpan ' + (deltaEUR < 0 ? 'neg' : 'pos')}>{deltaEUR}%</span>
             </td>
             <td>
-              ${rate.getIn('USD', 'PRICE')}
+              ${rate.getIn(['USD', 'PRICE'])}
             </td>
             <td>
               <span className={'detlaSpan ' + (deltaUSD < 0 ? 'neg' : 'pos')}>{deltaUSD}%</span>
