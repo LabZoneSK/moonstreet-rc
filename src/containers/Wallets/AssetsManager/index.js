@@ -1,2 +1,2 @@
-export { default } from './AssetsManager.jsx';
+export { default } from './AssetsManager';
 

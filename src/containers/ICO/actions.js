@@ -1,64 +1,61 @@
-//import { database } from '../../firebase';
+// import { database } from '../../firebase';
 
 import {
-    ICO_ADD,
-    ICO_REMOVE,
-    ICO_LOAD,
-    ICO_LOADED
-  } from './constants';
+  ICO_ADD,
+  ICO_REMOVE,
+  ICO_LOAD,
+  ICO_LOADED,
+} from './constants';
 
-const loadICOs = (userID) => {
-  return dispatch => {
-    dispatch(requestICOs());
-    /*
-    if (loading === false) {
-      loading === true;
-      return database.ref(userID).child('clients/own/icos').once('value')
-      .then(snap => {
-          dispatch (loadedICOs(snap.val()));
-      });
-    }*/
-  }
+export function requestICOs() {
+  return {
+    type: ICO_LOAD,
+    icos: {},
+    loading: true,
+  };
 }
+
+const loadICOs = () => (dispatch) => {
+  dispatch(requestICOs());
+  /*
+  if (loading === false) {
+    loading === true;
+    return database.ref(userID).child('clients/own/icos').once('value')
+    .then(snap => {
+        dispatch (loadedICOs(snap.val()));
+    });
+  }
+  */
+};
 
 /* Action Creators */
 export function addICO(key, ICOObj) {
   return {
     type: ICO_ADD,
     key,
-    ICOObj
+    ICOObj,
   };
 }
 
 export function fetchICOs(userID) {
   return (dispatch) => {
-    if(userID === '') return dispatch(requestICOs());
+    if (userID === '') return dispatch(requestICOs());
 
-    return dispatch(loadICOs(userID))
-  }
-}
-
-export function requestICOs() {
-  return {
-    type: ICO_LOAD,
-    icos: {},
-    loading: true
+    return dispatch(loadICOs(userID));
   };
 }
 
 export function loadedICOs(loadedData) {
-  console.log(loadedData);
-  // loading = false;
   return {
     type: ICO_LOADED,
     icos: loadedData,
-    loading: false
-  }
+    loading: false,
+  };
 }
 
 export function removeICO(icoKey) {
   return {
     type: ICO_REMOVE,
-    //walletKey,
+    icoKey,
   };
 }

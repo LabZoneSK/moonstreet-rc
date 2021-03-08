@@ -1,14 +1,14 @@
 import { fromJS } from 'immutable';
 import {
   LOAD_USER_EMAIL,
-  LOAD_USER_SETTINGS
+  LOAD_USER_SETTINGS,
 } from './constants';
 
 /* TODO: Load userstuff from database */
 const initialState = fromJS({
   email: '',
   uid: '',
-  settings: {}
+  settings: {},
 });
 
 const userReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ const userReducer = (state = initialState, action) => {
         .set('email', action.email);
     case LOAD_USER_SETTINGS:
       return state
-        .set('settings', action.userSettings)
+        .set('settings', action.userSettings);
     default:
       return state;
   }

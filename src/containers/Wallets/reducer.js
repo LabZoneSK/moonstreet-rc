@@ -19,7 +19,7 @@ const walletsReducer = (state = initialState, action) => {
         .set(action.walletKey, fromJS({ name: action.walletName }));
     case WALLET_REMOVE:
       return state
-        .delete(action.walletKey)
+        .delete(action.walletKey);
     case ASSET_ADD:
       return state
         .mergeIn([action.walletKey, 'assets'], fromJS({ [action.assetKey]: action.assetAmmount }));

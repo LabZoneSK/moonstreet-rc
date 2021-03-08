@@ -6,54 +6,42 @@
  */
 
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import PortfoliosManager from './PortfoliosManager';
 
-import Portfolio from './Portfolio'
+import Portfolio from './Portfolio';
 
 
+const Portfolios = (props) => {
+  // eslint-disable-next-line react/prop-types
+  const { portfolioID } = props.match.params;
 
-class Portfolios extends React.Component {
-
-  render() {
-    const { portfolioID } = this.props.match.params;
-
-    return (
-      <div>
-        {portfolioID === undefined &&
-          <div>
-            <PortfoliosManager />
-            <p>Portfolios summary here</p>
-          </div>
-        }
-        {portfolioID !== undefined &&
-          <div>
-            <Portfolio />
-          </div>
-        }
-      </div>
-    )
-
-  }
-}
-
-Portfolios.propTypes = {
-  portfolios: ImmutablePropTypes.map.isRequired,
+  return (
+    <div>
+      {portfolioID === undefined &&
+        <div>
+          <PortfoliosManager />
+          <p>Portfolios summary here</p>
+        </div>
+      }
+      {portfolioID !== undefined &&
+        <div>
+          <Portfolio />
+        </div>
+      }
+    </div>
+  );
 };
+
 
 /* Container part */
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-  }
-};
+const mapStateToProps = state => ({
+  ...state,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({}, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Portfolios));

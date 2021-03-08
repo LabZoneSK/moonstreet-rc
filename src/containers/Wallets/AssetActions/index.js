@@ -1,2 +1,2 @@
-export { default } from './AssetActions.jsx';
+export { default } from './AssetActions';
 

@@ -1,28 +1,29 @@
 import React, { Fragment } from 'react';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import Item from '../Item';
 
-class ICOListView extends React.Component {
+const ICOListView = (props) => {
+  const { icos } = props;
 
-  render() {
+  return (
+    <Fragment>
+      <h2>List of your investments in Initial Coin Offerings</h2>
+      { icos.map(ico => (
+        <Item key={ico.getIn(['name'])} name={ico.getIn(['name'])} />
+      )).valueSeq().toArray()}
 
-    const icos = this.props.icos;
+      {/* {icos != undefined && icos.entrySeq().forEach(ico => {
+          // console.log(ico[0], ico[1].getIn(['name']))
+          <Item key={ico[0]} name={ico[1].getIn(['name'])} />
+        })
+      } */}
+    </Fragment>
+  );
+};
 
-    return(
-      <Fragment>
-        <h2>List of your investments in Initial Coin Offerings</h2>
-        { icos.map((ico, key) => (
-          <Item key={key} name={ico.getIn(['name'])} />
-        )).valueSeq().toArray()}
-
-        {/* {icos != undefined && icos.entrySeq().forEach(ico => {
-            // console.log(ico[0], ico[1].getIn(['name']))
-            <Item key={ico[0]} name={ico[1].getIn(['name'])} />
-          })
-        } */}
-      </Fragment>
-    )
-  }
-}
+ICOListView.propTypes = {
+  icos: ImmutablePropTypes.map.isRequired,
+};
 
 export default ICOListView;

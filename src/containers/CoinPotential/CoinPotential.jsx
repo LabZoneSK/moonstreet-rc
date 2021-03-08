@@ -4,18 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 
-
-
-import * as cc from '../../cryptocompare';
-
 const CoinPotential = (props) => {
   const { rates } = props;
-  const [coinData, setCoinData] = useState({});
   const [btcCAP, setBtcCAP] = useState(0);
 
   useEffect(() => {
     if (rates.toSeq().valueSeq().toArray().length > 0) {
-      setBtcCAP(rates.getIn(['BTC', 'USD', 'MKTCAP']))
+      setBtcCAP(rates.getIn(['BTC', 'USD', 'MKTCAP']));
     }
   }, [rates]);
 
@@ -38,8 +33,10 @@ const CoinPotential = (props) => {
           const currentStrength = (coinRates.getIn(['USD', 'PRICE']) / (usdPotential / 100));
 
           return (
-            <p key={coinRates}>{ coin } max USD @ ${ usdPotential }, current strenght @ { currentStrength }%</p>
-          )
+            <p key={coinRates}>
+              { coin } max USD @ ${ usdPotential }, current strenght @ { currentStrength }%
+            </p>
+          );
         }).valueSeq().toArray()
       )}
     </div>

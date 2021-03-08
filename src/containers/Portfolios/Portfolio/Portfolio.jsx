@@ -1,10 +1,3 @@
-/**
- *
- * Wallet
- *
- * Write description
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -25,94 +18,103 @@ import {
 } from '../../Wallets/WalletsUtils';
 
 class Portfolio extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
       currentPortfolioName: '',
       currentPortfolioKey: '',
-      currentPortfolioInvestment: 0
-    }
+      currentPortfolioInvestment: 0,
+    };
 
     this.handleRemove = this.handleRemove.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handlePortfolioInvestment = this.handlePortfolioInvestment.bind(this);
   }
 
+  componentDidMount() {
+    // eslint-disable-next-line react/prop-types
+    const { portfolioID } = this.props.match.params;
+    const { portfolios } = this.props;
+    const portfolioKey = findWalletKey(portfolios, portfolioID, 'name');
+    const portfolioInvestment = portfolios.getIn([portfolioKey, 'initial']);
+
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({
+      currentPortfolioName: portfolioID,
+      currentPortfolioKey: portfolioKey,
+      currentPortfolioInvestment: portfolioInvestment,
+    });
+  }
+
   handleInputChange(event) {
     handleInputChangesGeneric(event, this);
   }
 
-
-  componentDidMount() {
-    let { portfolioID } = this.props.match.params;
-    const { portfolios } = this.props;
-    const portfolioKey = findWalletKey(portfolios, portfolioID, 'name');
-    let portfolioInvestment = portfolios.getIn([portfolioKey, 'initial'])
-
-    this.setState({
-      currentPortfolioName: portfolioID,
-      currentPortfolioKey: portfolioKey,
-      currentPortfolioInvestment: portfolioInvestment
-    })
-  }
-
   handlePortfolioInvestment() {
     const { initialPortfolio } = this.props;
+    // eslint-disable-next-line no-undef
+    if (window.confirm('Are you sure you want to set initial investment?')) {
+      database.ref(this.props.user.getIn(['uid'])).child(`clients/own/portfolios/${this.state.currentPortfolioKey}/initial/`).set(Number(this.state.currentPortfolioInvestment));
 
-    if (window.confirm("Are you sure you want to set initial investment?")) {
-
-      database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios/' + this.state.currentPortfolioKey + '/initial/').set(Number(this.state.currentPortfolioInvestment));
-
-      initialPortfolio(this.state.currentPortfolioKey, this.state.currentPortfolioInvestment)
+      initialPortfolio(this.state.currentPortfolioKey, this.state.currentPortfolioInvestment);
     }
   }
 
-
-  handleRemove(e) {
+  handleRemove() {
     const { removePortfolio } = this.props;
 
-    if (window.confirm("Are you sure you want to remove wallet " + this.state.currentPortfolioName + "?")) {
-      database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios/' + this.state.currentPortfolioKey).remove();
+    // eslint-disable-next-line no-undef
+    if (window.confirm(`Are you sure you want to remove wallet ${this.state.currentPortfolioName}?`)) {
+      database.ref(this.props.user.getIn(['uid'])).child(`clients/own/portfolios/${this.state.currentPortfolioKey}`).remove();
 
-      removePortfolio(this.state.currentPortfolioKey)
+      removePortfolio(this.state.currentPortfolioKey);
     }
-
   }
 
-    render() {
-      let { portfolioID } = this.props.match.params;
+  render() {
+    // eslint-disable-next-line react/prop-types
+    const { portfolioID } = this.props.match.params;
     const { portfolios } = this.props;
-    const portfolioKey = findWalletKey(portfolios, portfolioID, 'name');
-    const portfolioInvestment = portfolios.getIn([portfolioKey, 'initial'])
+    let portfolioKey = findWalletKey(portfolios, portfolioID, 'name');
+    const portfolioInvestment = portfolios.getIn([portfolioKey, 'initial']);
 
     const actualPortfolio = findWallet(portfolios, this.state.currentPortfolioName, 'name');
 
     if (actualPortfolio !== undefined) {
+      portfolioKey = findWalletKey(portfolios, this.state.currentPortfolioName, 'name');
 
-      const portfolioKey = findWalletKey(portfolios, this.state.currentPortfolioName, 'name');
-
-      return(
+      return (
         <div>
           <p>This is <strong>{this.state.currentPortfolioName}</strong> portfolio</p>
 
           <p>Investment: {portfolioInvestment} EUR</p>
 
-          <input className="fe" type="number" placeholder="10" name="currentPortfolioInvestment" value={this.state.currentPortfolioInvestment} onChange={this.handleInputChange} required />
+          <input
+            className="fe"
+            type="number"
+            placeholder="10"
+            name="currentPortfolioInvestment"
+            value={this.state.currentPortfolioInvestment}
+            onChange={this.handleInputChange}
+            required
+          />
 
-          <button className="fe-btn" type="add" onClick={this.handlePortfolioInvestment}>Udate initial investment</button>
-
+          <button className="fe-btn" type="add" onClick={this.handlePortfolioInvestment}>
+            Udate initial investment
+          </button>
 
           <TradesManager portfolioKey={portfolioKey} />
-          <Trades  portfolioKey={portfolioKey} />
+          <Trades portfolioKey={portfolioKey} />
           <br />
 
           <div>
-            <button className="fe-btn" type="remove" onClick={this.handleRemove}>Remove Portfolio</button>
+            <button className="fe-btn" type="remove" onClick={this.handleRemove}>
+              Remove Portfolio
+            </button>
           </div>
         </div>
-      )
+      );
 
       // if (actualPortfolio.get('assets') === undefined) {
       //   return (
@@ -138,35 +140,31 @@ class Portfolio extends React.Component {
       //     </div>
       //   );
       // }
-
-
-    } else {
-      return (
-        <div>
-          <p>There's no portfolio named {this.state.currentWalletName}</p>
-        </div>
-      )
     }
+    return (
+      <div>
+        <p>There is no portfolio named {this.state.currentWalletName}</p>
+      </div>
+    );
   }
 }
 
 Portfolio.propTypes = {
+  // eslint-disable-next-line react/no-typos
   portfolios: ImmutablePropTypes.map.isRequired,
+  // eslint-disable-next-line react/no-typos
+  user: ImmutablePropTypes.map.isRequired,
   removePortfolio: PropTypes.func.isRequired,
   initialPortfolio: PropTypes.func.isRequired,
 };
 
 /* Container part */
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-  }
-};
+const mapStateToProps = state => ({
+  ...state,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    ...PortfoliosActions,
-  }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  ...PortfoliosActions,
+}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Portfolio));

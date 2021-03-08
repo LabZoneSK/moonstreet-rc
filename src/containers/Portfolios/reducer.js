@@ -20,13 +20,14 @@ const portfoliosReducer = (state = initialState, action) => {
         .set(action.portfolioKey, fromJS({ name: action.portfolioName }));
     case PORTFOLIO_REMOVE:
       return state
-        .delete(action.portfolioKey)
+        .delete(action.portfolioKey);
     case PORTFOLIO_INITIAL:
       return state
         .mergeIn([action.portfolioKey], fromJS({ initial: action.initialInvestment }));
     case TRADE_ADD:
       return state
-        .mergeIn([action.portfolioKey, 'trades', action.tradeKey ],
+        .mergeIn(
+          [action.portfolioKey, 'trades', action.tradeKey],
           fromJS({
             date: action.tradeDate,
             orderType: action.tradeOrderType,
@@ -34,10 +35,11 @@ const portfoliosReducer = (state = initialState, action) => {
             amount: action.tradeAmmount,
             priceEUR: action.tradePriceEUR,
             priceBTC: action.tradePriceBTC,
-          }));
+          }),
+        );
     case TRADE_REMOVE:
       return state
-        .deleteIn([ action.portfolioKey, 'trades', action.tradeKey]);
+        .deleteIn([action.portfolioKey, 'trades', action.tradeKey]);
     case PORTFOLIOS_INITIAL:
       return fromJS(action.portfoliosData);
     default:

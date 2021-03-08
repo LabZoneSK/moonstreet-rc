@@ -1,23 +1,24 @@
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 // const UserMenu = (props) => (
-// 	<a className='user' href='#'>{this.props.user.email}</a>
+// <a className='user' href='#'>{this.props.user.email}</a>
 // );
 
-class UserMenu extends React.Component {
-  render() {
-    const { user } = this.props;
-    return (
-      <a className='user' href='#usermenu'>{user.get('email')}</a>
-    )
-  }
+const UserMenu = (props) => {
+  const { user } = props;
+  return (
+    <a className="user" href="#usermenu">{user.get('email')}</a>
+  );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    ...state
-  };
+UserMenu.propTypes = {
+  user: ImmutablePropTypes.map.isRequired,
 };
+
+const mapStateToProps = state => ({
+  ...state,
+});
 
 export default connect(mapStateToProps)(UserMenu);

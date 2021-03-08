@@ -49,6 +49,7 @@ class App extends React.Component {
 
         // TODO: Do we really need to load whole user data to user?
         return database.ref(user.uid).once('value').then((snapshot) => {
+          // eslint-disable-next-line no-underscore-dangle
           const dbData = fromJS(snapshot.node_.val());
 
           // load user settings from db
@@ -122,8 +123,6 @@ class App extends React.Component {
                 addInitialRates(prices);
               }).catch(console.error);
 
-
-
             if (icos !== undefined) {
               icos.entrySeq().forEach((element) => {
                 addICO(element[0], element[1]);
@@ -142,7 +141,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('+++++++++++++RERENDER++++++++++++++++++')
     function Page() {
       // if user is autenticated they'll see actuall app instead of login window
       if (isAutheticated()) {

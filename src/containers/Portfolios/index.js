@@ -1,2 +1,2 @@
-export { default } from './Portfolios.jsx';
+export { default } from './Portfolios';
 

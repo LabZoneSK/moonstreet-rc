@@ -22,52 +22,49 @@ import {
 } from '../WalletsUtils';
 
 class Wallet extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      allWallets: '',
       currentWalletName: '',
       currentWalletKey: '',
-    }
+    };
 
     this.handleRemove = this.handleRemove.bind(this);
   }
 
 
   componentDidMount() {
-    let { walletID } = this.props.match.params;
+    // eslint-disable-next-line react/prop-types
+    const { walletID } = this.props.match.params;
     const { wallets } = this.props;
     const walletKey = findWalletKey(wallets, walletID, 'name');
 
+    // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({
-      allWallets: wallets,
       currentWalletName: walletID,
-      currentWalletKey: walletKey
-    })
+      currentWalletKey: walletKey,
+    });
   }
 
 
-  handleRemove(e) {
+  handleRemove() {
     const { removeWallet } = this.props;
 
-    if (window.confirm("Are you sure you want to remove wallet " + this.state.currentWalletName + "?")) {
-      database.ref(this.props.user.getIn(['uid'])).child('clients/own/wallets/' + this.state.currentWalletKey).remove();
+    // eslint-disable-next-line no-undef
+    if (window.confirm(`Are you sure you want to remove wallet ${this.state.currentWalletName}?`)) {
+      database.ref(this.props.user.getIn(['uid'])).child(`clients/own/wallets/${this.state.currentWalletKey}`).remove();
 
-      removeWallet(this.state.currentWalletKey)
+      removeWallet(this.state.currentWalletKey);
     }
-
   }
 
-    render() {
-
+  render() {
     const { wallets } = this.props;
 
     const actualWallet = findWallet(wallets, this.state.currentWalletName, 'name');
 
     if (actualWallet !== undefined) {
-
       const walletKey = findWalletKey(wallets, this.state.currentWalletName, 'name');
 
       if (actualWallet.get('assets') === undefined) {
@@ -79,48 +76,47 @@ class Wallet extends React.Component {
             <button className="fe-btn" type="remove" onClick={this.handleRemove}>Remove Wallet</button>
           </div>
         );
-      } else {
-        const assetsView = showAssets(actualWallet.get('assets'), walletKey);
-
-        return (
-          <div>
-            <h3>{this.state.currentWalletName}</h3>
-
-            <AssetsManager />
-
-            <div>{assetsView}</div>
-
-            <button className="fe-btn" type="remove" onClick={this.handleRemove}>Remove Wallet</button>
-          </div>
-        );
       }
-    } else {
+      const assetsView = showAssets(actualWallet.get('assets'), walletKey);
+
       return (
         <div>
-          <p>There's no wallet named {this.state.currentWalletName}</p>
+          <h3>{this.state.currentWalletName}</h3>
+
+          <AssetsManager />
+
+          <div>{assetsView}</div>
+
+          <button className="fe-btn" type="remove" onClick={this.handleRemove}>Remove Wallet</button>
         </div>
-      )
+      );
     }
+    return (
+      <div>
+        <p>There is no wallet named {this.state.currentWalletName}</p>
+      </div>
+    );
   }
 }
 
 Wallet.propTypes = {
   wallets: ImmutablePropTypes.map.isRequired,
   removeWallet: PropTypes.func.isRequired,
-  addAsset: PropTypes.func.isRequired,
+  walletID: PropTypes.string,
+  user: ImmutablePropTypes.map.isRequired,
+};
+
+Wallet.defaultProps = {
+  walletID: '',
 };
 
 /* Container part */
-const mapStateToProps = (state) => {
-  return {
-    ...state,
-  }
-};
+const mapStateToProps = state => ({
+  ...state,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    ...WalletsActions,
-  }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  ...WalletsActions,
+}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Wallet));
