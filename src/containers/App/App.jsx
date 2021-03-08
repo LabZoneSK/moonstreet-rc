@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
-import moment from 'moment';
 
 import { database, auth, storageKey, isAutheticated } from '../../firebase';
 import * as AppActions from './actions';
 import * as WalletsActions from '../Wallets/actions';
 import * as RatesActions from '../Rates/actions';
-import * as RatesHistoricalActions from '../RatesHistorical/actions';
 import * as PortfoliosActions from '../Portfolios/actions';
 import * as ICOActions from '../ICO/actions';
 
@@ -39,7 +37,6 @@ class App extends React.Component {
       setInitialWallets,
       setInitialPortfolios,
       addInitialRates,
-      addInitialRates24h,
       addICO,
     } = this.props;
 
@@ -120,29 +117,12 @@ class App extends React.Component {
             }
 
             // fetch all collected rates
-            cc.priceMulti(collectedRates, ['BTC', 'USD', 'EUR'])
+            cc.priceFull(collectedRates, ['BTC', 'USD', 'EUR'])
               .then((prices) => {
                 addInitialRates(prices);
               }).catch(console.error);
 
-            // fetch and process historical rates
 
-            let countdown = collectedRates.length;
-            const historicalPrices = {};
-
-            collectedRates.forEach((symbol, index) => {
-              // eslint-disable-next-line no-undef
-              window.setTimeout(() => {
-                cc.priceHistorical(symbol, ['BTC', 'USD', 'EUR'], new Date(moment().subtract(1, 'day').format('YYYY-MM-DD')))
-                  .then((prices) => {
-                    historicalPrices[symbol] = prices;
-                    countdown -= 1;
-                    if (countdown === 0) {
-                      addInitialRates24h(historicalPrices);
-                    }
-                  }).catch(console.error);
-              }, (1001 * index));
-            });
 
             if (icos !== undefined) {
               icos.entrySeq().forEach((element) => {
@@ -208,7 +188,6 @@ App.propTypes = {
   setInitialWallets: PropTypes.func.isRequired,
   setInitialPortfolios: PropTypes.func.isRequired,
   addInitialRates: PropTypes.func.isRequired,
-  addInitialRates24h: PropTypes.func.isRequired,
 };
 
 // container part
@@ -221,7 +200,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   ...PortfoliosActions,
   ...WalletsActions,
   ...RatesActions,
-  ...RatesHistoricalActions,
   ...ICOActions,
 }, dispatch);
 

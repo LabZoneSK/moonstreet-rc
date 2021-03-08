@@ -8,11 +8,11 @@ class GetValue extends React.Component {
 
   render() {
 
-    const { rates, ratesHistorical } = this.props;
+    const { rates } = this.props;
 
-    let delta = (100 * (rates.getIn([this.props.assetKey, this.props.assetRate]) / ratesHistorical.getIn([this.props.assetKey, this.props.assetRate]))) - 100;
+    let delta = rates.getIn([this.props.assetKey, this.props.assetRate, 'CHANGEPCT24HOUR']);
 
-    let value = rates.getIn([this.props.assetKey, this.props.assetRate]) * this.props.assetVolume;
+    let value = rates.getIn([this.props.assetKey, this.props.assetRate, 'PRICE']) * this.props.assetVolume;
 
     return (
       <div>

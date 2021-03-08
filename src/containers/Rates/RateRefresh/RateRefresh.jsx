@@ -18,14 +18,12 @@ class RateRefresh extends React.Component {
   //TODO: ad timeout for button usage to prevent abusing API
 
   refreshRates() {
-    const { rates, addRate } = this.props;
+    const { rates, addInitialRates } = this.props;
 
     if (rates !== undefined) {
-      cc.priceMulti(rates.keySeq().toArray(), ['BTC', 'USD', 'EUR'])
+      cc.priceFull(rates.keySeq().toArray(), ['BTC', 'USD', 'EUR'])
         .then(prices => {
-          Object.entries(prices).forEach(
-            ([symbol, price]) => addRate(symbol, price)
-          );
+          addInitialRates(prices);
         }).catch(console.error)
     }
   }
@@ -41,7 +39,7 @@ class RateRefresh extends React.Component {
 };
 
 RateRefresh.propTypes = {
-  addRate: PropTypes.func.isRequired,
+  addInitialRates: PropTypes.func.isRequired,
 };
 
 /* Container part */

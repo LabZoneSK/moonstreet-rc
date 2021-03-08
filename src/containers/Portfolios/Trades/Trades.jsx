@@ -52,11 +52,11 @@ class Trades extends React.Component {
         const priceEUR = trade[1].getIn(['priceEUR'])
         const priceBTC = trade[1].getIn(['priceBTC'])
 
-        const currentEUR = (Number(rates.getIn([currency, 'EUR'])) * amount).toFixed(2)
-        const currentBTC = (Number(rates.getIn([currency, 'BTC'])) * amount).toFixed(4)
+        const currentEUR = (Number(rates.getIn([currency, 'EUR', 'PRICE'])) * amount).toFixed(2)
+        const currentBTC = (Number(rates.getIn([currency, 'BTC', 'PRICE'])) * amount).toFixed(4)
 
-        const roiEUR = Number(((((rates.getIn([currency, 'EUR'])) * amount) / priceEUR) * 100) - 100).toFixed(2)
-        const roiBTC = Number(((((rates.getIn([currency, 'BTC'])) * amount) / priceBTC) * 100) - 100).toFixed(2)
+        const roiEUR = Number(((((rates.getIn([currency, 'EUR', 'PRICE'])) * amount) / priceEUR) * 100) - 100).toFixed(2)
+        const roiBTC = Number(((((rates.getIn([currency, 'BTC', 'PRICE'])) * amount) / priceBTC) * 100) - 100).toFixed(2)
 
 
         let colorClassEUR = ''
