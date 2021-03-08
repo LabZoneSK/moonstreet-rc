@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { NavLink } from 'react-router-dom';
 
-const SubMenu = ({ group, links, active, visible }) => {
+const SubMenu = ({
+  group, links, active, visible,
+  }) => {
   const navlinks = links.map((link) => {
     return (
       <li key={`${group}-${link.name}-list-item`}>
@@ -15,10 +17,11 @@ const SubMenu = ({ group, links, active, visible }) => {
   const submenuClass = (visible)? 'submenu' : 'submenu-hidden'
   return (
     <ul className={submenuClass}>
-      {navlinks}
+      { navlinks }
     </ul>
   );
 };
+
 
 SubMenu.propTypes = {
   links: ImmutablePropTypes.seq.isRequired,

@@ -15,7 +15,7 @@ import { database } from '../../../firebase';
 import AssetsManager from '../AssetsManager';
 
 import * as WalletsActions from '../actions';
-import { 
+import {
   showAssets,
   findWallet,
   findWalletKey,
@@ -57,13 +57,13 @@ class Wallet extends React.Component {
 
       removeWallet(this.state.currentWalletKey)
     }
-     
+
   }
 
     render() {
-      
+
     const { wallets } = this.props;
-   
+
     const actualWallet = findWallet(wallets, this.state.currentWalletName, 'name');
 
     if (actualWallet !== undefined) {
@@ -77,7 +77,7 @@ class Wallet extends React.Component {
             <AssetsManager />
             <p>No assets in wallet.</p>
             <button className="fe-btn" type="remove" onClick={this.handleRemove}>Remove Wallet</button>
-          </div>         
+          </div>
         );
       } else {
         const assetsView = showAssets(actualWallet.get('assets'), walletKey);
@@ -98,7 +98,7 @@ class Wallet extends React.Component {
       return (
         <div>
           <p>There's no wallet named {this.state.currentWalletName}</p>
-        </div>          
+        </div>
       )
     }
   }

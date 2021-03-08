@@ -19,7 +19,7 @@ import * as PortfoliosActions from '../actions';
 import { findInMap } from '../../../utils/Iterable';
 
 class PortfoliosManager extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -58,7 +58,7 @@ class PortfoliosManager extends React.Component {
 
         addPortfolio(newRef.key, this.state.newPortfolioName);
       }
-        
+
       } else {
         let newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios').push({
           name: this.state.newPortfolioName

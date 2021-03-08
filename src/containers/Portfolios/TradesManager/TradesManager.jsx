@@ -6,8 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { database } from '../../../firebase';
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 import * as RatesActions from '../../Rates/actions';
-import * as RatesHistoricalActions from '../../RatesHistorical/actions';
-import moment from 'moment';
 import * as PortfoliosActions from '../actions';
 import * as cc from '../../../cryptocompare';
 
@@ -21,7 +19,7 @@ class TradesManager extends React.Component {
       'date': '', //2017-11-16
       'orderType': '', //sell, buy, sell w BTC...
       'currency': '', // XMR
-      'amount': 0, 
+      'amount': 0,
       'priceEUR': 0,
       'priceBTC': 0
     }
@@ -33,7 +31,7 @@ class TradesManager extends React.Component {
 
   componentDidMount() {
     const { portfolioKey } = this.props;
-    
+
     this.setState({
       currentPortfolioKey: portfolioKey
     })
@@ -44,40 +42,35 @@ class TradesManager extends React.Component {
   }
 
   handleTradeAdd(e) {
-    const { addTrade, addRate, addRate24h } = this.props;
+    const { addTrade, addRate } = this.props;
 
     let newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios/' + this.state.currentPortfolioKey + '/trades/').push({
       'date': this.state.date,
       'orderType': this.state.orderType,
-      'currency': this.state.currency.toUpperCase(), 
-      'amount': this.state.amount, 
+      'currency': this.state.currency.toUpperCase(),
+      'amount': this.state.amount,
       'priceEUR': this.state.priceEUR,
       'priceBTC': this.state.priceBTC
     });
 
- 
+
     addTrade(
       this.state.currentPortfolioKey,
       newRef.key,
       this.state.date,
       this.state.orderType,
-      this.state.currency.toUpperCase(), 
-      this.state.amount, 
+      this.state.currency.toUpperCase(),
+      this.state.amount,
       this.state.priceEUR,
-      this.state.priceBTC
+      this.state.priceBTC,
     )
 
-    cc.price(this.state.currency.toUpperCase(), ['BTC', 'USD', 'EUR'])
+    cc.priceFull(this.state.currency.toUpperCase(), ['BTC', 'USD', 'EUR'])
     .then(prices => {
-      addRate(this.state.currency.toUpperCase(), prices)
+      addRate(this.state.currency.toUpperCase(), prices[this.state.currency.toUpperCase()])
     }).catch(console.error)
 
-    cc.priceHistorical(this.state.currency.toUpperCase(), ['BTC', 'USD', 'EUR'], new Date(moment().subtract(1, 'day').format('YYYY-MM-DD')))
-      .then(prices => {
-        addRate24h(this.state.currency.toUpperCase(), prices)
-      }).catch(console.error)
   }
-
 
 
   render() {
@@ -113,7 +106,6 @@ class TradesManager extends React.Component {
 TradesManager.propTypes = {
   addTrade: PropTypes.func.isRequired,
   addRate: PropTypes.func.isRequired,
-  addRate24h: PropTypes.func.isRequired,
 };
 
 /* Container part */
@@ -127,7 +119,6 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     ...PortfoliosActions,
     ...RatesActions,
-    ...RatesHistoricalActions,
   }, dispatch);
 };
 

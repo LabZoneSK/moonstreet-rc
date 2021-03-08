@@ -17,16 +17,13 @@ import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 import * as WalletsActions from '../actions';
 
 import * as RatesActions from '../../Rates/actions';
-import * as RatesHistoricalActions from '../../RatesHistorical/actions';
-import moment from 'moment';
-
 
 import { findWalletKey } from '../WalletsUtils/';
 
 import * as cc from '../../../cryptocompare';
 
 class AssetsManager extends React.Component {
-  
+
   constructor(props) {
     super(props);
 
@@ -35,7 +32,7 @@ class AssetsManager extends React.Component {
       assetAmmount: '',
       currentWalletName: '',
       currentWalletKey: '',
-    }
+    };
 
     this.handleAssetAdd = this.handleAssetAdd.bind(this);
     this.handleAssetRemove = this.handleAssetRemove.bind(this);
@@ -56,9 +53,9 @@ class AssetsManager extends React.Component {
   handleInputChange(event) {
     handleInputChangesGeneric(event, this);
   }
-  
+
   handleAssetAdd(e) {
-    const { addAsset, addRate, addRate24h } = this.props;
+    const { addAsset, addRate } = this.props;
 
     if ((this.state.assetKey.toUpperCase() !== "") &&
         (this.state.assetKey.toUpperCase() !== undefined) &&
@@ -69,22 +66,17 @@ class AssetsManager extends React.Component {
 
           addAsset(this.state.currentWalletKey, this.state.assetKey.toUpperCase(), Number(this.state.assetAmmount))
 
-          // it might be worth to check, if the rate doesn't yet exist to prevent duplicite calls
-          cc.price(this.state.assetKey.toUpperCase(), ['BTC', 'USD', 'EUR'])
+          // TODO: it might be worth to check, if the rate doesn't yet exist to prevent duplicite calls
+          cc.priceFull(this.state.assetKey.toUpperCase(), ['BTC', 'USD', 'EUR'])
             .then(prices => {
-              addRate(this.state.assetKey.toUpperCase(), prices)
-            }).catch(console.error)
-
-          cc.priceHistorical(this.state.assetKey.toUpperCase(), ['BTC', 'USD', 'EUR'], new Date(moment().subtract(1, 'day').format('YYYY-MM-DD')))
-            .then(prices => {
-              addRate24h(this.state.assetKey.toUpperCase(), prices)
+              addRate(this.state.assetKey.toUpperCase(), prices[this.state.assetKey.toUpperCase()])
             }).catch(console.error)
 
     } else {
       alert("Missing key or ammount")
     }
   }
-  
+
   handleAssetRemove(e) {
     const { removeAsset } = this.props;
 
@@ -111,7 +103,8 @@ class AssetsManager extends React.Component {
 AssetsManager.propTypes = {
   addWallet: PropTypes.func.isRequired,
   addRate: PropTypes.func.isRequired,
-  addRate24h: PropTypes.func.isRequired,
+  addAsset: PropTypes.func.isRequired,
+  removeAsset: PropTypes.func.isRequired,
 };
 
 /* Container part */
@@ -125,7 +118,6 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     ...WalletsActions,
     ...RatesActions,
-    ...RatesHistoricalActions,
   }, dispatch);
 };
 

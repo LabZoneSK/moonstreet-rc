@@ -22,7 +22,7 @@ label {
 
 	&:hover {
 		border-color: rgba(32,32,32,.8);
-	}	
+	}
 
 	&:focus {
 		color: #555;
@@ -97,7 +97,7 @@ label {
 		&:hover {
 			background-color: rgba(32,32,32,1);
 		}
-	} 
+	}
 }
 
 
@@ -144,7 +144,7 @@ label {
 	label:hover::after {
 		background-color: #999;
 	}
-	
+
 	input[type="radio"] {
 		+ label {
 			&:after,

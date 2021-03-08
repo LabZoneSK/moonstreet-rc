@@ -19,7 +19,7 @@ body {
 }
 
 #root,
-#root > div, 
+#root > div,
 #root > div > div {
     height: 100%;
 }
@@ -29,7 +29,7 @@ a {
 }
 
 .main {
-    min-height: calc(100% - 50px);  
+    min-height: calc(100% - 50px);
     display: flex;
     position: relative;
 }

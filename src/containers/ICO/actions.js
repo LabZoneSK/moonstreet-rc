@@ -6,7 +6,7 @@ import {
     ICO_LOAD,
     ICO_LOADED
   } from './constants';
-  
+
 const loadICOs = (userID) => {
   return dispatch => {
     dispatch(requestICOs());
@@ -23,7 +23,6 @@ const loadICOs = (userID) => {
 
 /* Action Creators */
 export function addICO(key, ICOObj) {
-  console.log('action');
   return {
     type: ICO_ADD,
     key,

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -9,35 +8,35 @@ class Rates extends React.Component {
 
   render() {
 
-    const { rates, ratesHistorical } = this.props; 
+    const { rates } = this.props;
     let ratesTable = '';
 
-    if ((rates !== undefined) && (ratesHistorical !== undefined)) {
+    if (rates !== undefined) {
       ratesTable = rates.toSeq().map((rate, key) => {
-        let deltaBTC = Number(100 * (rate.get('BTC') / ratesHistorical.getIn([key, 'BTC'])) - 100).toFixed(2)
-        let deltaEUR = Number(100 * (rate.get('EUR') / ratesHistorical.getIn([key, 'EUR'])) - 100).toFixed(2)
-        let deltaUSD = Number(100 * (rate.get('USD') / ratesHistorical.getIn([key, 'USD'])) - 100).toFixed(2)
-   
+        const deltaBTC = Number(rate.getIn(['BTC', 'CHANGEPCT24HOUR'])).toFixed(2);
+        const deltaEUR = Number(rate.getIn(['EUR', 'CHANGEPCT24HOUR'])).toFixed(2);
+        const deltaUSD = Number(rate.getIn(['USD', 'CHANGEPCT24HOUR'])).toFixed(2);
+
         return(
           <tr key={key}>
             <td className="tLeft">{key}</td>
             <td>
-              ₿{rate.get('BTC')}
+              ₿{rate.getIn(['BTC', 'PRICE'])}
             </td>
             <td>
-              <span className={'detlaSpan ' + (deltaBTC < 0 ? 'neg' : 'pos')}>{Number(deltaBTC).toFixed(2)}%</span>
+              <span className={'detlaSpan ' + (deltaBTC < 0 ? 'neg' : 'pos')}>{deltaBTC}%</span>
             </td>
             <td>
-              €{rate.get('EUR')}
+              €{rate.getIn(['EUR', 'PRICE'])}
             </td>
             <td>
-              <span className={'detlaSpan ' + (deltaEUR < 0 ? 'neg' : 'pos')}>{Number(deltaEUR).toFixed(2)}%</span>
+              <span className={'detlaSpan ' + (deltaEUR < 0 ? 'neg' : 'pos')}>{deltaEUR}%</span>
             </td>
             <td>
-              ${rate.get('USD')}
+              ${rate.getIn(['USD', 'PRICE'])}
             </td>
             <td>
-              <span className={'detlaSpan ' + (deltaUSD < 0 ? 'neg' : 'pos')}>{Number(deltaUSD).toFixed(2)}%</span>
+              <span className={'detlaSpan ' + (deltaUSD < 0 ? 'neg' : 'pos')}>{deltaUSD}%</span>
             </td>
           </tr>
         )
@@ -69,10 +68,6 @@ class Rates extends React.Component {
     </div>
     )
   }
-};
-
-Rates.propTypes = {
-  addRate: PropTypes.func.isRequired,
 };
 
 /* Container part */

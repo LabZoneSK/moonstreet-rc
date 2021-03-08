@@ -1,11 +1,11 @@
 import firebase from 'firebase';
 
-let config = {
-  	apiKey: "AIzaSyCUdwDjBOi7sBmU6Wm30QTwflIdjbNYaj8",
-    authDomain: "moonstreet-ecce4.firebaseapp.com",
-    databaseURL: "https://moonstreet-ecce4.firebaseio.com",
-    projectId: "moonstreet-ecce4",
-    storageBucket: "moonstreet-ecce4.appspot.com",
+const config = {
+  	apiKey: process.env.REACT_APP_FIREBASE_apiKey,
+    authDomain: process.env.REACT_APP_FIREBASE_authDomain,
+    databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,
+    projectId: process.env.REACT_APP_FIREBASE_projectId,
+    storageBucket: process.env.REACT_APP_FIREBASE_FIREBASE_storageBucket,
     messagingSenderId: "399365607114"
 }
 

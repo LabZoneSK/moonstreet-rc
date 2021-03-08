@@ -32,7 +32,7 @@ class Sidebar extends React.Component {
                 <SubMenu group="portfolios" links={getLinks(portfolios, '/portfolios/')} active="active" visible={location.pathname.includes('portfolio')} />
               }
             </li>
-            
+
             <li>
               <NavLink activeClassName="active" to="/wallets">Wallets</NavLink>
               {wallets !== undefined &&
@@ -41,6 +41,7 @@ class Sidebar extends React.Component {
             </li>
             <li><NavLink exact activeClassName="active" to="/rates">Rates</NavLink></li>
             <li><NavLink exact activeClassName="active" to="/ico">ICO</NavLink></li>
+            <li><NavLink exact activeClassName="active" to="/coinPotential">Coin potential</NavLink></li>
             <li><RefreshButton /></li>
           </ul>
         </nav>

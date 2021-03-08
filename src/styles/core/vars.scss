@@ -5,7 +5,7 @@
     --primary-color-light: #00a8ba;
     --secondary-color: #fd9c2a;
 
-    --layout-boder: #464646;  
+    --layout-boder: #464646;
     --header-background: #fff;
     --sidebar-background: #1a2b2d;
 
@@ -38,7 +38,7 @@ $transition-duration: 0.2s;
 // same values are also used as max-width if explicit max-width is not defined
 $breakpoints: (
 //  breakpointAlias: startingPointInSomeUnit
-	"m": "481px", 
+	"m": "481px",
 	"l": "769px"
 );
 

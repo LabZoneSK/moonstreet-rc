@@ -19,7 +19,7 @@ import TradesManager from '../TradesManager';
 import Trades from '../Trades';
 
 import * as PortfoliosActions from '../actions';
-import { 
+import {
   findWallet,
   findWalletKey,
 } from '../../Wallets/WalletsUtils';
@@ -50,7 +50,7 @@ class Portfolio extends React.Component {
     const { portfolios } = this.props;
     const portfolioKey = findWalletKey(portfolios, portfolioID, 'name');
     let portfolioInvestment = portfolios.getIn([portfolioKey, 'initial'])
-    
+
     this.setState({
       currentPortfolioName: portfolioID,
       currentPortfolioKey: portfolioKey,
@@ -62,9 +62,9 @@ class Portfolio extends React.Component {
     const { initialPortfolio } = this.props;
 
     if (window.confirm("Are you sure you want to set initial investment?")) {
-  
+
       database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios/' + this.state.currentPortfolioKey + '/initial/').set(Number(this.state.currentPortfolioInvestment));
-      
+
       initialPortfolio(this.state.currentPortfolioKey, this.state.currentPortfolioInvestment)
     }
   }
@@ -78,15 +78,15 @@ class Portfolio extends React.Component {
 
       removePortfolio(this.state.currentPortfolioKey)
     }
-     
+
   }
 
     render() {
-      let { portfolioID } = this.props.match.params;  
+      let { portfolioID } = this.props.match.params;
     const { portfolios } = this.props;
     const portfolioKey = findWalletKey(portfolios, portfolioID, 'name');
     const portfolioInvestment = portfolios.getIn([portfolioKey, 'initial'])
-   
+
     const actualPortfolio = findWallet(portfolios, this.state.currentPortfolioName, 'name');
 
     if (actualPortfolio !== undefined) {
@@ -100,14 +100,14 @@ class Portfolio extends React.Component {
           <p>Investment: {portfolioInvestment} EUR</p>
 
           <input className="fe" type="number" placeholder="10" name="currentPortfolioInvestment" value={this.state.currentPortfolioInvestment} onChange={this.handleInputChange} required />
-          
+
           <button className="fe-btn" type="add" onClick={this.handlePortfolioInvestment}>Udate initial investment</button>
 
-         
+
           <TradesManager portfolioKey={portfolioKey} />
           <Trades  portfolioKey={portfolioKey} />
           <br />
-          
+
           <div>
             <button className="fe-btn" type="remove" onClick={this.handleRemove}>Remove Portfolio</button>
           </div>
@@ -121,7 +121,7 @@ class Portfolio extends React.Component {
       //       <AssetsManager />
       //       <p>No assets in wallet.</p>
       //       <button type="remove" onClick={this.handleRemove}>Remove Wallet</button>
-      //     </div>         
+      //     </div>
       //   );
       // } else {
       //   const assetsView = showAssets(actualPortfolio.get('assets'), walletKey);
@@ -143,8 +143,8 @@ class Portfolio extends React.Component {
     } else {
       return (
         <div>
-          <p>There's no portfolio named {this.state.currentWalletName}</p>           
-        </div>          
+          <p>There's no portfolio named {this.state.currentWalletName}</p>
+        </div>
       )
     }
   }
