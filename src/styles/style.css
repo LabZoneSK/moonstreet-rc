@@ -284,6 +284,10 @@ a[id="menu"] {
 .submenu {
   padding-left: 10px; }
 
+.fe-btn-refresh {
+  background-color: var(--sidebar-nav-active);
+  margin-top: 2rem; }
+
 .dashboard {
   flex: 1;
   padding: 24px; }

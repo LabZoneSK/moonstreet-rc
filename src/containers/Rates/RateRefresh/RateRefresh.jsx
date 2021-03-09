@@ -33,7 +33,7 @@ class RateRefresh extends React.Component {
   render() {
     return (
       <div>
-        <button className="fe-btn" onClick={this.refreshRates}>Refresh</button>
+        <button className="fe-btn fe-btn-refresh" onClick={this.refreshRates}>Refresh</button>
       </div>
     );
   }
