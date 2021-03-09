@@ -6,11 +6,11 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Setup
 
+After cloning, create `.env` file base on `.env.template`. Ask one of the repo admins for values.
+
 In the project directory run:
 
 ### `yarn install`
-
-
 
 ## Usage
 
