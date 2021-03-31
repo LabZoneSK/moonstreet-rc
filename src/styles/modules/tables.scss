@@ -3,26 +3,46 @@
 table {
   width: 100%;
   text-align: left;
-  //border-collapse: collapse;
   color: var(--gray-brown);
   margin-bottom: 10px;
+  background-color: var(--content-widgets-foreground);
+  border-collapse: collapse;
+  border: 1px solid var(--content-widget-border);
+  font-size: 14px;
 
-  tr {
-    transition: .2s color;
-
-    &:hover  {
-      color: #fff;
-    }
-  }
 
   th,
   td {
-    padding: 4px;
-    border-bottom: 1px solid rgba(99, 99, 99, 0.50);
+    padding: 5px 10px;
   }
 
   th {
+    font-weight: 400;
+    background-color: var(--sidebar-background);
+    color: var(--sidebar-nav-active);
+  }
+
+  tr.sumRow {
+    background-color: var(--lighter-green);
     color: var(--sidebar-background);
+  }
+
+  tr:nth-child(2n) {
+    td, th {
+      background-color: var(--alt-row-color);
+    }
+  }
+
+  &.trades {
+    tr:nth-child(2n) td, th {
+      background-color: var(--content-widgets-foreground);
+    }
+
+    tbody:nth-child(2n) {
+      td, th {
+        background-color: var(--alt-row-color);
+      }
+    }
   }
 
 }

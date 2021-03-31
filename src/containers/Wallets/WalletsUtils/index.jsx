@@ -29,10 +29,10 @@ export function showAssets(assets, walletKey) {
           <GetValue assetKey={symbol} assetVolume={amount} assetRate="USD" />
         </td>
         {walletKey !== undefined &&
-        <td>
-          <AssetActions assetKey={symbol} walletKey={walletKey} />
-        </td>
-          }
+          <td>
+            <AssetActions assetKey={symbol} walletKey={walletKey} />
+          </td>
+        }
       </tr>
     )).valueSeq().toArray();
 
