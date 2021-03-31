@@ -79,17 +79,13 @@ class Trades extends React.Component {
               <td rowSpan="2">{amount}</td>
               <td>€{priceEUR}</td>
               <td>€{currentEUR} </td>
-              <td><span className={colorClassEUR}>{roiEUR}%</span></td>
+              <td><span className={`detlaSpan ${colorClassEUR}`}>{roiEUR}%</span></td>
               <td rowSpan="2"><button className="fe-btn" type="remove" tradekey={trade[0]} onClick={this.handleRemove}>x</button></td>
             </tr>
             <tr>
               <td>₿{priceBTC}</td>
               <td>₿{currentBTC}</td>
-              <td><span className={colorClassBTC}>{roiBTC}%</span></td>
-            </tr>
-
-            <tr>
-              <td colSpan="8">&nbsp;</td>
+              <td><span className={`detlaSpan ${colorClassBTC}`}>{roiBTC}%</span></td>
             </tr>
           </tbody>
         );
@@ -100,7 +96,7 @@ class Trades extends React.Component {
       <div>
         <h2>Trades</h2>
 
-        <table>
+        <table className="trades">
           <thead>
             <tr>
               <th width="10%">Date</th>

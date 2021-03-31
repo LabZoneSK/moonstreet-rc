@@ -8,8 +8,11 @@
   --header-background: #fff;
   --sidebar-background: #1D1A1F;
   --sidebar-nav-active: #6BA470;
+  --lighter-green: #b9d4bb;
   --content-widgets-foreground: #E2E4DB;
   --content-background: #c7c8c4;
+  --content-widget-border: #b7b6b6;
+  --alt-row-color: #d7d8d5;
   --gray-brown: #656566;
   --gray-brown-green: #868E75;
   /* typography */
@@ -63,7 +66,7 @@ label {
 
 .fe {
   padding: 8px 7px;
-  font-size: 1rem;
+  font-size: 14px;
   border: 0;
   color: #333;
   background-color: #e8e8e8;
@@ -104,7 +107,7 @@ label {
 
 .fe-btn {
   padding: 8px 12px;
-  font-size: 1rem;
+  font-size: 14px;
   border: 0px;
   min-width: 50px;
   text-align: center;
@@ -169,21 +172,31 @@ table {
   width: 100%;
   text-align: left;
   color: var(--gray-brown);
-  margin-bottom: 10px; }
-  table tr {
-    transition: .2s color; }
-    table tr:hover {
-      color: #fff; }
+  margin-bottom: 10px;
+  background-color: var(--content-widgets-foreground);
+  border-collapse: collapse;
+  border: 1px solid var(--content-widget-border);
+  font-size: 14px; }
   table th,
   table td {
-    padding: 4px;
-    border-bottom: 1px solid rgba(99, 99, 99, 0.5); }
+    padding: 5px 10px; }
   table th {
+    font-weight: 400;
+    background-color: var(--sidebar-background);
+    color: var(--sidebar-nav-active); }
+  table tr.sumRow {
+    background-color: var(--lighter-green);
     color: var(--sidebar-background); }
+  table tr:nth-child(2n) td, table tr:nth-child(2n) th {
+    background-color: var(--alt-row-color); }
+  table.trades tr:nth-child(2n) td, table.trades th {
+    background-color: var(--content-widgets-foreground); }
+  table.trades tbody:nth-child(2n) td, table.trades tbody:nth-child(2n) th {
+    background-color: var(--alt-row-color); }
 
 .header {
   background-color: var(--content-background);
-  border-bottom: 1px solid var(--sidebar-nav-active);
+  border-bottom: 1px solid var(--content-widget-border);
   min-height: 50px;
   display: flex; }
 
@@ -232,14 +245,6 @@ a[id="menu"] {
   color: #007931; }
 
 /* Styles for feature component */
-.sumRow {
-  color: #fff;
-  font-size: 1.25em;
-  background-color: var(--sidebar-background); }
-  .sumRow td {
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff; }
-
 .sidebar {
   border-right: 1px solid var(--layout-boder);
   background-color: var(--sidebar-background);

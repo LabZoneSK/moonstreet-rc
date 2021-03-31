@@ -14,6 +14,14 @@ const CoinPotential = (props) => {
     }
   }, [rates]);
 
+  const corectedSupply = (coinRates, coin) => {
+    // hardcoded fixes for some of the coins cause CC API doesn't return correct stuff
+    if (coin === 'ENJ') {
+      return 834313757;
+    }
+    return Number(coinRates.getIn(['USD', 'MKTCAP'])).toFixed(2);
+  };
+
   return (
     <div>
       <p>Coin potential here </p>
@@ -23,15 +31,7 @@ const CoinPotential = (props) => {
 
       {rates && rates.toSeq().valueSeq().toArray().length > 0 && (
         rates.toSeq().map((coinRates, coin) => {
-          let usdPotential = 0;
-
-          // hardcoded fixes for some of the coins cause CC API doesn't return correct stuff
-          if (coin === 'ENJ') {
-            usdPotential = Number(btcCAP / 834313757).toFixed(2);
-          } else {
-            usdPotential = Number(btcCAP / (coinRates.getIn(['USD', 'MKTCAP']) / coinRates.getIn(['USD', 'PRICE']))).toFixed(2);
-          }
-
+          const usdPotential = Number(btcCAP / (corectedSupply(coinRates, coin) / coinRates.getIn(['USD', 'PRICE']))).toFixed(2);
           const currentStrength = Number((coinRates.getIn(['USD', 'PRICE']) / (usdPotential / 100))).toFixed(2);
 
           return (
@@ -39,7 +39,7 @@ const CoinPotential = (props) => {
               <strong>{ coin }</strong> max USD @
               <strong> ${ usdPotential }</strong>, current strength @
               <strong> { currentStrength }%</strong>
-              <span> calculated against supply of {coinRates.getIn(['USD', 'SUPPLY'])}</span>
+              <span> calculated against supply of {corectedSupply(coinRates, coin)}</span>
             </p>
           );
         }).valueSeq().toArray()
