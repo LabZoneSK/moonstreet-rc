@@ -18,7 +18,7 @@ import Login from '../../containers/Login/';
 import Sidebar from '../../containers/Sidebar';
 
 /** Containers */
-import Home from '../../templates/Home';
+import Dashboard from '../Dashboard/Dashboard';
 import Portfolios from '../../containers/Portfolios';
 import Wallets from '../../containers/Wallets';
 import Rates from '../../containers/Rates';
@@ -151,7 +151,7 @@ class App extends React.Component {
               <Sidebar />
               <section className="dashboard">
                 <Switch>
-                  <Route exact path="/" component={Home} />
+                  <Route exact path="/" component={Dashboard} />
                   <Route exact path="/portfolios" component={Portfolios} />
                   <Route path="/portfolios/:portfolioID" component={Portfolios} />
                   <Route exact path="/wallets" component={Wallets} />
