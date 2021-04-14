@@ -57,7 +57,9 @@ a {
 .tLeft {
   text-align: left; }
 
-input {
+input,
+select,
+textarea {
   margin-bottom: 5px; }
 
 label {
