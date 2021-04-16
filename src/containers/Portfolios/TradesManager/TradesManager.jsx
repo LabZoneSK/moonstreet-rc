@@ -58,7 +58,7 @@ class TradesManager extends React.Component {
     addTrade(
       this.state.currentPortfolioKey,
       newRef.key,
-      this.state.dateInput,
+      this.state.date,
       this.state.orderType,
       this.state.currency.toUpperCase(),
       this.state.amount,
@@ -76,12 +76,12 @@ class TradesManager extends React.Component {
   render() {
     return (
       <div>
-        <label htmlFor="dateInput">Date:</label>
+        <label htmlFor="date">Date:</label>
         <input
           className="fe"
           type="date"
-          id="dateInput"
-          name="dateInput"
+          id="date"
+          name="date"
           placeholder="2017-11-16"
           value={this.state.dateInput}
           onChange={this.handleInputChange}
