@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import cx from 'classnames';
 import { database } from '../../../firebase';
 
 import * as PortfoliosActions from '../actions';
@@ -50,25 +51,19 @@ class Trades extends React.Component {
         const amount = trade[1].getIn(['amount']);
         const priceEUR = trade[1].getIn(['priceEUR']);
         const priceBTC = trade[1].getIn(['priceBTC']);
+        let roiEUR = 0;
+        let roiBTC = 0;
 
         const currentEUR = (Number(rates.getIn([currency, 'EUR', 'PRICE'])) * amount).toFixed(2);
         const currentBTC = (Number(rates.getIn([currency, 'BTC', 'PRICE'])) * amount).toFixed(4);
 
-        const roiEUR = Number(((((rates.getIn([currency, 'EUR', 'PRICE'])) * amount) / priceEUR) * 100) - 100).toFixed(2);
-        const roiBTC = Number(((((rates.getIn([currency, 'BTC', 'PRICE'])) * amount) / priceBTC) * 100) - 100).toFixed(2);
-
-
-        let colorClassEUR = '';
-        let colorClassBTC = '';
-
-        if (orderType === 'sell') {
-          colorClassEUR = roiEUR < 0 ? 'pos' : 'neg';
-          colorClassBTC = roiBTC < 0 ? 'pos' : 'neg';
-        } else {
-          colorClassEUR = roiEUR > 0 ? 'pos' : 'neg';
-          colorClassBTC = roiBTC > 0 ? 'pos' : 'neg';
+        if (priceEUR > 0) {
+          roiEUR = Number(((((rates.getIn([currency, 'EUR', 'PRICE'])) * amount) / priceEUR) * 100) - 100).toFixed(2);
         }
 
+        if (priceBTC > 0) {
+          roiBTC = Number(((((rates.getIn([currency, 'BTC', 'PRICE'])) * amount) / priceBTC) * 100) - 100).toFixed(2);
+        }
 
         return (
           <tbody className="tradeTbody" key={trade[0]}>
@@ -77,15 +72,43 @@ class Trades extends React.Component {
               <td rowSpan="2">{orderType}</td>
               <td rowSpan="2">{currency}</td>
               <td rowSpan="2">{amount}</td>
-              <td>€{priceEUR}</td>
-              <td>€{currentEUR} </td>
-              <td><span className={`detlaSpan ${colorClassEUR}`}>{roiEUR}%</span></td>
+              <td>
+                {priceEUR === 0 ? '--' : `€${priceEUR}`}
+              </td>
+              <td>
+                {currentEUR === 0 ? '--' : `€${currentEUR}`}
+              </td>
+              <td>
+                <span
+                  className={cx({
+                    detlaSpan: true,
+                    pos: (orderType === 'sell' && roiEUR < 0) || (orderType === 'buy' && roiEUR > 0),
+                    neg: (orderType === 'sell' && roiEUR > 0) || (orderType === 'buy' && roiEUR < 0),
+                  })}
+                >
+                  {roiEUR === 0 ? '--' : `${roiEUR}%`}
+                </span>
+              </td>
               <td rowSpan="2"><button className="fe-btn" type="remove" tradekey={trade[0]} onClick={this.handleRemove}>x</button></td>
             </tr>
             <tr>
-              <td>₿{priceBTC}</td>
-              <td>₿{currentBTC}</td>
-              <td><span className={`detlaSpan ${colorClassBTC}`}>{roiBTC}%</span></td>
+              <td>
+                {priceBTC === 0 ? '--' : `₿${priceBTC}`}
+              </td>
+              <td>
+                {currentBTC === 0 ? '--' : `₿${currentBTC}`}
+              </td>
+              <td>
+                <span
+                  className={cx({
+                    detlaSpan: true,
+                    pos: (orderType === 'sell' && roiBTC < 0) || (orderType === 'buy' && roiBTC > 0),
+                    neg: (orderType === 'sell' && roiBTC > 0) || (orderType === 'buy' && roiBTC < 0),
+                  })}
+                >
+                  {roiBTC === 0 ? '--' : `${roiBTC}%`}
+                </span>
+              </td>
             </tr>
           </tbody>
         );
