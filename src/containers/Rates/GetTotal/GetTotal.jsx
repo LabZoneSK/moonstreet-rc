@@ -17,7 +17,6 @@ const GetTotal = (props) => {
     deltaHisto += Number(rates.getIn([symbol, assetRate, 'CHANGEPCT24HOUR']));
   });
 
-  console.log('assets: ', deltaHisto);
   const delta = deltaHisto / assets.toArray().length;
 
   return (
