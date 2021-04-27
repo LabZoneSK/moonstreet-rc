@@ -42,8 +42,6 @@ class ICOManager extends React.Component {
       newRef.then((newICO) => {
         this.props.addICO(newICO.key, newICOObj);
       });
-    } else {
-      alert('Please, enter name for new ICO.');
     }
   }
 

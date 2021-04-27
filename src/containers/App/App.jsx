@@ -54,7 +54,6 @@ class App extends React.Component {
 
           // load user settings from db
           if (dbData.getIn(['settings']) === undefined || dbData.getIn(['settings']) === '') {
-            console.log('no settings.');
             // create default settings
             database.ref(user.uid).child('settings').set({
               primaryFiat: 'EUR',
@@ -121,7 +120,7 @@ class App extends React.Component {
             cc.priceFull(collectedRates, ['BTC', 'USD', 'EUR'])
               .then((prices) => {
                 addInitialRates(prices);
-              }).catch(console.error);
+              });
 
             if (icos !== undefined) {
               icos.entrySeq().forEach((element) => {
@@ -129,7 +128,7 @@ class App extends React.Component {
               });
             }
           } else {
-            console.log('no data.');
+            // no data
           }
         });
       }
