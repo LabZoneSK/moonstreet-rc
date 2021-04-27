@@ -9,15 +9,16 @@ const GetTotal = (props) => {
   const { rates, assets, assetRate } = props;
 
   let sum = 0;
-  let sumHisto = 0;
+  let deltaHisto = 0;
 
   // TODO: this is really shitty piece of code
   assets.toSeq().forEach((amount, symbol) => {
     sum += (Number(rates.getIn([symbol, assetRate, 'PRICE'])) * amount);
-    sumHisto += ((Number(rates.getIn([symbol, assetRate, 'HIGH24HOUR']) + rates.getIn([symbol, assetRate, 'LOW24HOUR'])) / 2) * amount);
+    deltaHisto += Number(rates.getIn([symbol, assetRate, 'CHANGEPCT24HOUR']));
   });
 
-  const delta = (100 * (sum / sumHisto)) - 100;
+  console.log('assets: ', deltaHisto);
+  const delta = deltaHisto / assets.toArray().length;
 
   return (
     <div>
