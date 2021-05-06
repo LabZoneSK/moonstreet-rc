@@ -9,7 +9,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 const UserMenu = (props) => {
   const { user } = props;
   return (
-    <a className="user" href="#usermenu">{user.get('email')}</a>
+    <a className="user" href="#usermenu"><span>{user.get('email').substring(0, 2)}</span></a>
   );
 };
 

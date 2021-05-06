@@ -5,4 +5,10 @@
     font-size: 18px;
     line-height: 50px;
     text-align: center;
+    display: none;
+
+    // remove menu button if it doesn't make sense to show/hide menu
+    @include ubreakpoint("large") {
+      display: block;
+    }
 }
