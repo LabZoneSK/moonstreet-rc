@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as RatesActions from './actions';
+import { roundNumber } from '../../utils/Math';
 
 const Rates = (props) => {
   const { rates } = props;
@@ -21,9 +22,8 @@ const Rates = (props) => {
           <td className="tLeft">{key}</td>
           <td>
             ₿
-            {rate.getIn(['BTC', 'PRICE'])}
-          </td>
-          <td>
+            {roundNumber(rate.getIn(['BTC', 'PRICE']), 8)}
+            <br />
             <span className={`detlaSpan ${deltaBTC < 0 ? 'neg' : 'pos'}`}>
               {deltaBTC}
               %
@@ -31,9 +31,8 @@ const Rates = (props) => {
           </td>
           <td>
             €
-            {rate.getIn(['EUR', 'PRICE'])}
-          </td>
-          <td>
+            {roundNumber(rate.getIn(['EUR', 'PRICE']), 3)}
+            <br />
             <span className={`detlaSpan ${deltaEUR < 0 ? 'neg' : 'pos'}`}>
               {deltaEUR}
               %
@@ -41,9 +40,8 @@ const Rates = (props) => {
           </td>
           <td>
             $
-            {rate.getIn(['USD', 'PRICE'])}
-          </td>
-          <td>
+            {roundNumber(rate.getIn(['USD', 'PRICE']), 3)}
+            <br />
             <span className={`detlaSpan ${deltaUSD < 0 ? 'neg' : 'pos'}`}>
               {deltaUSD}
               %
@@ -66,11 +64,8 @@ const Rates = (props) => {
           <tr>
             <th className="tLeft">currency</th>
             <th>BTC</th>
-            <th>24h%</th>
             <th>EUR</th>
-            <th>24h%</th>
             <th>USD</th>
-            <th>24h%</th>
           </tr>
         </thead>
         <tbody>

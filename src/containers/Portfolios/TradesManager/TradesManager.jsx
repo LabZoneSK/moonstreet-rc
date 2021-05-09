@@ -80,6 +80,7 @@ class TradesManager extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
     const {
       dateInput,
       currency,
@@ -87,6 +88,8 @@ class TradesManager extends React.Component {
       priceBTC,
       priceEUR,
     } = this.state;
+
+    const primaryFiat = user.getIn(['settings', 'primaryFiat']);
 
     return (
       <div>
@@ -149,14 +152,16 @@ class TradesManager extends React.Component {
 
         <br />
 
-        <label htmlFor="priceEUR">
-          Price in EUR:
+        <label htmlFor="pricePrimaryFiat">
+          Price in
+          {` ${primaryFiat}`}
+          :
         </label>
         <input
           className="fe"
           type="number"
-          name="priceEUR"
-          id="priceEUR"
+          name="pricePrimaryFiat"
+          id="pricePrimaryFiat"
           placeholder="10"
           value={priceEUR}
           onChange={this.handleInputChange}

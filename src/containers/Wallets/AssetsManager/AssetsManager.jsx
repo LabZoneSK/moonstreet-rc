@@ -142,7 +142,11 @@ AssetsManager.propTypes = {
   walletID: PropTypes.string,
   wallets: ImmutablePropTypes.map.isRequired,
   user: ImmutablePropTypes.map.isRequired,
-  match: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      walletID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 AssetsManager.defaultProps = {

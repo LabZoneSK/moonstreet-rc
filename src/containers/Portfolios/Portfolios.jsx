@@ -39,7 +39,11 @@ const Portfolios = (props) => {
 };
 
 Portfolios.propTypes = {
-  match: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      portfolioID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 /* Container part */

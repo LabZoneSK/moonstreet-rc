@@ -10,21 +10,18 @@ import GetValue from '../../Rates/GetValue';
 import GetTotal from '../../Rates/GetTotal';
 
 /* TODO: Need specify UI */
-export function showAssets(assets, walletKey) {
+export function showAssets(assets, walletKey, primaryFiat) {
   if (assets !== null) {
     const assetsView = assets.toSeq().map((amount, symbol) => (
       // eslint-disable-next-line react/no-array-index-key
       <tr key={symbol}>
         <td className="tLeft">{symbol}</td>
-        <td>{amount}</td>
+        <td>{roundNumber(amount, 3)}</td>
         <td>
           <GetValue assetKey={symbol} assetVolume={amount} assetRate="BTC" />
         </td>
         <td>
-          <GetValue assetKey={symbol} assetVolume={amount} assetRate="EUR" />
-        </td>
-        <td>
-          <GetValue assetKey={symbol} assetVolume={amount} assetRate="USD" />
+          <GetValue assetKey={symbol} assetVolume={amount} assetRate={primaryFiat} />
         </td>
         {walletKey !== undefined
           && (
@@ -42,8 +39,7 @@ export function showAssets(assets, walletKey) {
             <th className="tLeft">Currency</th>
             <th>Ammount</th>
             <th>BTC</th>
-            <th>EUR</th>
-            <th>USD</th>
+            <th>{primaryFiat}</th>
             {walletKey !== undefined
               && <th>Actions</th>}
           </tr>
@@ -58,10 +54,7 @@ export function showAssets(assets, walletKey) {
               <GetTotal assets={assets} assetRate="BTC" />
             </td>
             <td>
-              <GetTotal assets={assets} assetRate="EUR" />
-            </td>
-            <td>
-              <GetTotal assets={assets} assetRate="USD" />
+              <GetTotal assets={assets} assetRate={primaryFiat} />
             </td>
             {walletKey !== undefined
               && <td />}

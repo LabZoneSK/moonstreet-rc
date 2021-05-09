@@ -92,7 +92,11 @@ const Wallets = (props) => {
 
 Wallets.propTypes = {
   wallets: ImmutablePropTypes.map.isRequired,
-  match: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      walletID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 /* Container part */

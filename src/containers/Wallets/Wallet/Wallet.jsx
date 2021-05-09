@@ -58,10 +58,11 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { wallets } = this.props;
+    const { wallets, user } = this.props;
     const { currentWalletName } = this.state;
 
     const actualWallet = findWallet(wallets, currentWalletName, 'name');
+    const primaryFiat = user.getIn(['settings', 'primaryFiat']);
 
     if (actualWallet !== undefined) {
       const walletKey = findWalletKey(wallets, currentWalletName, 'name');
@@ -76,7 +77,7 @@ class Wallet extends React.Component {
           </div>
         );
       }
-      const assetsView = showAssets(actualWallet.get('assets'), walletKey);
+      const assetsView = showAssets(actualWallet.get('assets'), walletKey, primaryFiat);
 
       return (
         <div>
@@ -108,7 +109,11 @@ Wallet.propTypes = {
   removeWallet: PropTypes.func.isRequired,
   walletID: PropTypes.string,
   user: ImmutablePropTypes.map.isRequired,
-  match: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      walletID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 Wallet.defaultProps = {

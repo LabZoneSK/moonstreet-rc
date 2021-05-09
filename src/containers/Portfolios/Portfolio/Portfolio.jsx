@@ -75,7 +75,7 @@ class Portfolio extends React.Component {
   }
 
   render() {
-    const { portfolios, match } = this.props;
+    const { portfolios, match, user } = this.props;
     const { portfolioID } = match.params;
     const {
       currentPortfolioName,
@@ -95,7 +95,7 @@ class Portfolio extends React.Component {
           <p>
             This is
             <strong>
-              {currentPortfolioName}
+              {` ${currentPortfolioName} `}
             </strong>
             portfolio
           </p>
@@ -103,7 +103,7 @@ class Portfolio extends React.Component {
           <p>
             Investment:
             {portfolioInvestment}
-            EUR
+            {` ${user.getIn(['settings', 'primaryFiat'])} `}
           </p>
 
           <input
@@ -175,7 +175,11 @@ Portfolio.propTypes = {
   user: ImmutablePropTypes.map.isRequired,
   removePortfolio: PropTypes.func.isRequired,
   initialPortfolio: PropTypes.func.isRequired,
-  match: PropTypes.arrayOf(PropTypes.object).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      portfolioID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 /* Container part */

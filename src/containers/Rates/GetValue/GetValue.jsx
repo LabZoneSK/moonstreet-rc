@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
+import { roundNumber } from '../../../utils/Math';
 
 const GetValue = (props) => {
   const {
@@ -20,7 +21,7 @@ const GetValue = (props) => {
       { assetRate === 'BTC' ? '₿' : ''}
       { assetRate === 'EUR' ? '€' : ''}
       { assetRate === 'USD' ? '$' : ''}
-      {Number(value).toFixed(4)}
+      {roundNumber(value, assetRate === 'BTC' ? 4 : 2)}
       <span className={`detlaSpan ${delta < 0 ? 'neg' : 'pos'}`}>
         {Number(delta).toFixed(2)}
         %
