@@ -22,7 +22,8 @@ import {
 } from './WalletsUtils';
 
 const Wallets = (props) => {
-  const { wallets, match } = props;
+  const { wallets, match, user } = props;
+  const primaryFiat = user.getIn(['settings', 'primaryFiat']);
   let { walletID } = match.params;
 
   if (wallets !== undefined) {
@@ -44,7 +45,7 @@ const Wallets = (props) => {
           );
         }
 
-        const assetsView = showAssets(actualWallet.get('assets'), walletKey);
+        const assetsView = showAssets(actualWallet.get('assets'), walletKey, primaryFiat);
 
         return (
           <div>
@@ -65,7 +66,7 @@ const Wallets = (props) => {
         );
       }
 
-      const assetsView = showAssets(totalWallet);
+      const assetsView = showAssets(totalWallet, undefined, primaryFiat);
 
       return (
         <div>
@@ -92,6 +93,7 @@ const Wallets = (props) => {
 
 Wallets.propTypes = {
   wallets: ImmutablePropTypes.map.isRequired,
+  user: ImmutablePropTypes.map.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       walletID: PropTypes.string,

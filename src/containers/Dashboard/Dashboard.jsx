@@ -23,10 +23,10 @@ const Dashboard = (props) => {
       {ratesArray.length > 0 && (
         <p>
           Top coin in last 24h is
-          {ratesArray[0].name}
+          {` ${ratesArray[0].name} `}
           with
           <strong>
-            {ratesArray[0].price}
+            {` ${ratesArray[0].price} `}
           </strong>
           change.
         </p>
