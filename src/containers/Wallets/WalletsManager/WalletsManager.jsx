@@ -16,7 +16,7 @@ import { database } from '../../../firebase';
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 
 import * as WalletsActions from '../actions';
-import { findWallet } from '../WalletsUtils/';
+import { findWallet } from '../WalletsUtils';
 
 class WalletsManager extends React.Component {
   constructor(props) {
@@ -34,31 +34,31 @@ class WalletsManager extends React.Component {
     handleInputChangesGeneric(event, this);
   }
 
-
   handleAdd(e) {
-    const { addWallet } = this.props;
+    const { addWallet, wallets, user } = this.props;
+    const { newWalletName } = this.state;
 
     e.preventDefault();
 
-    if (this.state.newWalletName !== '') {
-      if (this.props.wallets !== undefined) {
-        const existingWallet = findWallet(this.props.wallets, this.state.newWalletName, 'name');
+    if (newWalletName !== '') {
+      if (wallets !== undefined) {
+        const existingWallet = findWallet(wallets, newWalletName, 'name');
 
         if (existingWallet !== undefined) {
           alert('Wallet already exists.');
         } else {
-          const newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/wallets').push({
-            name: this.state.newWalletName,
+          const newRef = database.ref(user.getIn(['uid'])).child('clients/own/wallets').push({
+            name: newWalletName,
           });
 
-          addWallet(newRef.key, this.state.newWalletName);
+          addWallet(newRef.key, newWalletName);
         }
       } else {
-        const newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/wallets').push({
-          name: this.state.newWalletName,
+        const newRef = database.ref(user.getIn(['uid'])).child('clients/own/wallets').push({
+          name: newWalletName,
         });
 
-        addWallet(newRef.key, this.state.newWalletName);
+        addWallet(newRef.key, newWalletName);
       }
     } else {
       alert('Name your wallet.');
@@ -66,17 +66,18 @@ class WalletsManager extends React.Component {
   }
 
   render() {
+    const { newWalletName } = this.state;
+
     return (
       <div>
         <form id="addWallet">
-          <input className="fe" type="text" name="newWalletName" value={this.state.newWalletName} onChange={this.handleInputChange} required />
-          <button className="fe-btn" type="add" onClick={this.handleAdd}>Add Wallet</button>
+          <input className="fe" type="text" name="newWalletName" value={newWalletName} onChange={this.handleInputChange} required />
+          <button className="fe-btn" type="button" onClick={this.handleAdd}>Add Wallet</button>
         </form>
       </div>
     );
   }
 }
-
 
 WalletsManager.propTypes = {
   addWallet: PropTypes.func.isRequired,
@@ -85,11 +86,11 @@ WalletsManager.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...WalletsActions,
 }, dispatch);
 

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
+import { roundNumber } from '../../../utils/Math';
 
 const GetTotal = (props) => {
   const { rates, assets, assetRate } = props;
@@ -24,8 +25,11 @@ const GetTotal = (props) => {
       { assetRate === 'BTC' ? '₿' : ''}
       { assetRate === 'EUR' ? '€' : ''}
       { assetRate === 'USD' ? '$' : ''}
-      {Number(sum).toFixed(4)}
-      <span className={`detlaSpan ${delta < 0 ? 'neg' : 'pos'}`}>{Number(delta).toFixed(2)}%</span>
+      {roundNumber(sum, assetRate === 'BTC' ? 4 : 2)}
+      <span className={`detlaSpan ${delta < 0 ? 'neg' : 'pos'}`}>
+        {Number(delta).toFixed(2)}
+        %
+      </span>
     </div>
   );
 };
@@ -37,11 +41,11 @@ GetTotal.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   // ...RatesActions,
 }, dispatch);
 

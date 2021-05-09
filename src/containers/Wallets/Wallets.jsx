@@ -7,25 +7,24 @@
 
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import WalletView from './Wallet';
 import WalletsManager from './WalletsManager';
 
-
 import {
   showAssets,
   findWallet,
   mergeWallets,
   findWalletKey,
-} from './WalletsUtils/';
-
+} from './WalletsUtils';
 
 const Wallets = (props) => {
-  const { wallets } = props;
-  // eslint-disable-next-line react/prop-types
-  let { walletID } = props.match.params;
+  const { wallets, match, user } = props;
+  const primaryFiat = user.getIn(['settings', 'primaryFiat']);
+  let { walletID } = match.params;
 
   if (wallets !== undefined) {
     if (walletID === undefined) {
@@ -46,7 +45,7 @@ const Wallets = (props) => {
           );
         }
 
-        const assetsView = showAssets(actualWallet.get('assets'), walletKey);
+        const assetsView = showAssets(actualWallet.get('assets'), walletKey, primaryFiat);
 
         return (
           <div>
@@ -67,7 +66,7 @@ const Wallets = (props) => {
         );
       }
 
-      const assetsView = showAssets(totalWallet);
+      const assetsView = showAssets(totalWallet, undefined, primaryFiat);
 
       return (
         <div>
@@ -94,13 +93,19 @@ const Wallets = (props) => {
 
 Wallets.propTypes = {
   wallets: ImmutablePropTypes.map.isRequired,
+  user: ImmutablePropTypes.map.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      walletID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Wallets));

@@ -8,7 +8,7 @@ import { Map } from 'immutable';
  * @param {String} key
  */
 export function findInMap(haystack, needle, key) {
-  return haystack.find(value => value.get(key) === needle);
+  return haystack.find((value) => value.get(key) === needle);
 }
 
 /**
@@ -26,8 +26,8 @@ export function mergeMaps(maps, innerMapKey, mergeFunc) {
     // make sure wallet has assets
     if (map.get('assets') !== undefined) {
       map.get(innerMapKey).forEach((value, key) => {
-        if (mergedMap.get(key)) {
-          mergedMap = mergedMap.update(key, v => mergeFunc(v, value));
+        if (mergedMap.get() && mergedMap.get(key)) {
+          mergedMap = mergedMap.update((innerKey, v) => mergeFunc(v, value));
         } else {
           mergedMap = mergedMap.set(key, value);
         }

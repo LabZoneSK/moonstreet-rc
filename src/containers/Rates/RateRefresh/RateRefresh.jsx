@@ -33,7 +33,7 @@ class RateRefresh extends React.Component {
   render() {
     return (
       <div>
-        <button className="fe-btn fe-btn-refresh" onClick={this.refreshRates}>Refresh</button>
+        <button className="fe-btn fe-btn-refresh" type="button" onClick={this.refreshRates}>Refresh</button>
       </div>
     );
   }
@@ -45,11 +45,11 @@ RateRefresh.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...RatesActions,
 }, dispatch);
 

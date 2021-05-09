@@ -19,7 +19,7 @@ import * as WalletsActions from '../actions';
 
 import * as RatesActions from '../../Rates/actions';
 
-import { findWalletKey } from '../WalletsUtils/';
+import { findWalletKey } from '../WalletsUtils';
 
 import * as cc from '../../../cryptocompare';
 
@@ -39,9 +39,8 @@ class AssetsManager extends React.Component {
   }
 
   componentDidMount() {
-    // eslint-disable-next-line react/prop-types
-    const { walletID } = this.props.match.params;
-    const { wallets } = this.props;
+    const { wallets, match } = this.props;
+    const { walletID } = match.params;
     const walletKey = findWalletKey(wallets, walletID, 'name');
 
     // eslint-disable-next-line react/no-did-mount-set-state
@@ -55,24 +54,33 @@ class AssetsManager extends React.Component {
   }
 
   handleAssetAdd() {
-    const { addAsset, addRate } = this.props;
+    const {
+      addAsset,
+      addRate,
+      user,
+    } = this.props;
+    const {
+      assetKey,
+      assetAmmount,
+      currentWalletKey,
+    } = this.state;
 
-    if ((this.state.assetKey.toUpperCase() !== '') &&
-        (this.state.assetKey.toUpperCase() !== undefined) &&
-        (this.state.assetAmmount !== 0) &&
-        (this.state.assetAmmount !== undefined)) {
-      database.ref(this.props.user.getIn(['uid'])).child(`clients/own/wallets/${this.state.currentWalletKey}/assets/${this.state.assetKey.toUpperCase()}`).set(Number(this.state.assetAmmount));
+    if ((assetKey.toUpperCase() !== '')
+        && (assetKey.toUpperCase() !== undefined)
+        && (assetAmmount !== 0)
+        && (assetAmmount !== undefined)) {
+      database.ref(user.getIn(['uid'])).child(`clients/own/wallets/${currentWalletKey}/assets/${assetKey.toUpperCase()}`).set(Number(assetAmmount));
 
       addAsset(
-        this.state.currentWalletKey,
-        this.state.assetKey.toUpperCase(),
-        Number(this.state.assetAmmount),
+        currentWalletKey,
+        assetKey.toUpperCase(),
+        Number(assetAmmount),
       );
 
       // TODO: it might be worth to check, if the rate doesn't yet exist to prevent duplicite calls
-      cc.priceFull(this.state.assetKey.toUpperCase(), ['BTC', 'USD', 'EUR'])
+      cc.priceFull(assetKey.toUpperCase(), ['BTC', 'USD', 'EUR'])
         .then((prices) => {
-          addRate(this.state.assetKey.toUpperCase(), prices[this.state.assetKey.toUpperCase()]);
+          addRate(assetKey.toUpperCase(), prices[assetKey.toUpperCase()]);
         }).catch(console.error);
     } else {
       alert('Missing key or ammount');
@@ -80,17 +88,25 @@ class AssetsManager extends React.Component {
   }
 
   handleAssetRemove() {
-    const { removeAsset } = this.props;
+    const { removeAsset, user } = this.props;
+    const {
+      assetKey,
+      currentWalletKey,
+    } = this.state;
 
     // eslint-disable-next-line no-undef
-    if (window.confirm(`Are you sure you want to remove ${this.state.assetKey.toUpperCase()}?`)) {
-      database.ref(this.props.user.getIn(['uid'])).child(`clients/own/wallets/${this.state.currentWalletKey}/assets/${this.state.assetKey.toUpperCase()}`).remove();
+    if (window.confirm(`Are you sure you want to remove ${assetKey.toUpperCase()}?`)) {
+      database.ref(user.getIn(['uid'])).child(`clients/own/wallets/${currentWalletKey}/assets/${assetKey.toUpperCase()}`).remove();
 
-      removeAsset(this.state.currentWalletKey, this.state.assetKey.toUpperCase());
+      removeAsset(currentWalletKey, assetKey.toUpperCase());
     }
   }
 
   render() {
+    const {
+      assetKey,
+      assetAmmount,
+    } = this.state;
     return (
       <div>
         <input
@@ -98,7 +114,7 @@ class AssetsManager extends React.Component {
           placeholder="BTC"
           type="text"
           name="assetKey"
-          value={this.state.assetKey}
+          value={assetKey}
           onChange={this.handleInputChange}
           required
         />
@@ -107,18 +123,17 @@ class AssetsManager extends React.Component {
           type="number"
           placeholder="10"
           name="assetAmmount"
-          value={this.state.assetAmmount}
+          value={assetAmmount}
           onChange={this.handleInputChange}
           required
         />
-        <button className="fe-btn" type="add" onClick={this.handleAssetAdd}>
+        <button className="fe-btn" type="button" onClick={this.handleAssetAdd}>
           Add asset to wallet
         </button>
       </div>
     );
   }
 }
-
 
 AssetsManager.propTypes = {
   addRate: PropTypes.func.isRequired,
@@ -127,6 +142,11 @@ AssetsManager.propTypes = {
   walletID: PropTypes.string,
   wallets: ImmutablePropTypes.map.isRequired,
   user: ImmutablePropTypes.map.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      walletID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 AssetsManager.defaultProps = {
@@ -134,11 +154,11 @@ AssetsManager.defaultProps = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...WalletsActions,
   ...RatesActions,
 }, dispatch);

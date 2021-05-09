@@ -24,13 +24,13 @@ class Trades extends React.Component {
   }
 
   handleRemove(e) {
-    const { portfolioKey, removeTrade } = this.props;
+    const { portfolioKey, removeTrade, user } = this.props;
 
     console.log(portfolioKey);
 
     // eslint-disable-next-line no-undef
     if (window.confirm(`Are you sure you want to remove trade ${e.target.getAttribute('tradekey')}?`)) {
-      database.ref(this.props.user.getIn(['uid'])).child(`clients/own/portfolios/${portfolioKey}/trades/${e.target.getAttribute('tradekey')}`).remove();
+      database.ref(user.getIn(['uid'])).child(`clients/own/portfolios/${portfolioKey}/trades/${e.target.getAttribute('tradekey')}`).remove();
 
       removeTrade(portfolioKey, e.target.getAttribute('tradekey'));
     }
@@ -89,7 +89,7 @@ class Trades extends React.Component {
                   {roiEUR === 0 ? '--' : `${roiEUR}%`}
                 </span>
               </td>
-              <td rowSpan="2"><button className="fe-btn" type="remove" tradekey={trade[0]} onClick={this.handleRemove}>x</button></td>
+              <td rowSpan="2"><button className="fe-btn" type="button" tradekey={trade[0]} onClick={this.handleRemove}>x</button></td>
             </tr>
             <tr>
               <td>
@@ -148,11 +148,11 @@ Trades.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...PortfoliosActions,
 }, dispatch);
 

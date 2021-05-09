@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import {
   findInMap,
   mergeMaps,
@@ -10,29 +9,26 @@ import AssetActions from '../AssetActions';
 import GetValue from '../../Rates/GetValue';
 import GetTotal from '../../Rates/GetTotal';
 
-
 /* TODO: Need specify UI */
-export function showAssets(assets, walletKey) {
+export function showAssets(assets, walletKey, primaryFiat) {
   if (assets !== null) {
     const assetsView = assets.toSeq().map((amount, symbol) => (
       // eslint-disable-next-line react/no-array-index-key
       <tr key={symbol}>
         <td className="tLeft">{symbol}</td>
-        <td>{amount}</td>
+        <td>{roundNumber(amount, 3)}</td>
         <td>
           <GetValue assetKey={symbol} assetVolume={amount} assetRate="BTC" />
         </td>
         <td>
-          <GetValue assetKey={symbol} assetVolume={amount} assetRate="EUR" />
+          <GetValue assetKey={symbol} assetVolume={amount} assetRate={primaryFiat} />
         </td>
-        <td>
-          <GetValue assetKey={symbol} assetVolume={amount} assetRate="USD" />
-        </td>
-        {walletKey !== undefined &&
-          <td>
-            <AssetActions assetKey={symbol} walletKey={walletKey} />
-          </td>
-        }
+        {walletKey !== undefined
+          && (
+            <td>
+              <AssetActions assetKey={symbol} walletKey={walletKey} />
+            </td>
+          )}
       </tr>
     )).valueSeq().toArray();
 
@@ -43,11 +39,9 @@ export function showAssets(assets, walletKey) {
             <th className="tLeft">Currency</th>
             <th>Ammount</th>
             <th>BTC</th>
-            <th>EUR</th>
-            <th>USD</th>
-            {walletKey !== undefined &&
-              <th>Actions</th>
-            }
+            <th>{primaryFiat}</th>
+            {walletKey !== undefined
+              && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -60,14 +54,10 @@ export function showAssets(assets, walletKey) {
               <GetTotal assets={assets} assetRate="BTC" />
             </td>
             <td>
-              <GetTotal assets={assets} assetRate="EUR" />
+              <GetTotal assets={assets} assetRate={primaryFiat} />
             </td>
-            <td>
-              <GetTotal assets={assets} assetRate="USD" />
-            </td>
-            {walletKey !== undefined &&
-            <td />
-              }
+            {walletKey !== undefined
+              && <td />}
           </tr>
         </tfoot>
       </table>
@@ -77,7 +67,6 @@ export function showAssets(assets, walletKey) {
     <div>No assets found.</div>
   );
 }
-
 
 /**
  * Functions find wallet by specified key.
@@ -101,7 +90,6 @@ export function mergeWallets(wallets) {
   return mergeMaps(wallets, 'assets', (sum, current) => roundNumber(sum + current, 12));
 }
 
-
 /**
  * Function to find apropriate wallet key by wallet name.
  *
@@ -112,7 +100,7 @@ export function mergeWallets(wallets) {
  */
 export function findWalletKey(wallets, walletID, key) {
   // identify displayed right now in wallet container
-  return wallets.keySeq().toArray().filter(e => (
+  return wallets.keySeq().toArray().filter((e) => (
     walletID === (wallets.getIn([e, key]))
   )).toString();
 }

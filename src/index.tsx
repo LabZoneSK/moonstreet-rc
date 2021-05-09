@@ -23,12 +23,11 @@ store.subscribe(() => {
   localStorage.setItem('moonstreet-state-storage', JSON.stringify((store.getState())));
 });
 
-const { browserHistory } = Router;
 ReactDOM.render(
   (
     // eslint-disable-next-line react/jsx-filename-extension
     <Provider store={store}>
-      <Router history={browserHistory}>
+      <Router>
         <App />
       </Router>
     </Provider>

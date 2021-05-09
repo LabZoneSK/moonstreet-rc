@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as RatesActions from './actions';
+import { roundNumber } from '../../utils/Math';
 
 const Rates = (props) => {
   const { rates } = props;
@@ -20,22 +21,31 @@ const Rates = (props) => {
         <tr key={key}>
           <td className="tLeft">{key}</td>
           <td>
-            ₿{rate.getIn(['BTC', 'PRICE'])}
+            ₿
+            {roundNumber(rate.getIn(['BTC', 'PRICE']), 8)}
+            <br />
+            <span className={`detlaSpan ${deltaBTC < 0 ? 'neg' : 'pos'}`}>
+              {deltaBTC}
+              %
+            </span>
           </td>
           <td>
-            <span className={`detlaSpan ${deltaBTC < 0 ? 'neg' : 'pos'}`}>{deltaBTC}%</span>
+            €
+            {roundNumber(rate.getIn(['EUR', 'PRICE']), 3)}
+            <br />
+            <span className={`detlaSpan ${deltaEUR < 0 ? 'neg' : 'pos'}`}>
+              {deltaEUR}
+              %
+            </span>
           </td>
           <td>
-            €{rate.getIn(['EUR', 'PRICE'])}
-          </td>
-          <td>
-            <span className={`detlaSpan ${deltaEUR < 0 ? 'neg' : 'pos'}`}>{deltaEUR}%</span>
-          </td>
-          <td>
-            ${rate.getIn(['USD', 'PRICE'])}
-          </td>
-          <td>
-            <span className={`detlaSpan ${deltaUSD < 0 ? 'neg' : 'pos'}`}>{deltaUSD}%</span>
+            $
+            {roundNumber(rate.getIn(['USD', 'PRICE']), 3)}
+            <br />
+            <span className={`detlaSpan ${deltaUSD < 0 ? 'neg' : 'pos'}`}>
+              {deltaUSD}
+              %
+            </span>
           </td>
         </tr>
       );
@@ -54,11 +64,8 @@ const Rates = (props) => {
           <tr>
             <th className="tLeft">currency</th>
             <th>BTC</th>
-            <th>24h%</th>
             <th>EUR</th>
-            <th>24h%</th>
             <th>USD</th>
-            <th>24h%</th>
           </tr>
         </thead>
         <tbody>
@@ -74,11 +81,11 @@ Rates.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...RatesActions,
 }, dispatch);
 

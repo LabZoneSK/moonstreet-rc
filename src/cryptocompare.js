@@ -1,4 +1,3 @@
-
 const baseUrl = 'https://min-api.cryptocompare.com/data/';
 
 function fetchJSON(url) {
@@ -48,7 +47,7 @@ function priceFull(fsyms, tsyms, options = {}) {
   if (options.exchanges) url += `&e=${options.exchanges}`;
   if (options.tryConversion === false) url += '&tryConversion=false';
   // We want the RAW data, not the DISPLAY data:
-  return fetchJSON(url).then(result => result.RAW);
+  return fetchJSON(url).then((result) => result.RAW);
 }
 
 function priceHistorical(fsym, tsyms, time, options = {}) {
@@ -57,25 +56,25 @@ function priceHistorical(fsym, tsyms, time, options = {}) {
   if (options.exchanges) url += `&e=${options.exchanges}`;
   if (options.tryConversion === false) url += '&tryConversion=false';
   // The API returns json with an extra layer of nesting, so remove it
-  return fetchJSON(url).then(result => result[fsym]);
+  return fetchJSON(url).then((result) => result[fsym]);
 }
 
 function generateAvg(fsym, tsym, e, tryConversion) {
   let url = `${baseUrl}generateAvg?fsym=${fsym}&tsym=${tsym}&e=${e}`;
   if (tryConversion === false) url += '&tryConversion=false';
-  return fetchJSON(url).then(result => result.RAW);
+  return fetchJSON(url).then((result) => result.RAW);
 }
 
 function topPairs(fsym, limit) {
   let url = `${baseUrl}top/pairs?fsym=${fsym}`;
   if (limit) url += `&limit=${limit}`;
-  return fetchJSON(url).then(result => result.Data);
+  return fetchJSON(url).then((result) => result.Data);
 }
 
 function topExchanges(fsym, tsym, limit) {
   let url = `${baseUrl}top/exchanges?fsym=${fsym}&tsym=${tsym}`;
   if (limit) url += `&limit=${limit}`;
-  return fetchJSON(url).then(result => result.Data);
+  return fetchJSON(url).then((result) => result.Data);
 }
 
 function histoDay(fsym, tsym, options = {}) {
@@ -87,7 +86,7 @@ function histoDay(fsym, tsym, options = {}) {
   if (options.tryConversion === false) url += '&tryConversion=false';
   if (options.aggregate) url += `&aggregate=${options.aggregate}`;
   if (options.timestamp) url += `&toTs=${options.timestamp}`;
-  return fetchJSON(url).then(result => result.Data);
+  return fetchJSON(url).then((result) => result.Data);
 }
 
 function histoHour(fsym, tsym, options = {}) {
@@ -99,7 +98,7 @@ function histoHour(fsym, tsym, options = {}) {
   if (options.tryConversion === false) url += '&tryConversion=false';
   if (options.aggregate) url += `&aggregate=${options.aggregate}`;
   if (options.timestamp) url += `&toTs=${options.timestamp}`;
-  return fetchJSON(url).then(result => result.Data);
+  return fetchJSON(url).then((result) => result.Data);
 }
 
 function histoMinute(fsym, tsym, options = {}) {
@@ -111,7 +110,7 @@ function histoMinute(fsym, tsym, options = {}) {
   if (options.tryConversion === false) url += '&tryConversion=false';
   if (options.aggregate) url += `&aggregate=${options.aggregate}`;
   if (options.timestamp) url += `&toTs=${options.timestamp}`;
-  return fetchJSON(url).then(result => result.Data);
+  return fetchJSON(url).then((result) => result.Data);
 }
 
 module.exports = {

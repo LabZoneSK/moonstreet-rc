@@ -7,7 +7,6 @@ import {
   TRADE_REMOVE,
 } from './constants';
 
-
 /* Action Creators */
 export function addPortfolio(portfolioKey, portfolioName) {
   return {

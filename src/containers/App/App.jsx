@@ -5,7 +5,12 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 
-import { database, auth, storageKey, isAutheticated } from '../../firebase';
+import {
+  database,
+  auth,
+  storageKey,
+  isAutheticated,
+} from '../../firebase';
 import * as AppActions from './actions';
 import * as WalletsActions from '../Wallets/actions';
 import * as RatesActions from '../Rates/actions';
@@ -13,17 +18,18 @@ import * as PortfoliosActions from '../Portfolios/actions';
 import * as ICOActions from '../ICO/actions';
 
 import Header from '../../components/header';
-import Login from '../../containers/Login/';
+import Login from '../Login';
 
-import Sidebar from '../../containers/Sidebar';
+import Sidebar from '../Sidebar';
 
 /** Containers */
 import Dashboard from '../Dashboard/Dashboard';
-import Portfolios from '../../containers/Portfolios';
-import Wallets from '../../containers/Wallets';
-import Rates from '../../containers/Rates';
-import ICOs from '../../containers/ICO';
-import CoinPotential from '../../containers/CoinPotential/CoinPotential';
+import Portfolios from '../Portfolios';
+import Wallets from '../Wallets';
+import Rates from '../Rates';
+import ICOs from '../ICO';
+import CoinPotential from '../CoinPotential/CoinPotential';
+import Settings from '../Settings/Settings';
 
 import * as cc from '../../cryptocompare';
 
@@ -158,6 +164,7 @@ class App extends React.Component {
                   <Route exact path="/rates" component={Rates} />
                   <Route exact path="/ico" component={ICOs} />
                   <Route exact path="/coinPotential" component={CoinPotential} />
+                  <Route exact path="/settings" component={Settings} />
                 </Switch>
               </section>
             </main>
@@ -188,11 +195,11 @@ App.propTypes = {
 };
 
 // container part
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...AppActions,
   ...PortfoliosActions,
   ...WalletsActions,

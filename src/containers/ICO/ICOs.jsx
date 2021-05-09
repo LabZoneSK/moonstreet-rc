@@ -22,20 +22,23 @@ class ICOs extends React.Component {
 
   componentDidMount() {
     // this.props.fetchICOs(this.props.user.getIn(['uid']));
+    const { icos } = this.props;
 
-    if (this.props.icos !== undefined) {
+    if (icos !== undefined) {
       // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({
-        icos: this.props.icos,
+        icos,
       });
     }
   }
 
   render() {
+    const { icos } = this.state;
+
     return (
       <div>
         <ICOManager />
-        <ICOListView icos={this.state.icos} />
+        <ICOListView icos={icos} />
       </div>
     );
   }
@@ -47,14 +50,12 @@ ICOs.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...ICOActions,
 }, dispatch);
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ICOs));

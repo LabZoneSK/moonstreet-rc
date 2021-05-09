@@ -41,12 +41,11 @@ class AssetActions extends React.Component {
   render() {
     return (
       <div>
-        <button className="fe-btn" onClick={this.handleAssetRemove}>x</button>
+        <button className="fe-btn" type="button" onClick={this.handleAssetRemove}>x</button>
       </div>
     );
   }
 }
-
 
 AssetActions.propTypes = {
   removeAsset: PropTypes.func.isRequired,
@@ -56,11 +55,11 @@ AssetActions.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...WalletsActions,
 }, dispatch);
 

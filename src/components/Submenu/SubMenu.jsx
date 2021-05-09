@@ -6,10 +6,11 @@ import { NavLink } from 'react-router-dom';
 const SubMenu = ({
   group, links, active, visible,
 }) => {
-  const navlinks = links.map(link => (
+  const navlinks = links.map((link) => (
     <li key={`${group}-${link.name}-list-item`}>
       <NavLink exact key={`${group}-${link.name}-submenu-link`} activeClassName={active} to={link.path}>{link.name}</NavLink>
-    </li>));
+    </li>
+  ));
 
   const submenuClass = (visible) ? 'submenu' : 'submenu-hidden';
   return (
@@ -18,7 +19,6 @@ const SubMenu = ({
     </ul>
   );
 };
-
 
 SubMenu.propTypes = {
   links: ImmutablePropTypes.seq.isRequired,

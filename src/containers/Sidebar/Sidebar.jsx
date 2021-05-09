@@ -25,16 +25,14 @@ const Sidebar = (props) => {
           <li><NavLink exact activeClassName="active" to="/">Home</NavLink></li>
           <li>
             <NavLink activeClassName="active" to="/portfolios">Portfolios</NavLink>
-            {portfolios !== undefined &&
-              <SubMenu group="portfolios" links={getLinks(portfolios, '/portfolios/')} active="active" visible={location.pathname.includes('portfolio')} />
-            }
+            {portfolios !== undefined
+              && <SubMenu group="portfolios" links={getLinks(portfolios, '/portfolios/')} active="active" visible={location.pathname.includes('portfolio')} />}
           </li>
 
           <li>
             <NavLink activeClassName="active" to="/wallets">Wallets</NavLink>
-            {wallets !== undefined &&
-              <SubMenu group="wallets" links={getLinks(wallets, '/wallets/')} active="active" visible={location.pathname.includes('wallet')} />
-            }
+            {wallets !== undefined
+              && <SubMenu group="wallets" links={getLinks(wallets, '/wallets/')} active="active" visible={location.pathname.includes('wallet')} />}
           </li>
           <li><NavLink exact activeClassName="active" to="/rates">Rates</NavLink></li>
           <li><NavLink exact activeClassName="active" to="/ico">ICO</NavLink></li>
@@ -43,6 +41,7 @@ const Sidebar = (props) => {
               Coin potential
             </NavLink>
           </li>
+          <li><NavLink exact activeClassName="active" to="/settings">Settings</NavLink></li>
           <li><RefreshButton /></li>
         </ul>
       </nav>
@@ -64,11 +63,10 @@ Sidebar.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
-
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Sidebar));

@@ -1,4 +1,3 @@
-
 import { fromJS } from 'immutable';
 import {
   WALLET_ADD,
@@ -10,7 +9,6 @@ import {
 
 /* TODO: Revisit if initial state below is needed, since it isn't really used for anything */
 const initialState = fromJS({});
-
 
 const walletsReducer = (state = initialState, action) => {
   switch (action.type) {
