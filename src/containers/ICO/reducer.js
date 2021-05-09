@@ -7,7 +7,6 @@ import {
 /* TODO: Revisit if initial state below is needed, since it isn't really used for anything */
 const initialState = fromJS({});
 
-
 const icosReducer = (state = initialState, action) => {
   switch (action.type) {
     case ICO_ADD:

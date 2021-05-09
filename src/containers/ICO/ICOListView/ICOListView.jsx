@@ -7,9 +7,9 @@ const ICOListView = (props) => {
   const { icos } = props;
 
   return (
-    <Fragment>
+    <>
       <h2>List of your investments in Initial Coin Offerings</h2>
-      { icos.map(ico => (
+      { icos.map((ico) => (
         <Item key={ico.getIn(['name'])} name={ico.getIn(['name'])} />
       )).valueSeq().toArray()}
 
@@ -18,7 +18,7 @@ const ICOListView = (props) => {
           <Item key={ico[0]} name={ico[1].getIn(['name'])} />
         })
       } */}
-    </Fragment>
+    </>
   );
 };
 

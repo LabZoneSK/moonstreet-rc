@@ -25,9 +25,13 @@ const CoinPotential = (props) => {
   return (
     <div>
       <p>Coin potential here </p>
-      <p>Note: Potential is calculated agains BTC market cappacity in USD @ ${btcCAP}</p>
+      <p>
+        Note: Potential is calculated agains BTC market cappacity in USD @ $
+        {btcCAP}
+      </p>
       <p>max USD: value of a single coin with same market capitalisation as Bitcoin</p>
-      <p>current strength: how close a coin is to its max USD</p><br />
+      <p>current strength: how close a coin is to its max USD</p>
+      <br />
 
       {rates && rates.toSeq().valueSeq().toArray().length > 0 && (
         rates.toSeq().map((coinRates, coin) => {
@@ -36,10 +40,23 @@ const CoinPotential = (props) => {
 
           return (
             <p key={coinRates}>
-              <strong>{ coin }</strong> max USD @
-              <strong> ${ usdPotential }</strong>, current strength @
-              <strong> { currentStrength }%</strong>
-              <span> calculated against supply of {corectedSupply(coinRates, coin)}</span>
+              <strong>
+                { coin }
+              </strong>
+              <span> max USD @ </span>
+              <strong>
+                $
+                { usdPotential }
+              </strong>
+              <span> , current strength @ </span>
+              <strong>
+                { currentStrength }
+                %
+              </strong>
+              <span>
+                <span> calculated against supply of </span>
+                {corectedSupply(coinRates, coin)}
+              </span>
             </p>
           );
         }).valueSeq().toArray()
@@ -52,11 +69,10 @@ CoinPotential.propTypes = {
   rates: ImmutablePropTypes.map.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
-
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoinPotential));

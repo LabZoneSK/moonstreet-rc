@@ -3,7 +3,6 @@ import {
   RATES_INITIAL,
 } from './constants';
 
-
 /* Action Creators */
 export function addRate(currency, rates) {
   return {
@@ -19,4 +18,3 @@ export function addInitialRates(rates) {
     rates,
   };
 }
-

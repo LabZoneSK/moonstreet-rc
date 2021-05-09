@@ -28,7 +28,6 @@ class TradesManager extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-
   componentDidMount() {
     const { portfolioKey } = this.props;
 
@@ -43,52 +42,72 @@ class TradesManager extends React.Component {
   }
 
   handleTradeAdd() {
-    const { addTrade, addRate } = this.props;
+    const { addTrade, addRate, user } = this.props;
+    const {
+      date,
+      orderType,
+      currency,
+      amount,
+      priceBTC,
+      priceEUR,
+      currentPortfolioKey,
+    } = this.state;
 
-    const newRef = database.ref(this.props.user.getIn(['uid'])).child(`clients/own/portfolios/${this.state.currentPortfolioKey}/trades/`).push({
-      date: this.state.date,
-      orderType: this.state.orderType,
-      currency: this.state.currency.toUpperCase(),
-      amount: this.state.amount,
-      priceEUR: this.state.priceEUR,
-      priceBTC: this.state.priceBTC,
+    const newRef = database.ref(user.getIn(['uid'])).child(`clients/own/portfolios/${currentPortfolioKey}/trades/`).push({
+      date,
+      orderType,
+      currency: currency.toUpperCase(),
+      amount,
+      priceEUR,
+      priceBTC,
     });
 
-
     addTrade(
-      this.state.currentPortfolioKey,
+      currentPortfolioKey,
       newRef.key,
-      this.state.date,
-      this.state.orderType,
-      this.state.currency.toUpperCase(),
-      this.state.amount,
-      this.state.priceEUR,
-      this.state.priceBTC,
+      date,
+      orderType,
+      currency.toUpperCase(),
+      amount,
+      priceEUR,
+      priceBTC,
     );
 
-    cc.priceFull(this.state.currency.toUpperCase(), ['BTC', 'USD', 'EUR'])
+    cc.priceFull(currency.toUpperCase(), ['BTC', 'USD', 'EUR'])
       .then((prices) => {
-        addRate(this.state.currency.toUpperCase(), prices[this.state.currency.toUpperCase()]);
+        addRate(currency.toUpperCase(), prices[currency.toUpperCase()]);
       }).catch(console.error);
   }
 
-
   render() {
+    const {
+      dateInput,
+      currency,
+      amount,
+      priceBTC,
+      priceEUR,
+    } = this.state;
+
     return (
       <div>
-        <label htmlFor="date">Date:</label>
+        <label htmlFor="date">
+          Date:
+        </label>
         <input
           className="fe"
           type="date"
           id="date"
           name="date"
           placeholder="2017-11-16"
-          value={this.state.dateInput}
+          value={dateInput}
           onChange={this.handleInputChange}
         />
+
         <br />
 
-        <label htmlFor="orderType">Order Type</label>
+        <label htmlFor="orderType">
+          Order Type
+        </label>
         <select
           className="fe"
           id="orderType"
@@ -101,55 +120,66 @@ class TradesManager extends React.Component {
         </select>
         <br />
 
-        <label htmlFor="currency">Currency:</label>
+        <label htmlFor="currency">
+          Currency:
+        </label>
         <input
           className="fe"
           type="text"
           name="currency"
           id="currency"
           placeholder="BTC"
-          value={this.state.currency}
+          value={currency}
           onChange={this.handleInputChange}
         />
         <br />
 
-        <label htmlFor="amount">Amount:</label>
+        <label htmlFor="amount">
+          Amount:
+        </label>
         <input
           className="fe"
           type="number"
           name="amount"
           id="amount"
           placeholder="10"
-          value={this.state.amount}
+          value={amount}
           onChange={this.handleInputChange}
         />
+
         <br />
 
-        <label htmlFor="priceEUR">Price in EUR:</label>
+        <label htmlFor="priceEUR">
+          Price in EUR:
+        </label>
         <input
           className="fe"
           type="number"
           name="priceEUR"
           id="priceEUR"
           placeholder="10"
-          value={this.state.priceEUR}
+          value={priceEUR}
           onChange={this.handleInputChange}
         />
         <br />
 
-        <label htmlFor="priceBTC">Price in BTC:</label>
+        <label htmlFor="priceBTC">
+          Price in BTC:
+        </label>
         <input
           className="fe"
           type="number"
           name="priceBTC"
           id="priceBTC"
           placeholder="10"
-          value={this.state.priceBTC}
+          value={priceBTC}
           onChange={this.handleInputChange}
         />
         <br />
 
-        <button className="fe-btn" type="add" onClick={this.handleTradeAdd}>Add Trade</button>
+        <button className="fe-btn" type="button" onClick={this.handleTradeAdd}>
+          Add Trade
+        </button>
 
       </div>
     );
@@ -164,11 +194,11 @@ TradesManager.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...PortfoliosActions,
   ...RatesActions,
 }, dispatch);

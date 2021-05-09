@@ -21,7 +21,10 @@ const GetValue = (props) => {
       { assetRate === 'EUR' ? '€' : ''}
       { assetRate === 'USD' ? '$' : ''}
       {Number(value).toFixed(4)}
-      <span className={`detlaSpan ${delta < 0 ? 'neg' : 'pos'}`}>{Number(delta).toFixed(2)}%</span>
+      <span className={`detlaSpan ${delta < 0 ? 'neg' : 'pos'}`}>
+        {Number(delta).toFixed(2)}
+        %
+      </span>
     </div>
   );
 };
@@ -34,10 +37,10 @@ GetValue.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GetValue));

@@ -3,7 +3,6 @@ import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
 
-
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_apiKey,
   authDomain: process.env.REACT_APP_FIREBASE_authDomain,
@@ -23,4 +22,3 @@ export const storageKey = 'adGKUgxtIT1rngYvHtk4VzTXsfDT0Huz';
 export const isAutheticated = () => !!auth.currentUser || !!localStorage.getItem(storageKey);
 
 export default firebase;
-

@@ -20,22 +20,34 @@ const Rates = (props) => {
         <tr key={key}>
           <td className="tLeft">{key}</td>
           <td>
-            ₿{rate.getIn(['BTC', 'PRICE'])}
+            ₿
+            {rate.getIn(['BTC', 'PRICE'])}
           </td>
           <td>
-            <span className={`detlaSpan ${deltaBTC < 0 ? 'neg' : 'pos'}`}>{deltaBTC}%</span>
+            <span className={`detlaSpan ${deltaBTC < 0 ? 'neg' : 'pos'}`}>
+              {deltaBTC}
+              %
+            </span>
           </td>
           <td>
-            €{rate.getIn(['EUR', 'PRICE'])}
+            €
+            {rate.getIn(['EUR', 'PRICE'])}
           </td>
           <td>
-            <span className={`detlaSpan ${deltaEUR < 0 ? 'neg' : 'pos'}`}>{deltaEUR}%</span>
+            <span className={`detlaSpan ${deltaEUR < 0 ? 'neg' : 'pos'}`}>
+              {deltaEUR}
+              %
+            </span>
           </td>
           <td>
-            ${rate.getIn(['USD', 'PRICE'])}
+            $
+            {rate.getIn(['USD', 'PRICE'])}
           </td>
           <td>
-            <span className={`detlaSpan ${deltaUSD < 0 ? 'neg' : 'pos'}`}>{deltaUSD}%</span>
+            <span className={`detlaSpan ${deltaUSD < 0 ? 'neg' : 'pos'}`}>
+              {deltaUSD}
+              %
+            </span>
           </td>
         </tr>
       );
@@ -74,11 +86,11 @@ Rates.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...RatesActions,
 }, dispatch);
 

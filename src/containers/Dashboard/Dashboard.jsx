@@ -22,8 +22,13 @@ const Dashboard = (props) => {
       <div>Welcome</div>
       {ratesArray.length > 0 && (
         <p>
-          Top coin in last 24h is {ratesArray[0].name} with
-          <strong> {ratesArray[0].price}</strong> change.
+          Top coin in last 24h is
+          {ratesArray[0].name}
+          with
+          <strong>
+            {ratesArray[0].price}
+          </strong>
+          change.
         </p>
       )}
     </>
@@ -35,13 +40,12 @@ Dashboard.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...RatesActions,
 }, dispatch);
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

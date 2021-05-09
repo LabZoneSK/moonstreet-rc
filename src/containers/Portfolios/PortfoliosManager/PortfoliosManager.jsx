@@ -36,31 +36,38 @@ class PortfoliosManager extends React.Component {
   }
 
   handleAdd(e) {
-    const { addPortfolio } = this.props;
+    const {
+      addPortfolio,
+      portfolios,
+      user,
+    } = this.props;
+    const {
+      newPortfolioName,
+    } = this.state;
 
     e.preventDefault();
 
-    if (this.state.newPortfolioName !== '') {
-      if (this.props.portfolios !== undefined) {
+    if (newPortfolioName !== '') {
+      if (portfolios !== undefined) {
         // findWallet should be remaned into generic util
-        const existingPortfolio = findInMap(this.props.portfolios, this.state.newPortfolioName, 'name');
+        const existingPortfolio = findInMap(portfolios, newPortfolioName, 'name');
 
         if (existingPortfolio !== undefined) {
           // eslint-disable-next-line no-undef
           alert('Portfolio already exists.');
         } else {
-          const newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios').push({
-            name: this.state.newPortfolioName,
+          const newRef = database.ref(user.getIn(['uid'])).child('clients/own/portfolios').push({
+            name: newPortfolioName,
           });
 
-          addPortfolio(newRef.key, this.state.newPortfolioName);
+          addPortfolio(newRef.key, newPortfolioName);
         }
       } else {
-        const newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/portfolios').push({
-          name: this.state.newPortfolioName,
+        const newRef = database.ref(user.getIn(['uid'])).child('clients/own/portfolios').push({
+          name: newPortfolioName,
         });
 
-        addPortfolio(newRef.key, this.state.newPortfolioName);
+        addPortfolio(newRef.key, newPortfolioName);
       }
     } else {
       // eslint-disable-next-line no-undef
@@ -69,6 +76,10 @@ class PortfoliosManager extends React.Component {
   }
 
   render() {
+    const {
+      newPortfolioName,
+    } = this.state;
+
     return (
       <div>
         <form id="addPortfolio">
@@ -76,17 +87,16 @@ class PortfoliosManager extends React.Component {
             className="fe"
             type="text"
             name="newPortfolioName"
-            value={this.state.newPortfolioName}
+            value={newPortfolioName}
             onChange={this.handleInputChange}
             required
           />
-          <button className="fe-btn" type="add" onClick={this.handleAdd}>Add Portfolio</button>
+          <button className="fe-btn" type="button" onClick={this.handleAdd}>Add Portfolio</button>
         </form>
       </div>
     );
   }
 }
-
 
 PortfoliosManager.propTypes = {
   addPortfolio: PropTypes.func.isRequired,
@@ -96,11 +106,11 @@ PortfoliosManager.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...PortfoliosActions,
 }, dispatch);
 

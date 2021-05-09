@@ -17,7 +17,7 @@ UserMenu.propTypes = {
   user: ImmutablePropTypes.map.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 

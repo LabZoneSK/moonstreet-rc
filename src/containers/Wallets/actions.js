@@ -6,7 +6,6 @@ import {
   WALLETS_INITIAL,
 } from './constants';
 
-
 /* Action Creators */
 export function addWallet(walletKey, walletName) {
   return {

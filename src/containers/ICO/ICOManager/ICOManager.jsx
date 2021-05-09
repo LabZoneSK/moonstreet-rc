@@ -29,23 +29,37 @@ class ICOManager extends React.Component {
   }
 
   handleAdd = (event) => {
+    const {
+      ICOName,
+      initialInvestment,
+      initialInvestmentCurrency,
+      newICOName,
+    } = this.state;
+    const { user, addICO } = this.props;
     event.preventDefault();
-    if (this.state.newICOName !== '') {
+    if (newICOName !== '') {
       const newICOObj = {
-        name: this.state.ICOName,
-        initialInvestment: this.state.initialInvestment,
-        initialInvestmentCurrency: this.state.initialInvestmentCurrency,
+        name: ICOName,
+        initialInvestment,
+        initialInvestmentCurrency,
       };
 
-      const newRef = database.ref(this.props.user.getIn(['uid'])).child('clients/own/icos').push(newICOObj);
+      const newRef = database.ref(user.getIn(['uid'])).child('clients/own/icos').push(newICOObj);
 
       newRef.then((newICO) => {
-        this.props.addICO(newICO.key, newICOObj);
+        addICO(newICO.key, newICOObj);
       });
     }
   }
 
   render() {
+    const {
+      ICOName,
+      initialInvestment,
+      initialInvestmentCurrency,
+      investmentCurrencySymbol,
+    } = this.state;
+
     return (
       <div>
         <form id="addICO">
@@ -57,7 +71,7 @@ class ICOManager extends React.Component {
               type="text"
               name="ICOName"
               id="ICOName"
-              value={this.state.ICOName}
+              value={ICOName}
               onChange={this.handleInputChange}
               required
             />
@@ -71,7 +85,7 @@ class ICOManager extends React.Component {
               type="number"
               name="initialInvestment"
               id="initialInvestment"
-              value={this.state.initialInvestment}
+              value={initialInvestment}
               onChange={this.handleInputChange}
               required
             />
@@ -85,7 +99,7 @@ class ICOManager extends React.Component {
               type="text"
               name="initialInvestmentCurrency"
               id="initialInvestmentCurrency"
-              value={this.state.initialInvestmentCurrency}
+              value={initialInvestmentCurrency}
               onChange={this.handleInputChange}
               required
             />
@@ -98,14 +112,14 @@ class ICOManager extends React.Component {
               type="text"
               name="investmentCurrencySymbol"
               id="investmentCurrencySymbol"
-              value={this.state.investmentCurrencySymbol}
+              value={investmentCurrencySymbol}
               onChange={this.handleInputChange}
               required
             />
           </label>
           <br />
           <button
-            type="add"
+            type="button"
             onClick={this.handleAdd}
           >
             Add ICO
@@ -122,11 +136,11 @@ ICOManager.propTypes = {
 };
 
 /* Container part */
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ...state,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
+const mapDispatchToProps = (dispatch) => bindActionCreators({
   ...ICOActions,
 }, dispatch);
 
