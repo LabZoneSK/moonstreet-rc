@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from './components/Logo';
 import MenuToggle from './components/MenuToggle';
-import UserMenu from './components/UserMenu';
+import UserMenu from './components/UserMenu/UserMenu.tsx';
 
 const Header = () => (
   <header className="header">

@@ -69,7 +69,7 @@ class AssetsManager extends React.Component {
         && (assetKey.toUpperCase() !== undefined)
         && (assetAmmount !== 0)
         && (assetAmmount !== undefined)) {
-      database.ref(user.getIn(['uid'])).child(`clients/own/wallets/${currentWalletKey}/assets/${assetKey.toUpperCase()}`).set(Number(assetAmmount));
+      database.ref(user.uid).child(`clients/own/wallets/${currentWalletKey}/assets/${assetKey.toUpperCase()}`).set(Number(assetAmmount));
 
       addAsset(
         currentWalletKey,

@@ -1,20 +1,18 @@
-import { fromJS } from 'immutable';
+import { removeKey } from '../../utils/Utils';
 import {
   ICO_ADD,
   ICO_REMOVE,
 } from './constants';
 
-/* TODO: Revisit if initial state below is needed, since it isn't really used for anything */
-const initialState = fromJS({});
-
-const icosReducer = (state = initialState, action) => {
+const icosReducer = (state = {}, action) => {
   switch (action.type) {
     case ICO_ADD:
-      return state
-        .set(action.key, fromJS(action.ICOObj));
+      return {
+        ...state,
+        [action.key]: action.ICOObj,
+      };
     case ICO_REMOVE:
-      return state
-        .delete(action.key);
+      return removeKey(state, action.key);
     default:
       return state;
   }

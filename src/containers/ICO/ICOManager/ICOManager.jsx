@@ -44,7 +44,7 @@ class ICOManager extends React.Component {
         initialInvestmentCurrency,
       };
 
-      const newRef = database.ref(user.getIn(['uid'])).child('clients/own/icos').push(newICOObj);
+      const newRef = database.ref(user.uid).child('clients/own/icos').push(newICOObj);
 
       newRef.then((newICO) => {
         addICO(newICO.key, newICOObj);

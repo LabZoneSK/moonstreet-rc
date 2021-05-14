@@ -1,9 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { fromJS } from 'immutable';
 
 import * as ICOActions from './actions';
 
@@ -16,7 +15,7 @@ class ICOs extends React.Component {
     super(props);
 
     this.state = {
-      icos: fromJS({}),
+      icos: {},
     };
   }
 
@@ -46,7 +45,7 @@ class ICOs extends React.Component {
 
 ICOs.propTypes = {
   // eslint-disable-next-line react/no-typos
-  icos: ImmutablePropTypes.map.isRequired,
+  icos: PropTypes.shape({}).isRequired,
 };
 
 /* Container part */

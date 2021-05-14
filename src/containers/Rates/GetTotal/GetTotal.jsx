@@ -12,13 +12,14 @@ const GetTotal = (props) => {
   let sum = 0;
   let deltaHisto = 0;
 
-  // TODO: this is really shitty piece of code
-  assets.toSeq().forEach((amount, symbol) => {
-    sum += (Number(rates.getIn([symbol, assetRate, 'PRICE'])) * amount);
-    deltaHisto += Number(rates.getIn([symbol, assetRate, 'CHANGEPCT24HOUR']));
+  Object.keys(assets).forEach((assetKey) => {
+    if (rates[assetKey]) {
+      sum += (Number(rates[assetKey][assetRate].PRICE) * assets[assetKey]);
+      deltaHisto += Number(rates[assetKey][assetRate].CHANGEPCT24HOUR);
+    }
   });
 
-  const delta = deltaHisto / assets.toArray().length;
+  const delta = deltaHisto / Object.keys(assets).length;
 
   return (
     <div>

@@ -218,7 +218,7 @@ a[id="menu"] {
   background-color: var(--sidebar-nav-active);
   text-decoration: none;
   font-size: 18px;
-  line-height: 50px;
+  line-height: 49px;
   text-align: center;
   display: none; }
   @media only screen and (min-width: 641px) {

@@ -13,8 +13,8 @@ const GetValue = (props) => {
     assetRate,
     assetVolume,
   } = props;
-  const delta = rates.getIn([assetKey, assetRate, 'CHANGEPCT24HOUR']);
-  const value = rates.getIn([assetKey, assetRate, 'PRICE']) * assetVolume;
+  const delta = (rates[assetKey] && rates[assetKey][assetRate].CHANGEPCT24HOUR) || 0;
+  const value = (rates[assetKey] && rates[assetKey][assetRate].PRICE * assetVolume) || 0;
 
   return (
     <div>
