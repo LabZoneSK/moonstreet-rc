@@ -7,7 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -51,7 +50,9 @@ AssetActions.propTypes = {
   removeAsset: PropTypes.func.isRequired,
   assetKey: PropTypes.string.isRequired,
   walletKey: PropTypes.string.isRequired,
-  user: ImmutablePropTypes.map.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
 };
 
 /* Container part */

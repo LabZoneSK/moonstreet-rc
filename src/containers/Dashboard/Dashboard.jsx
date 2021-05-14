@@ -1,8 +1,8 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as RatesActions from '../Rates/actions';
 
 const Dashboard = (props) => {
@@ -36,7 +36,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
-  rates: ImmutablePropTypes.map.isRequired,
+  rates: PropTypes.shape({}).isRequired,
 };
 
 /* Container part */

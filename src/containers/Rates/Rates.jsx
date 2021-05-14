@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
 import * as RatesActions from './actions';
 import { roundNumber } from '../../utils/Math';
 
@@ -77,7 +77,7 @@ const Rates = (props) => {
 };
 
 Rates.propTypes = {
-  rates: ImmutablePropTypes.map.isRequired,
+  rates: PropTypes.shape({}).isRequired,
 };
 
 /* Container part */

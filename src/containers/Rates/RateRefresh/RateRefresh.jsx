@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import * as RatesActions from '../actions';
 import * as cc from '../../../cryptocompare';
 
@@ -23,7 +22,7 @@ class RateRefresh extends React.Component {
     } = this.props;
 
     if (rates !== undefined) {
-      cc.priceFull(rates.keySeq().toArray(), ['BTC', 'USD', 'EUR'])
+      cc.priceFull(Object.keys(rates), ['BTC', 'USD', 'EUR'])
         .then((prices) => {
           addInitialRates(prices);
         }).catch(console.error);
@@ -41,7 +40,7 @@ class RateRefresh extends React.Component {
 
 RateRefresh.propTypes = {
   addInitialRates: PropTypes.func.isRequired,
-  rates: ImmutablePropTypes.map.isRequired,
+  rates: PropTypes.shape({}).isRequired,
 };
 
 /* Container part */

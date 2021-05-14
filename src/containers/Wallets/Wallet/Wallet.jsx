@@ -7,7 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -106,10 +105,17 @@ class Wallet extends React.Component {
 }
 
 Wallet.propTypes = {
-  wallets: ImmutablePropTypes.map.isRequired,
+  wallets: PropTypes.shape({
+
+  }).isRequired,
   removeWallet: PropTypes.func.isRequired,
   walletID: PropTypes.string,
-  user: ImmutablePropTypes.map.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+    settings: PropTypes.shape({
+      primaryFiat: PropTypes.string,
+    }),
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       walletID: PropTypes.string,

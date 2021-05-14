@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { database } from '../../../firebase';
 
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
@@ -81,7 +80,7 @@ class WalletsManager extends React.Component {
 
 WalletsManager.propTypes = {
   addWallet: PropTypes.func.isRequired,
-  wallets: ImmutablePropTypes.map.isRequired,
+  wallets: PropTypes.shape().isRequired,
   user: PropTypes.shape({
     uid: PropTypes.string,
     email: PropTypes.string,
