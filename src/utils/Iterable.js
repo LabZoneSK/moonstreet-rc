@@ -1,5 +1,3 @@
-import { Map } from 'immutable';
-
 /**
  * Function search in map(haystack) for value (needle) in specified key.
  *
@@ -8,7 +6,13 @@ import { Map } from 'immutable';
  * @param {String} key
  */
 export function findInMap(haystack, needle, key) {
-  return haystack.find((value) => value.get(key) === needle);
+  let lostNFound;
+  Object.keys(haystack).forEach((needleKey) => {
+    if (needle === haystack[needleKey][key]) {
+      lostNFound = haystack[needleKey];
+    }
+  });
+  return lostNFound;
 }
 
 /**

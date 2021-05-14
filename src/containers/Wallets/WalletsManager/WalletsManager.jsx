@@ -47,14 +47,14 @@ class WalletsManager extends React.Component {
         if (existingWallet !== undefined) {
           alert('Wallet already exists.');
         } else {
-          const newRef = database.ref(user.getIn(['uid'])).child('clients/own/wallets').push({
+          const newRef = database.ref(user.uid).child('clients/own/wallets').push({
             name: newWalletName,
           });
 
           addWallet(newRef.key, newWalletName);
         }
       } else {
-        const newRef = database.ref(user.getIn(['uid'])).child('clients/own/wallets').push({
+        const newRef = database.ref(user.uid).child('clients/own/wallets').push({
           name: newWalletName,
         });
 
@@ -82,7 +82,13 @@ class WalletsManager extends React.Component {
 WalletsManager.propTypes = {
   addWallet: PropTypes.func.isRequired,
   wallets: ImmutablePropTypes.map.isRequired,
-  user: ImmutablePropTypes.map.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+    email: PropTypes.string,
+    settings: PropTypes.shape({
+      primaryFiat: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 /* Container part */

@@ -32,7 +32,7 @@ class AssetActions extends React.Component {
 
     // eslint-disable-next-line no-undef
     if (window.confirm(`Are you sure you want to remove ${assetKey.toUpperCase()}?`)) {
-      database.ref(user.getIn(['uid'])).child(`clients/own/wallets/${walletKey}/assets/${assetKey.toUpperCase()}`).remove();
+      database.ref(user.uid).child(`clients/own/wallets/${walletKey}/assets/${assetKey.toUpperCase()}`).remove();
 
       removeAsset(walletKey, assetKey.toUpperCase());
     }

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
@@ -10,10 +9,11 @@ import Footer from '../../components/footer';
 import RefreshButton from '../Rates/RateRefresh';
 
 const getLinks = (settings, parentPath) => (
-  settings.valueSeq().map((w) => {
-    const dynamicPath = parentPath + w.getIn(['name']);
-    return { path: dynamicPath, name: w.getIn(['name']) };
-  }));
+  Object.keys(settings).map((w) => {
+    const dynamicPath = parentPath + settings[w].name;
+    return { path: dynamicPath, name: settings[w].name };
+  })
+);
 
 const Sidebar = (props) => {
   const { location, wallets, portfolios } = props;
@@ -51,8 +51,8 @@ const Sidebar = (props) => {
 };
 
 Sidebar.propTypes = {
-  wallets: ImmutablePropTypes.map.isRequired,
-  portfolios: ImmutablePropTypes.map.isRequired,
+  wallets: PropTypes.shape({}).isRequired,
+  portfolios: PropTypes.shape({}).isRequired,
   location: PropTypes.shape({
     hash: PropTypes.string,
     key: PropTypes.string,

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { NavLink } from 'react-router-dom';
 
 const SubMenu = ({
@@ -21,7 +20,10 @@ const SubMenu = ({
 };
 
 SubMenu.propTypes = {
-  links: ImmutablePropTypes.seq.isRequired,
+  links: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    path: PropTypes.string,
+  })).isRequired,
   group: PropTypes.string.isRequired,
   active: PropTypes.string,
   visible: PropTypes.bool,

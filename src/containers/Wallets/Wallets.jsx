@@ -17,13 +17,14 @@ import WalletsManager from './WalletsManager';
 import {
   showAssets,
   findWallet,
-  mergeWallets,
   findWalletKey,
 } from './WalletsUtils';
 
+import { mergeObjectChildren } from '../../utils/Utils';
+
 const Wallets = (props) => {
   const { wallets, match, user } = props;
-  const primaryFiat = user.getIn(['settings', 'primaryFiat']);
+  const { primaryFiat } = user.settings;
   let { walletID } = match.params;
 
   if (wallets !== undefined) {
@@ -36,7 +37,7 @@ const Wallets = (props) => {
         const actualWallet = findWallet(wallets, walletID, 'name');
         const walletKey = findWalletKey(wallets, walletID, 'name');
 
-        if (actualWallet.get('assets') === undefined) {
+        if (actualWallet.assets === undefined) {
           return (
             <div>
               <WalletsManager />
@@ -55,7 +56,7 @@ const Wallets = (props) => {
         );
       }
 
-      const totalWallet = mergeWallets(wallets);
+      const totalWallet = mergeObjectChildren(wallets, 'assets');
 
       if (totalWallet.size === 0) {
         return (
@@ -93,7 +94,13 @@ const Wallets = (props) => {
 
 Wallets.propTypes = {
   wallets: ImmutablePropTypes.map.isRequired,
-  user: ImmutablePropTypes.map.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+    email: PropTypes.string,
+    settings: PropTypes.shape({
+      primaryFiat: PropTypes.string,
+    }),
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       walletID: PropTypes.string,

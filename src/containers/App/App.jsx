@@ -3,7 +3,6 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { fromJS } from 'immutable';
 
 import {
   database,
@@ -36,6 +35,17 @@ import * as cc from '../../cryptocompare';
 require('../../styles/style.css');
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: {
+        database: true,
+        rates: true,
+      },
+    };
+  }
+
   componentDidMount() {
     const {
       loadUserEmail,
@@ -56,86 +66,84 @@ class App extends React.Component {
         // TODO: Do we really need to load whole user data to user?
         return database.ref(user.uid).once('value').then((snapshot) => {
           // eslint-disable-next-line no-underscore-dangle
-          const dbData = fromJS(snapshot.node_.val());
+          const dbDataRaw = snapshot.node_.val();
 
           // load user settings from db
-          if (dbData.getIn(['settings']) === undefined || dbData.getIn(['settings']) === '') {
+          if (dbDataRaw.settings === undefined || dbDataRaw.settings === '') {
             // create default settings
             database.ref(user.uid).child('settings').set({
               primaryFiat: 'EUR',
             });
 
-            loadUserSettings(fromJS({ primaryFiat: 'EUR' }));
+            loadUserSettings({ primaryFiat: 'EUR' });
           } else {
-            loadUserSettings(dbData.getIn(['settings']));
+            loadUserSettings(dbDataRaw.settings);
           }
 
-          if (dbData !== null || dbData !== '') {
-            const wallets = dbData.getIn(['clients', 'own', 'wallets']);
-            const portfolios = dbData.getIn(['clients', 'own', 'portfolios']);
-            const icos = dbData.getIn(['clients', 'own', 'icos']);
-            const walletObject = {};
-            const porfoliosObject = {};
+          if (dbDataRaw !== null || dbDataRaw !== '') {
+            const { portfolios, wallets, icos } = dbDataRaw.clients.own;
             const collectedRates = [];
 
             // load wallet data into state
             if (wallets !== undefined) {
-              wallets.entrySeq().forEach((element) => {
-                walletObject[element[0]] = {
-                  name: element[1].getIn(['name']),
-                  assets: element[1].getIn(['assets']),
-                };
-
-                const assets = element[1].getIn(['assets']);
+              Object.keys(wallets).forEach((element) => {
+                const { assets } = wallets[element];
                 if (assets !== undefined) {
-                  assets.entrySeq().forEach((walletAsset) => {
+                  Object.keys(assets).forEach((walletAsset) => {
                     // same thing used on line 113, extract it!
-                    if (collectedRates.includes(walletAsset[0]) === false) {
-                      collectedRates.push(walletAsset[0]);
+                    if (collectedRates.includes(walletAsset) === false) {
+                      collectedRates.push(walletAsset);
                     }
                   });
                 }
               });
 
-              setInitialWallets(walletObject);
+              setInitialWallets(wallets);
             }
 
             // load portfolios into state
             if (portfolios !== undefined) {
-              portfolios.entrySeq().forEach((element) => {
-                porfoliosObject[element[0]] = {
-                  name: element[1].getIn(['name']),
-                  initial: element[1].getIn(['initial']),
-                  trades: element[1].getIn(['trades']),
-                };
-
-                const trades = element[1].getIn(['trades']);
+              Object.keys(portfolios).forEach((element) => {
+                const { trades } = portfolios[element];
                 if (trades !== undefined) {
-                  trades.entrySeq().forEach((trade) => {
-                    if (collectedRates.includes(trade[1].getIn(['currency'])) === false) {
-                      collectedRates.push(trade[1].getIn(['currency']));
+                  Object.keys(trades).forEach((trade) => {
+                    if (collectedRates.includes(trades[trade].currency) === false) {
+                      collectedRates.push(trades[trade].currency);
                     }
                   });
                 }
               });
 
-              setInitialPortfolios(porfoliosObject);
+              setInitialPortfolios(portfolios);
             }
 
             // fetch all collected rates
             cc.priceFull(collectedRates, ['BTC', 'USD', 'EUR'])
               .then((prices) => {
                 addInitialRates(prices);
+                this.setState((prevState) => ({
+                  loading: {
+                    ...prevState.loading,
+                    rates: false,
+                  },
+                }));
               });
 
             if (icos !== undefined) {
-              icos.entrySeq().forEach((element) => {
-                addICO(element[0], element[1]);
+              Object.keys(icos).forEach((element) => {
+                addICO(element, icos[element]);
               });
             }
           } else {
             // no data
           }
+
+          this.setState((prevState) => ({
+            loading: {
+              ...prevState.loading,
+              database: false,
+            },
+          }));
         });
       }
 
@@ -146,29 +154,36 @@ class App extends React.Component {
   }
 
   render() {
+    const { loading } = this.state;
+
     function Page() {
       // if user is autenticated they'll see actuall app instead of login window
       if (isAutheticated()) {
+        if (!loading.database && !loading.rates) {
+          return (
+            <div>
+              <Header />
+              <main className="main">
+                <Sidebar />
+                <section className="dashboard">
+                  <Switch>
+                    <Route exact path="/" component={Dashboard} />
+                    <Route exact path="/portfolios" component={Portfolios} />
+                    <Route path="/portfolios/:portfolioID" component={Portfolios} />
+                    <Route exact path="/wallets" component={Wallets} />
+                    <Route path="/wallets/:walletID" component={Wallets} />
+                    <Route exact path="/rates" component={Rates} />
+                    <Route exact path="/ico" component={ICOs} />
+                    <Route exact path="/coinPotential" component={CoinPotential} />
+                    <Route exact path="/settings" component={Settings} />
+                  </Switch>
+                </section>
+              </main>
+            </div>
+          );
+        }
         return (
-          <div>
-            <Header />
-            <main className="main">
-              <Sidebar />
-              <section className="dashboard">
-                <Switch>
-                  <Route exact path="/" component={Dashboard} />
-                  <Route exact path="/portfolios" component={Portfolios} />
-                  <Route path="/portfolios/:portfolioID" component={Portfolios} />
-                  <Route exact path="/wallets" component={Wallets} />
-                  <Route path="/wallets/:walletID" component={Wallets} />
-                  <Route exact path="/rates" component={Rates} />
-                  <Route exact path="/ico" component={ICOs} />
-                  <Route exact path="/coinPotential" component={CoinPotential} />
-                  <Route exact path="/settings" component={Settings} />
-                </Switch>
-              </section>
-            </main>
-          </div>
+          <p>Loading data</p>
         );
       }
 

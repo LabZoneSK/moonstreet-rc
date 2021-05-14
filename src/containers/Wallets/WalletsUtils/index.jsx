@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   findInMap,
-  mergeMaps,
 } from '../../../utils/Iterable';
 import { roundNumber } from '../../../utils/Math';
 import AssetActions from '../AssetActions';
@@ -12,25 +11,25 @@ import GetTotal from '../../Rates/GetTotal';
 /* TODO: Need specify UI */
 export function showAssets(assets, walletKey, primaryFiat) {
   if (assets !== null) {
-    const assetsView = assets.toSeq().map((amount, symbol) => (
+    const assetsView = Object.keys(assets).map((assetKey) => (
       // eslint-disable-next-line react/no-array-index-key
-      <tr key={symbol}>
-        <td className="tLeft">{symbol}</td>
-        <td>{roundNumber(amount, 3)}</td>
+      <tr key={assetKey}>
+        <td className="tLeft">{assetKey}</td>
+        <td>{roundNumber(assets[assetKey], 3)}</td>
         <td>
-          <GetValue assetKey={symbol} assetVolume={amount} assetRate="BTC" />
+          <GetValue assetKey={assetKey} assetVolume={assets[assetKey]} assetRate="BTC" />
         </td>
         <td>
-          <GetValue assetKey={symbol} assetVolume={amount} assetRate={primaryFiat} />
+          <GetValue assetKey={assetKey} assetVolume={assets[assetKey]} assetRate={primaryFiat} />
         </td>
         {walletKey !== undefined
           && (
             <td>
-              <AssetActions assetKey={symbol} walletKey={walletKey} />
+              <AssetActions assetKey={assetKey} walletKey={walletKey} />
             </td>
           )}
       </tr>
-    )).valueSeq().toArray();
+    ));
 
     return (
       <table className="tRight">
@@ -81,16 +80,6 @@ export function findWallet(wallets, walletID, key) {
 }
 
 /**
- * Function merge all assets from wallets.
- *
- * @param {Immutable.Map} wallets
- * @return {Immutable.Map} merged wallet
- */
-export function mergeWallets(wallets) {
-  return mergeMaps(wallets, 'assets', (sum, current) => roundNumber(sum + current, 12));
-}
-
-/**
  * Function to find apropriate wallet key by wallet name.
  *
  * @param {Immutable.Map} wallets
@@ -99,8 +88,11 @@ export function mergeWallets(wallets) {
  * @return {String} walletKey reference for firebase
  */
 export function findWalletKey(wallets, walletID, key) {
-  // identify displayed right now in wallet container
-  return wallets.keySeq().toArray().filter((e) => (
-    walletID === (wallets.getIn([e, key]))
-  )).toString();
+  let lostNFound = '';
+  Object.keys(wallets).forEach((needleKey) => {
+    if (walletID === wallets[needleKey][key]) {
+      lostNFound = needleKey;
+    }
+  });
+  return lostNFound;
 }

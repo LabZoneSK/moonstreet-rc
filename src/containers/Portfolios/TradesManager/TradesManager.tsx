@@ -1,17 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { database } from '../../../firebase';
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 import * as RatesActions from '../../Rates/actions';
 import * as PortfoliosActions from '../actions';
 import * as cc from '../../../cryptocompare';
 
-class TradesManager extends React.Component {
-  constructor(props) {
+interface TradeManagerPropTypes extends RouteComponentProps {
+  portfolioKey: string,
+  user: any,
+  addRate: any,
+  addTrade: any
+}
+
+type ComponentStateTypes = {
+  currentPortfolioKey: string,
+  date: string,
+  orderType: string,
+  currency: string,
+  amount: number,
+  priceEUR: string,
+  priceBTC: string,
+  dateInput: any
+}
+
+type TradeManagerTypes = TradeManagerPropTypes;
+
+class TradesManager extends React.Component<TradeManagerTypes, ComponentStateTypes> {
+  constructor(props: TradeManagerTypes) {
     super(props);
 
     this.state = {
@@ -20,8 +38,9 @@ class TradesManager extends React.Component {
       orderType: '', // sell, buy, sell w BTC...
       currency: '', // XMR
       amount: 0,
-      priceEUR: 0,
-      priceBTC: 0,
+      priceEUR: '',
+      priceBTC: '',
+      dateInput: null,
     };
 
     this.handleTradeAdd = this.handleTradeAdd.bind(this);
@@ -37,7 +56,7 @@ class TradesManager extends React.Component {
     });
   }
 
-  handleInputChange(event) {
+  handleInputChange(event: any) {
     handleInputChangesGeneric(event, this);
   }
 
@@ -53,7 +72,7 @@ class TradesManager extends React.Component {
       currentPortfolioKey,
     } = this.state;
 
-    const newRef = database.ref(user.getIn(['uid'])).child(`clients/own/portfolios/${currentPortfolioKey}/trades/`).push({
+    const newRef = database.ref(user.uid).child(`clients/own/portfolios/${currentPortfolioKey}/trades/`).push({
       date,
       orderType,
       currency: currency.toUpperCase(),
@@ -89,7 +108,7 @@ class TradesManager extends React.Component {
       priceEUR,
     } = this.state;
 
-    const primaryFiat = user.getIn(['settings', 'primaryFiat']);
+    const { primaryFiat } = user.settings;
 
     return (
       <div>
@@ -152,7 +171,7 @@ class TradesManager extends React.Component {
 
         <br />
 
-        <label htmlFor="pricePrimaryFiat">
+        <label htmlFor="priceEUR">
           Price in
           {` ${primaryFiat}`}
           :
@@ -160,8 +179,8 @@ class TradesManager extends React.Component {
         <input
           className="fe"
           type="number"
-          name="pricePrimaryFiat"
-          id="pricePrimaryFiat"
+          name="priceEUR"
+          id="priceEUR"
           placeholder="10"
           value={priceEUR}
           onChange={this.handleInputChange}
@@ -191,19 +210,12 @@ class TradesManager extends React.Component {
   }
 }
 
-TradesManager.propTypes = {
-  addTrade: PropTypes.func.isRequired,
-  addRate: PropTypes.func.isRequired,
-  portfolioKey: PropTypes.string.isRequired,
-  user: ImmutablePropTypes.map.isRequired,
-};
-
 /* Container part */
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
   ...state,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({
   ...PortfoliosActions,
   ...RatesActions,
 }, dispatch);

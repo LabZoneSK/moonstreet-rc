@@ -10,9 +10,9 @@ const Dashboard = (props) => {
 
   const ratesArray = [];
 
-  rates.toSeq().forEach((rate, key) => {
-    const deltaEUR = Number(rate.getIn(['EUR', 'CHANGEPCT24HOUR'])).toFixed(2);
-    ratesArray.push({ name: [key], price: deltaEUR });
+  Object.keys(rates).forEach((assetKey) => {
+    const deltaEUR = Number(rates[assetKey].EUR.CHANGEPCT24HOUR).toFixed(2);
+    ratesArray.push({ name: [assetKey], price: deltaEUR });
   });
 
   ratesArray.sort((a, b) => b.price - a.price);

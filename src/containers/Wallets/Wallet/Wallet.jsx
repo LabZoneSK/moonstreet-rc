@@ -51,7 +51,7 @@ class Wallet extends React.Component {
 
     // eslint-disable-next-line no-undef
     if (window.confirm(`Are you sure you want to remove wallet ${currentWalletName}?`)) {
-      database.ref(user.getIn(['uid'])).child(`clients/own/wallets/${currentWalletKey}`).remove();
+      database.ref(user.uid).child(`clients/own/wallets/${currentWalletKey}`).remove();
 
       removeWallet(currentWalletKey);
     }
@@ -61,13 +61,14 @@ class Wallet extends React.Component {
     const { wallets, user } = this.props;
     const { currentWalletName } = this.state;
 
+    // TODO: refactor wallet identification so we can save one object iteration
     const actualWallet = findWallet(wallets, currentWalletName, 'name');
-    const primaryFiat = user.getIn(['settings', 'primaryFiat']);
+    const { primaryFiat } = user.settings;
 
     if (actualWallet !== undefined) {
       const walletKey = findWalletKey(wallets, currentWalletName, 'name');
 
-      if (actualWallet.get('assets') === undefined) {
+      if (actualWallet.assets === undefined) {
         return (
           <div>
             <h3>{currentWalletName}</h3>
@@ -77,7 +78,7 @@ class Wallet extends React.Component {
           </div>
         );
       }
-      const assetsView = showAssets(actualWallet.get('assets'), walletKey, primaryFiat);
+      const assetsView = showAssets(actualWallet.assets, walletKey, primaryFiat);
 
       return (
         <div>
@@ -97,7 +98,7 @@ class Wallet extends React.Component {
       <div>
         <p>
           There is no wallet named
-          {currentWalletName}
+          {` ${currentWalletName}`}
         </p>
       </div>
     );

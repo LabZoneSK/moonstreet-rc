@@ -5,6 +5,8 @@
             "assert": "either",
             "depth": 3
         }],
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+        "max-len": ["error", { "code": 250 }]
     }
 }

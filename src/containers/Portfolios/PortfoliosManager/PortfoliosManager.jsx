@@ -17,8 +17,6 @@ import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 
 import * as PortfoliosActions from '../actions';
 
-import { findInMap } from '../../../utils/Iterable';
-
 class PortfoliosManager extends React.Component {
   constructor(props) {
     super(props);
@@ -49,21 +47,20 @@ class PortfoliosManager extends React.Component {
 
     if (newPortfolioName !== '') {
       if (portfolios !== undefined) {
-        // findWallet should be remaned into generic util
-        const existingPortfolio = findInMap(portfolios, newPortfolioName, 'name');
+        const existingPortfolio = Object.keys(portfolios).filter((pkey) => portfolios[pkey].name === newPortfolioName);
 
-        if (existingPortfolio !== undefined) {
+        if (existingPortfolio.length > 0) {
           // eslint-disable-next-line no-undef
           alert('Portfolio already exists.');
         } else {
-          const newRef = database.ref(user.getIn(['uid'])).child('clients/own/portfolios').push({
+          const newRef = database.ref(user.uid).child('clients/own/portfolios').push({
             name: newPortfolioName,
           });
 
           addPortfolio(newRef.key, newPortfolioName);
         }
       } else {
-        const newRef = database.ref(user.getIn(['uid'])).child('clients/own/portfolios').push({
+        const newRef = database.ref(user.uid).child('clients/own/portfolios').push({
           name: newPortfolioName,
         });
 

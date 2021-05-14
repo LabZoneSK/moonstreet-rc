@@ -11,18 +11,18 @@ const Rates = (props) => {
   let ratesTable = '';
 
   if (rates !== undefined) {
-    ratesTable = rates.toSeq().map((rate, key) => {
-      const deltaBTC = Number(rate.getIn(['BTC', 'CHANGEPCT24HOUR'])).toFixed(2);
-      const deltaEUR = Number(rate.getIn(['EUR', 'CHANGEPCT24HOUR'])).toFixed(2);
-      const deltaUSD = Number(rate.getIn(['USD', 'CHANGEPCT24HOUR'])).toFixed(2);
+    ratesTable = Object.keys(rates).map((assetKey) => {
+      const deltaBTC = Number(rates[assetKey].BTC.CHANGEPCT24HOUR).toFixed(2);
+      const deltaEUR = Number(rates[assetKey].EUR.CHANGEPCT24HOUR).toFixed(2);
+      const deltaUSD = Number(rates[assetKey].USD.CHANGEPCT24HOUR).toFixed(2);
 
       return (
         // eslint-disable-next-line react/no-array-index-key
-        <tr key={key}>
-          <td className="tLeft">{key}</td>
+        <tr key={assetKey}>
+          <td className="tLeft">{assetKey}</td>
           <td>
             ₿
-            {roundNumber(rate.getIn(['BTC', 'PRICE']), 8)}
+            {roundNumber(rates[assetKey].BTC.PRICE, 8)}
             <br />
             <span className={`detlaSpan ${deltaBTC < 0 ? 'neg' : 'pos'}`}>
               {deltaBTC}
@@ -31,7 +31,7 @@ const Rates = (props) => {
           </td>
           <td>
             €
-            {roundNumber(rate.getIn(['EUR', 'PRICE']), 3)}
+            {roundNumber(rates[assetKey].EUR.PRICE, 3)}
             <br />
             <span className={`detlaSpan ${deltaEUR < 0 ? 'neg' : 'pos'}`}>
               {deltaEUR}
@@ -40,7 +40,7 @@ const Rates = (props) => {
           </td>
           <td>
             $
-            {roundNumber(rate.getIn(['USD', 'PRICE']), 3)}
+            {roundNumber(rates[assetKey].USD.PRICE, 3)}
             <br />
             <span className={`detlaSpan ${deltaUSD < 0 ? 'neg' : 'pos'}`}>
               {deltaUSD}
@@ -49,7 +49,7 @@ const Rates = (props) => {
           </td>
         </tr>
       );
-    }).valueSeq().toArray();
+    });
   } else {
     return (
       <p>no rates loaded or api down</p>

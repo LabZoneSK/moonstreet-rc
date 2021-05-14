@@ -9,8 +9,8 @@ const CoinPotential = (props) => {
   const [btcCAP, setBtcCAP] = useState(0);
 
   useEffect(() => {
-    if (rates.toSeq().valueSeq().toArray().length > 0) {
-      setBtcCAP(rates.getIn(['BTC', 'USD', 'MKTCAP']));
+    if (Object.keys(rates).length > 0) {
+      setBtcCAP(rates.BTC.USD.MKTCAP);
     }
   }, [rates]);
 
@@ -19,7 +19,7 @@ const CoinPotential = (props) => {
     if (coin === 'ENJ') {
       return 834313757;
     }
-    return Number(coinRates.getIn(['USD', 'MKTCAP'])).toFixed(2);
+    return Number(coinRates.USD.MKTCAP).toFixed(2);
   };
 
   return (
@@ -33,15 +33,15 @@ const CoinPotential = (props) => {
       <p>current strength: how close a coin is to its max USD</p>
       <br />
 
-      {rates && rates.toSeq().valueSeq().toArray().length > 0 && (
-        rates.toSeq().map((coinRates, coin) => {
-          const usdPotential = Number(btcCAP / (corectedSupply(coinRates, coin) / coinRates.getIn(['USD', 'PRICE']))).toFixed(2);
-          const currentStrength = Number((coinRates.getIn(['USD', 'PRICE']) / (usdPotential / 100))).toFixed(2);
+      {rates && Object.keys(rates).length > 0 && (
+        Object.keys(rates).map((assetKey) => {
+          const usdPotential = Number(btcCAP / (corectedSupply(rates[assetKey], assetKey) / rates[assetKey].USD.PRICE)).toFixed(2);
+          const currentStrength = Number((rates[assetKey].USD.PRICE / (usdPotential / 100))).toFixed(2);
 
           return (
-            <p key={coinRates}>
+            <p key={rates[assetKey].USD.PRICE}>
               <strong>
-                { coin }
+                { assetKey }
               </strong>
               <span> max USD @ </span>
               <strong>
@@ -55,11 +55,11 @@ const CoinPotential = (props) => {
               </strong>
               <span>
                 <span> calculated against supply of </span>
-                {corectedSupply(coinRates, coin)}
+                {corectedSupply(rates[assetKey], assetKey)}
               </span>
             </p>
           );
-        }).valueSeq().toArray()
+        })
       )}
     </div>
   );

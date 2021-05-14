@@ -1,1 +1,1 @@
-export { default } from './TradesManager';
+export { default } from './TradesManager.tsx';

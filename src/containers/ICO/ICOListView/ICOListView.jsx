@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
 
 import Item from '../Item';
 
@@ -9,21 +9,15 @@ const ICOListView = (props) => {
   return (
     <>
       <h2>List of your investments in Initial Coin Offerings</h2>
-      { icos.map((ico) => (
-        <Item key={ico.getIn(['name'])} name={ico.getIn(['name'])} />
-      )).valueSeq().toArray()}
-
-      {/* {icos != undefined && icos.entrySeq().forEach(ico => {
-          // console.log(ico[0], ico[1].getIn(['name']))
-          <Item key={ico[0]} name={ico[1].getIn(['name'])} />
-        })
-      } */}
+      { Object.keys(icos).map((ico) => (
+        <Item key={icos[ico].name} name={icos[ico].name} />
+      ))}
     </>
   );
 };
 
 ICOListView.propTypes = {
-  icos: ImmutablePropTypes.map.isRequired,
+  icos: PropTypes.shape({}).isRequired,
 };
 
 export default ICOListView;
