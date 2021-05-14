@@ -2,7 +2,6 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { roundNumber } from '../../../utils/Math';
 
@@ -31,7 +30,7 @@ const GetValue = (props) => {
 };
 
 GetValue.propTypes = {
-  rates: ImmutablePropTypes.map.isRequired,
+  rates: PropTypes.shape({}).isRequired,
   assetRate: PropTypes.string.isRequired,
   assetKey: PropTypes.string.isRequired,
   assetVolume: PropTypes.number.isRequired,

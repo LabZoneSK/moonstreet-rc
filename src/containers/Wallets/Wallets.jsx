@@ -6,7 +6,6 @@
  */
 
 import React from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -29,10 +28,10 @@ const Wallets = (props) => {
 
   if (wallets !== undefined) {
     if (walletID === undefined) {
-      if (wallets.size === 1) {
+      if (Object.keys(wallets).lenght === 1) {
         // if there's only one wallet we'll show just that
 
-        walletID = wallets.first().getIn(['name']);
+        walletID = wallets[Object.keys(wallets)[0]].name;
 
         const actualWallet = findWallet(wallets, walletID, 'name');
         const walletKey = findWalletKey(wallets, walletID, 'name');
@@ -93,7 +92,7 @@ const Wallets = (props) => {
 };
 
 Wallets.propTypes = {
-  wallets: ImmutablePropTypes.map.isRequired,
+  wallets: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
     uid: PropTypes.string,
     email: PropTypes.string,

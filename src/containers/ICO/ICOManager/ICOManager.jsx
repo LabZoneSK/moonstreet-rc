@@ -1,7 +1,6 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { database } from '../../../firebase';
@@ -131,7 +130,9 @@ class ICOManager extends React.Component {
 }
 
 ICOManager.propTypes = {
-  user: ImmutablePropTypes.map.isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
   addICO: PropTypes.func.isRequired,
 };
 

@@ -7,7 +7,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -96,7 +95,7 @@ class AssetsManager extends React.Component {
 
     // eslint-disable-next-line no-undef
     if (window.confirm(`Are you sure you want to remove ${assetKey.toUpperCase()}?`)) {
-      database.ref(user.getIn(['uid'])).child(`clients/own/wallets/${currentWalletKey}/assets/${assetKey.toUpperCase()}`).remove();
+      database.ref(user.uid).child(`clients/own/wallets/${currentWalletKey}/assets/${assetKey.toUpperCase()}`).remove();
 
       removeAsset(currentWalletKey, assetKey.toUpperCase());
     }
@@ -140,8 +139,10 @@ AssetsManager.propTypes = {
   addAsset: PropTypes.func.isRequired,
   removeAsset: PropTypes.func.isRequired,
   walletID: PropTypes.string,
-  wallets: ImmutablePropTypes.map.isRequired,
-  user: ImmutablePropTypes.map.isRequired,
+  wallets: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       walletID: PropTypes.string,

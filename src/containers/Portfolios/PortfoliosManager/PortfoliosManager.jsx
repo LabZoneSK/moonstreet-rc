@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import { database } from '../../../firebase';
 
 import { handleInputChangesGeneric } from '../../../utils/FormUtils';
@@ -98,8 +97,10 @@ class PortfoliosManager extends React.Component {
 PortfoliosManager.propTypes = {
   addPortfolio: PropTypes.func.isRequired,
   // eslint-disable-next-line react/no-typos
-  portfolios: ImmutablePropTypes.map.isRequired,
-  user: ImmutablePropTypes.map.isRequired,
+  portfolios: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
 };
 
 /* Container part */

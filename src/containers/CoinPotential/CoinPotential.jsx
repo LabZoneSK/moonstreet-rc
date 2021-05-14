@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import PropTypes from 'prop-types';
 
 const CoinPotential = (props) => {
   const { rates } = props;
@@ -66,7 +66,13 @@ const CoinPotential = (props) => {
 };
 
 CoinPotential.propTypes = {
-  rates: ImmutablePropTypes.map.isRequired,
+  rates: PropTypes.shape({
+    BTC: PropTypes.shape({
+      USD: PropTypes.shape({
+        MKTCAP: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
