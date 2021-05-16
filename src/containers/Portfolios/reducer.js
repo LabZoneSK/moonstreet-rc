@@ -2,7 +2,7 @@ import { removeKey } from '../../utils/Utils';
 import {
   PORTFOLIO_ADD,
   PORTFOLIO_REMOVE,
-  PORTFOLIO_INITIAL,
+  PORTFOLIO_NOTES,
   TRADE_ADD,
   TRADE_REMOVE,
   PORTFOLIOS_INITIAL,
@@ -17,12 +17,12 @@ const portfoliosReducer = (state = {}, action) => {
       };
     case PORTFOLIO_REMOVE:
       return removeKey(state, action.portfolioKey);
-    case PORTFOLIO_INITIAL:
+    case PORTFOLIO_NOTES:
       return {
         ...state,
         [action.portfolioKey]: {
           ...state[action.portfolioKey],
-          initial: action.initialInvestment,
+          notes: action.notes,
         },
       };
     case TRADE_ADD:

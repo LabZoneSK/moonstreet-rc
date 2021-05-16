@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { database } from '../../../firebase';
-import { handleInputChangesGeneric } from '../../../utils/FormUtils';
 
 import TradesManager from '../TradesManager';
 import Trades from '../Trades';
@@ -14,6 +13,7 @@ interface PortfolioProps extends RouteComponentProps {
   portfolios: {
     [key: string]: {
       initial: number,
+      notes: string,
       name: string,
       trades: {
         amount: string,
@@ -33,7 +33,7 @@ interface PortfolioProps extends RouteComponentProps {
       portfolioID: string,
     },
   },
-  initialPortfolio: (currentPortfolioKey: string, currentPortfolioInvestment: number) => void,
+  notesPortfolio: (currentPortfolioKey: string, currentPortfolioNotes: string) => void,
   removePortfolio: (currentPortfolioKey: string) => void,
   user: any
 }
@@ -41,81 +41,50 @@ interface PortfolioProps extends RouteComponentProps {
 interface ComponentState {
   currentPortfolioName: string,
   currentPortfolioKey: string,
-  currentPortfolioInvestment: number,
+  currentPortfolioNotes: string,
 }
 
-class Portfolio extends React.Component<PortfolioProps, ComponentState> {
-  constructor(props: PortfolioProps) {
-    super(props);
+type PortFolioTypes = PortfolioProps & ComponentState;
 
-    this.state = {
-      currentPortfolioName: '',
-      currentPortfolioKey: '',
-      currentPortfolioInvestment: 0,
-    };
+const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
+  const {
+    user,
+    notesPortfolio,
+    removePortfolio,
+    portfolios,
+    match,
+  } = props;
 
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handlePortfolioInvestment = this.handlePortfolioInvestment.bind(this);
-  }
+  const [currentPortfolioName, setCurrentPortfolioName] = useState('');
+  const [currentPortfolioKey, setCurrentPortfolioKey] = useState('');
+  const [currentPortfolioNotes, setCurrentPortfolioNotes] = useState('');
+  const [actualPortfolio, setActualPortfolio] = useState({});
 
-  componentDidMount() {
-    const { portfolios, match } = this.props;
+  useEffect(() => {
     const { portfolioID } = match.params;
-    const portKey = Object.keys(portfolios).filter((pkey) => portfolios[pkey].name === portfolioID)[0];
-    const portfolioInvestment = portfolios[portKey] && portfolios[portKey].initial;
+    const identifyPortKey = Object.keys(portfolios).filter((pkey) => portfolios[pkey].name === portfolioID)[0];
+    setActualPortfolio(portfolios[identifyPortKey]);
+    setCurrentPortfolioName(portfolioID);
+    setCurrentPortfolioKey(identifyPortKey);
+    setCurrentPortfolioNotes(portfolios[identifyPortKey] && portfolios[identifyPortKey].notes);
+  }, []);
 
-    // eslint-disable-next-line react/no-did-mount-set-state
-    this.setState({
-      currentPortfolioName: portfolioID,
-      currentPortfolioKey: portKey,
-      currentPortfolioInvestment: portfolioInvestment,
-    });
-  }
+  const handlePortfolioNotes = () => {
+    database.ref(user.uid).child(`clients/own/portfolios/${currentPortfolioKey}/notes/`).set(currentPortfolioNotes);
+    notesPortfolio(currentPortfolioKey, currentPortfolioNotes);
+  };
 
-  handleInputChange(event: any) {
-    handleInputChangesGeneric(event, this);
-  }
-
-  handlePortfolioInvestment() {
-    const { initialPortfolio, user } = this.props;
-    const { currentPortfolioKey, currentPortfolioInvestment } = this.state;
-
-    // eslint-disable-next-line no-undef
-    if (window.confirm('Are you sure you want to set initial investment?')) {
-      database.ref(user.uid).child(`clients/own/portfolios/${currentPortfolioKey}/initial/`).set(Number(currentPortfolioInvestment));
-
-      initialPortfolio(currentPortfolioKey, currentPortfolioInvestment);
-    }
-  }
-
-  handleRemove() {
-    const { removePortfolio, user } = this.props;
-    const { currentPortfolioKey, currentPortfolioName } = this.state;
-
+  const handleRemove = () => {
     // eslint-disable-next-line no-undef
     if (window.confirm(`Are you sure you want to remove wallet ${currentPortfolioName}?`)) {
       database.ref(user.uid).child(`clients/own/portfolios/${currentPortfolioKey}`).remove();
-
       removePortfolio(currentPortfolioKey);
     }
-  }
+  };
 
-  render() {
-    const { portfolios, match, user } = this.props;
-    const { portfolioID } = match.params;
-    const {
-      currentPortfolioName,
-      currentPortfolioInvestment,
-    } = this.state;
-    let portKey = Object.keys(portfolios).filter((pkey) => portfolios[pkey].name === portfolioID)[0];
-    const portfolioInvestment = portfolios[portKey] && portfolios[portKey].initial;
-    const actualPortfolio = Object.keys(portfolios).filter((pkey) => portfolios[pkey].name === currentPortfolioName);
-
-    if (actualPortfolio.length > 0) {
-      [portKey] = Object.keys(portfolios).filter((pkey) => portfolios[pkey].name === currentPortfolioName);
-
-      return (
+  return (
+    <>
+      {Object.keys(actualPortfolio).length > 0 ? (
         <div>
           <p>
             <strong>
@@ -123,48 +92,40 @@ class Portfolio extends React.Component<PortfolioProps, ComponentState> {
             </strong>
           </p>
 
-          <p>
-            Investment:
-            {portfolioInvestment}
-            {` ${user.settings.primaryFiat.toUpperCase()} `}
-          </p>
+          <TradesManager portfolioKey={currentPortfolioKey} />
+          <Trades portfolioKey={currentPortfolioKey} />
+          <br />
 
           <input
             className="fe"
-            type="number"
-            placeholder="10"
-            name="currentPortfolioInvestment"
-            value={currentPortfolioInvestment}
-            onChange={this.handleInputChange}
-            required
+            type="textarea"
+            name="currentPortfolioNotes"
+            value={currentPortfolioNotes}
+            onChange={(e: any) => setCurrentPortfolioNotes(e.target.value)}
           />
 
-          <button className="fe-btn" type="button" onClick={this.handlePortfolioInvestment}>
-            Udate initial investment
+          <button className="fe-btn" type="button" onClick={handlePortfolioNotes}>
+            Save notes
           </button>
-
-          <TradesManager portfolioKey={portKey} />
-          <Trades portfolioKey={portKey} />
           <br />
 
           <div>
-            <button className="fe-btn" type="button" onClick={this.handleRemove}>
+            <button className="fe-btn" type="button" onClick={handleRemove}>
               Remove Portfolio
             </button>
           </div>
         </div>
-      );
-    }
-    return (
-      <div>
-        <p>
-          There is no portfolio named
-          {currentPortfolioName}
-        </p>
-      </div>
-    );
-  }
-}
+      ) : (
+        <div>
+          <p>
+            There is no portfolio named
+            {currentPortfolioName}
+          </p>
+        </div>
+      )}
+    </>
+  );
+};
 
 /* Container part */
 const mapStateToProps = (state: any) => ({

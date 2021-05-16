@@ -1,7 +1,7 @@
 import {
   PORTFOLIO_ADD,
   PORTFOLIO_REMOVE,
-  PORTFOLIO_INITIAL,
+  PORTFOLIO_NOTES,
   PORTFOLIOS_INITIAL,
   TRADE_ADD,
   TRADE_REMOVE,
@@ -23,11 +23,11 @@ export function removePortfolio(portfolioKey) {
   };
 }
 
-export function initialPortfolio(portfolioKey, initialInvestment) {
+export function notesPortfolio(portfolioKey, notes) {
   return {
-    type: PORTFOLIO_INITIAL,
+    type: PORTFOLIO_NOTES,
     portfolioKey,
-    initialInvestment,
+    notes,
   };
 }
 
