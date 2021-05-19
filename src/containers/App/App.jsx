@@ -68,24 +68,25 @@ class App extends React.Component {
           // eslint-disable-next-line no-underscore-dangle
           const dbDataRaw = snapshot.node_.val();
 
-          // load user settings from db
-          if (dbDataRaw.settings === undefined || dbDataRaw.settings === '') {
-            // create default settings
-            database.ref(user.uid).child('settings').set({
-              primaryFiat: 'EUR',
-            });
-
-            loadUserSettings({ primaryFiat: 'EUR' });
-          } else {
-            loadUserSettings(dbDataRaw.settings);
-          }
-
-          if (dbDataRaw !== null || dbDataRaw !== '') {
+          if (dbDataRaw !== null) {
             const { portfolios, wallets, icos } = dbDataRaw.clients.own;
+            const { settings } = dbDataRaw;
             const collectedRates = [];
 
+            // load user settings from db
+            if (settings === null) {
+              // create default settings
+              database.ref(user.uid).child('settings').set({
+                primaryFiat: 'EUR',
+              });
+
+              loadUserSettings({ primaryFiat: 'EUR' });
+            } else {
+              loadUserSettings(settings);
+            }
+
             // load wallet data into state
-            if (wallets !== undefined) {
+            if (wallets !== '') {
               Object.keys(wallets).forEach((element) => {
                 const { assets } = wallets[element];
                 if (assets !== undefined) {
@@ -102,7 +103,7 @@ class App extends React.Component {
             }
 
             // load portfolios into state
-            if (portfolios !== undefined) {
+            if (portfolios !== '') {
               Object.keys(portfolios).forEach((element) => {
                 const { trades } = portfolios[element];
                 if (trades !== undefined) {
@@ -118,24 +119,55 @@ class App extends React.Component {
             }
 
             // fetch all collected rates
-            cc.priceFull(collectedRates, ['BTC', 'USD', 'EUR'])
-              .then((prices) => {
-                addInitialRates(prices);
-                this.setState((prevState) => ({
-                  loading: {
-                    ...prevState.loading,
-                    rates: false,
-                  },
-                }));
-              });
+            if (collectedRates.length > 0) {
+              cc.priceFull(collectedRates, ['BTC', 'USD', 'EUR'])
+                .then((prices) => {
+                  addInitialRates(prices);
+                  this.setState((prevState) => ({
+                    loading: {
+                      ...prevState.loading,
+                      rates: false,
+                    },
+                  }));
+                });
+            } else {
+              this.setState((prevState) => ({
+                loading: {
+                  ...prevState.loading,
+                  rates: false,
+                },
+              }));
+            }
 
-            if (icos !== undefined) {
+            if (icos !== '') {
               Object.keys(icos).forEach((element) => {
                 addICO(element, icos[element]);
               });
             }
           } else {
-            // no data
+            // no data - brand new user
+            // load user settings from db
+            const userDBRef = database.ref(user.uid);
+            userDBRef.set({
+              clients: {
+                own: {
+                  icos: '',
+                  wallets: '',
+                  portfolios: '',
+                },
+              },
+              settings: {
+                primaryFiat: 'EUR',
+              },
+            }, (error) => {
+              if (error) {
+                console.log('error writing basic data structure');
+              } else {
+                console.log('data write ok');
+                // eslint-disable-next-line no-undef
+                window.location.reload(false);
+              }
+            });
           }
 
           this.setState((prevState) => ({
