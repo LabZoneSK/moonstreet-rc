@@ -7,6 +7,7 @@ a[id="menu"] {
     font-size: 18px;
     line-height: 50px;
     text-align: center;
+    background-image: linear-gradient(45deg, var(--sidebar-title-accent), var(--sidebar-nav-active));
 
     // remove menu button if it doesn't make sense to show/hide menu
     @include ubreakpoint("large") {

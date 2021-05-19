@@ -9,6 +9,7 @@
   --sidebar-background: #1D1A1F;
   --sidebar-nav-active: #6BA470;
   --lighter-green: #b9d4bb;
+  --sidebar-title-accent: #004661;
   --content-widgets-foreground: #E2E4DB;
   --content-background: #c7c8c4;
   --content-widget-border: #b7b6b6;
@@ -208,7 +209,8 @@ a[id="menu"] {
   text-decoration: none;
   font-size: 18px;
   line-height: 50px;
-  text-align: center; }
+  text-align: center;
+  background-image: linear-gradient(45deg, var(--sidebar-title-accent), var(--sidebar-nav-active)); }
   @media only screen and (min-width: 641px) {
     a[id="menu"] {
       display: none; } }
@@ -220,7 +222,8 @@ a[id="menu"] {
   font-size: 18px;
   line-height: 49px;
   text-align: center;
-  display: none; }
+  display: none;
+  background-image: linear-gradient(45deg, var(--sidebar-title-accent), var(--sidebar-nav-active)); }
   @media only screen and (min-width: 641px) {
     .moonstreet {
       display: block; } }
