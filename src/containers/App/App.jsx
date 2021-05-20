@@ -32,7 +32,7 @@ import Settings from '../Settings/Settings';
 
 import * as cc from '../../cryptocompare';
 
-require('../../styles/style.css');
+require('../../styles/style.scss');
 
 class App extends React.Component {
   constructor(props) {
