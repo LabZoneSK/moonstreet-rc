@@ -1,30 +1,27 @@
 /* vars */
 :root {
   /* colors */
-  --primary-color: #22373a;
-  --primary-color-light: #00a8ba;
-  --secondary-color: #fd9c2a;
+
+  --body-color: #40697d;
+  --body-color-alt: #000000;
 
   --layout-boder: #464646;
   --header-background: #fff;
 
-  --sidebar-background: #1D1A1F;
-  --sidebar-nav-active: #6BA470;
-  --lighter-green: #b9d4bb;
+  --sidebar-background-dark: #05003a;
+  --sidebar-background-light: #008398;
+  --sidebar-nav-active: #74efd2;
+  --light-gray: #ecefed;
+  --very-light-gray: #f7f7f7;
   --sidebar-title-accent: #004661;
 
-  --content-widgets-foreground: #E2E4DB;
   --content-background: #c7c8c4;
-  --content-widget-border: #b7b6b6;
-  --alt-row-color: #d7d8d5;
-
-  --gray-brown: #656566;
-  --gray-brown-green: #868E75;
+  --content-widget-border: #dedede;
 
   /* typography */
   --primary-font-color: #fff;
   --secondary-font-color: #94A0A2;
-  --primary-font-family: sans-serif;
+  --primary-font-family: monospace;
 }
 
 

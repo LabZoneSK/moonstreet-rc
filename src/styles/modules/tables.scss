@@ -3,13 +3,10 @@
 table {
   width: 100%;
   text-align: left;
-  color: var(--gray-brown);
   margin-bottom: 10px;
-  background-color: var(--content-widgets-foreground);
   border-collapse: collapse;
   border: 1px solid var(--content-widget-border);
   font-size: 14px;
-
 
   th,
   td {
@@ -18,29 +15,25 @@ table {
 
   th {
     font-weight: 400;
-    background-color: var(--sidebar-background);
-    color: var(--sidebar-nav-active);
+    background-color: var(--light-gray);
+    color: var(--sidebar-background-light);
   }
 
   tr.sumRow {
-    background-color: var(--lighter-green);
-    color: var(--sidebar-background);
+    background-color: var(--light-gray);
+    color: var(--body-color-alt);
   }
 
   tr:nth-child(2n) {
     td, th {
-      background-color: var(--alt-row-color);
+      background-color: var(--very-light-gray);
     }
   }
 
   &.trades {
-    tr:nth-child(2n) td, th {
-      background-color: var(--content-widgets-foreground);
-    }
-
     tbody:nth-child(2n) {
       td, th {
-        background-color: var(--alt-row-color);
+        background-color: var(--very-light-gray);
       }
     }
   }

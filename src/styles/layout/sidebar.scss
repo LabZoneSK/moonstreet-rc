@@ -1,6 +1,6 @@
 .sidebar {
-    border-right: 1px solid var(--layout-boder);
-    background-color: var(--sidebar-background);
+    background-color: var(--sidebar-background-dark);
+    background-image: linear-gradient(46deg, var(--sidebar-background-light),var(--sidebar-background-dark));
     min-height: 100%;
     width: 180px;
     margin-left: -180px;
@@ -54,6 +54,5 @@
 }
 
 .fe-btn-refresh {
-  background-color: var(--sidebar-nav-active);
   margin-top: 2rem;
 }
