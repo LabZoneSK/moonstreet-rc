@@ -24,7 +24,7 @@ table {
     color: var(--body-color-alt);
   }
 
-  tr:nth-child(2n) {
+  :not(.tradeTbody) tr:nth-child(2n) {
     td, th {
       background-color: var(--very-light-gray);
     }
