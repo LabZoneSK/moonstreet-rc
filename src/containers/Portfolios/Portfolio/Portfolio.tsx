@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { Pie } from 'react-chartjs-2';
+import cx from 'classnames';
 import { database } from '../../../firebase';
 
 import TradesManager from '../TradesManager';
 import Trades from '../Trades';
 
 import * as PortfoliosActions from '../actions';
+
+import styles from './Portfolio.module.scss';
 
 interface PortfolioProps extends RouteComponentProps {
   portfolios: {
@@ -16,12 +20,14 @@ interface PortfolioProps extends RouteComponentProps {
       notes: string,
       name: string,
       trades: {
-        amount: string,
-        currency: string,
-        date: string,
-        orderType: string,
-        priceBTC: string,
-        priceEur: string
+        [key: string]: {
+          amount: string,
+          currency: string,
+          date: string,
+          orderType: string,
+          priceBTC: string,
+          priceEUR: string
+        },
       },
     }
   },
@@ -35,7 +41,8 @@ interface PortfolioProps extends RouteComponentProps {
   },
   notesPortfolio: (currentPortfolioKey: string, currentPortfolioNotes: string) => void,
   removePortfolio: (currentPortfolioKey: string) => void,
-  user: any
+  user: any,
+  rates: any,
 }
 
 interface ComponentState {
@@ -44,7 +51,17 @@ interface ComponentState {
   currentPortfolioNotes: string,
 }
 
-type PortFolioTypes = PortfolioProps & ComponentState;
+interface PieDataObject {
+  labels: string[],
+  datasets: [{
+    label: string,
+    data: string[],
+    backgroundColor: string[],
+    hoverOffset: 4,
+  }],
+}
+
+interface PortFolioTypes extends PortfolioProps, ComponentState {}
 
 const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
   const {
@@ -53,12 +70,27 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
     removePortfolio,
     portfolios,
     match,
+    rates,
   } = props;
+
+  const pieOptions = {
+    responsive: true,
+  };
 
   const [currentPortfolioName, setCurrentPortfolioName] = useState('');
   const [currentPortfolioKey, setCurrentPortfolioKey] = useState('');
   const [currentPortfolioNotes, setCurrentPortfolioNotes] = useState('');
   const [actualPortfolio, setActualPortfolio] = useState({});
+  const [pieData, setPieData] = useState({});
+  const [totalInvestment, setTotalInvestment] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
+  const [portfolioPerformance, setPortfolioPerformance] = useState(0);
+
+  const getRandomInt = (imin: number, imax: number): number => {
+    const min = Math.ceil(imin);
+    const max = Math.floor(imax);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
   useEffect(() => {
     const { portfolioID } = match.params;
@@ -67,6 +99,39 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
     setCurrentPortfolioName(portfolioID);
     setCurrentPortfolioKey(identifyPortKey);
     setCurrentPortfolioNotes(portfolios[identifyPortKey] && portfolios[identifyPortKey].notes);
+
+    const pieDataObject: PieDataObject = {
+      labels: [],
+      datasets: [{
+        label: portfolioID,
+        data: [],
+        backgroundColor: [],
+        hoverOffset: 4,
+      }],
+    };
+
+    let investmentInitialValue = 0;
+    let investmentCurrentValue = 0;
+
+    if (Object.keys(portfolios[identifyPortKey].trades).length > 0) {
+      Object.keys(portfolios[identifyPortKey].trades).forEach((tradeKey) => {
+        pieDataObject.labels.push(portfolios[identifyPortKey].trades[tradeKey].currency);
+
+        const value = Number(portfolios[identifyPortKey].trades[tradeKey].amount) * rates[portfolios[identifyPortKey].trades[tradeKey].currency].EUR.PRICE;
+        pieDataObject.datasets[0].data.push(`${value}`);
+
+        const color = `rgb(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)})`;
+        pieDataObject.datasets[0].backgroundColor.push(`${color}`);
+
+        investmentCurrentValue += value;
+        investmentInitialValue += Number(portfolios[identifyPortKey].trades[tradeKey].priceEUR);
+      });
+    }
+
+    setTotalInvestment(investmentInitialValue);
+    setTotalValue(investmentCurrentValue);
+    setPortfolioPerformance(investmentCurrentValue / (investmentInitialValue / 100) - 100);
+    setPieData(pieDataObject);
   }, []);
 
   const handlePortfolioNotes = () => {
@@ -92,8 +157,38 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
             </strong>
           </p>
 
-          <TradesManager portfolioKey={currentPortfolioKey} />
+          <div className={styles.fiftyFifty}>
+
+            <div>
+              <p>
+                {`Initial investment: ${totalInvestment}`}
+                <br />
+                {`Current value: ${totalValue.toFixed(2)}`}
+                <br />
+                Performance:
+                <span
+                  className={cx({
+                    detlaSpan: true,
+                    pos: portfolioPerformance > 0,
+                    neg: portfolioPerformance < 0,
+                  })}
+                >
+                  {` ${portfolioPerformance.toFixed(2)}%`}
+                </span>
+              </p>
+              <br />
+
+              <TradesManager portfolioKey={currentPortfolioKey} />
+            </div>
+
+            <div>
+              <Pie type="pie" options={pieOptions} data={pieData} />
+            </div>
+
+          </div>
+
           <Trades portfolioKey={currentPortfolioKey} />
+
           <br />
 
           <input
