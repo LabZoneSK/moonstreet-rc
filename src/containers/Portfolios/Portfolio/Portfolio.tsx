@@ -113,7 +113,7 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
     let investmentInitialValue = 0;
     let investmentCurrentValue = 0;
 
-    if (Object.keys(portfolios[identifyPortKey].trades).length > 0) {
+    if (portfolios[identifyPortKey].trades && Object.keys(portfolios[identifyPortKey].trades).length > 0) {
       Object.keys(portfolios[identifyPortKey].trades).forEach((tradeKey) => {
         pieDataObject.labels.push(portfolios[identifyPortKey].trades[tradeKey].currency);
 
