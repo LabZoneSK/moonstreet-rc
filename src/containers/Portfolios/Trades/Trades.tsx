@@ -114,7 +114,7 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
                 }
 
                 return (
-                  <tbody className="tradeTbody" key={trade[0]}>
+                  <tbody className="tradeTbody" key={trade}>
                     <tr>
                       <td rowSpan={2}>{date}</td>
                       <td rowSpan={2}>{orderType}</td>
