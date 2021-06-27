@@ -1,8 +1,13 @@
-.fiftyFifty {
+.portfolioStats {
   display: flex;
   flex-wrap: wrap;
 
   > * {
     width: 50%;
+  }
+
+  &__graph {
+    max-width: 300px;
+    margin-left: auto;
   }
 }

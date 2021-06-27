@@ -45,14 +45,11 @@
         padding: 10px 24px;
         line-height: 30px;
         font-size: 12px;
-        color: var(--secondary-font-color);
-        border-top: 1px solid var(--layout-boder);
+        color: var(--light-gray);
+        border-top: 1px solid var(--sidebar-background-light);
+        line-height: normal;
     }
 
 .submenu {
     padding-left: 10px;
-}
-
-.fe-btn-refresh {
-  margin-top: 2rem;
 }

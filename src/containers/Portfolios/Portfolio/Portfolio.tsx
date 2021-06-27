@@ -115,16 +115,18 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
 
     if (portfolios[identifyPortKey].trades && Object.keys(portfolios[identifyPortKey].trades).length > 0) {
       Object.keys(portfolios[identifyPortKey].trades).forEach((tradeKey) => {
-        pieDataObject.labels.push(portfolios[identifyPortKey].trades[tradeKey].currency);
+        if (portfolios[identifyPortKey].trades[tradeKey].orderType === 'buy') {
+          pieDataObject.labels.push(portfolios[identifyPortKey].trades[tradeKey].currency);
 
-        const value = Number(portfolios[identifyPortKey].trades[tradeKey].amount) * rates[portfolios[identifyPortKey].trades[tradeKey].currency].EUR.PRICE;
-        pieDataObject.datasets[0].data.push(`${value}`);
+          const value = rates[portfolios[identifyPortKey].trades[tradeKey].currency] !== undefined ? Number(portfolios[identifyPortKey].trades[tradeKey].amount) * rates[portfolios[identifyPortKey].trades[tradeKey].currency].EUR.PRICE : 0;
+          pieDataObject.datasets[0].data.push(`${value}`);
 
-        const color = `rgb(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)})`;
-        pieDataObject.datasets[0].backgroundColor.push(`${color}`);
+          const color = `rgb(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)})`;
+          pieDataObject.datasets[0].backgroundColor.push(`${color}`);
 
-        investmentCurrentValue += value;
-        investmentInitialValue += Number(portfolios[identifyPortKey].trades[tradeKey].priceEUR);
+          investmentCurrentValue += value;
+          investmentInitialValue += Number(portfolios[identifyPortKey].trades[tradeKey].priceEUR);
+        }
       });
     }
 
@@ -157,11 +159,11 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
             </strong>
           </p>
 
-          <div className={styles.fiftyFifty}>
+          <div className={styles.portfolioStats}>
 
             <div>
               <p>
-                {`Initial investment: ${totalInvestment}`}
+                {`Initial investment: ${totalInvestment.toFixed(2)}`}
                 <br />
                 {`Current value: ${totalValue.toFixed(2)}`}
                 <br />
@@ -181,7 +183,7 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
               <TradesManager portfolioKey={currentPortfolioKey} />
             </div>
 
-            <div>
+            <div className={styles.portfolioStats__graph}>
               <Pie type="pie" options={pieOptions} data={pieData} />
             </div>
 

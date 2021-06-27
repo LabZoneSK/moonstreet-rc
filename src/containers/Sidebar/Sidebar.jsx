@@ -6,7 +6,6 @@ import { NavLink, withRouter } from 'react-router-dom';
 
 import SubMenu from '../../components/Submenu';
 import Footer from '../../components/footer';
-import RefreshButton from '../Rates/RateRefresh';
 
 const getLinks = (settings, parentPath) => (
   Object.keys(settings).map((w) => {
@@ -42,7 +41,6 @@ const Sidebar = (props) => {
             </NavLink>
           </li>
           <li><NavLink exact activeClassName="active" to="/settings">Settings</NavLink></li>
-          <li><RefreshButton /></li>
         </ul>
       </nav>
       <Footer />

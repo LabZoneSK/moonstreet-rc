@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => (
   <div className="footer">
-    disclaimers, links, terms
+    Invest only as much as you can afford to loose.
   </div>
 );
 

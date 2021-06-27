@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import * as RatesActions from '../actions';
 import * as cc from '../../../cryptocompare';
 
+import styles from './RateRefresh.module.scss';
+
 class RateRefresh extends React.Component {
   constructor(props) {
     super(props);
@@ -31,8 +33,8 @@ class RateRefresh extends React.Component {
 
   render() {
     return (
-      <div>
-        <button className="fe-btn fe-btn-refresh" type="button" onClick={this.refreshRates}>Refresh</button>
+      <div className={styles.refreshButton}>
+        <button className="fe-btn" type="button" onClick={this.refreshRates}>Refresh</button>
       </div>
     );
   }

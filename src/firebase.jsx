@@ -9,7 +9,8 @@ const config = {
   databaseURL: process.env.REACT_APP_FIREBASE_databaseURL,
   projectId: process.env.REACT_APP_FIREBASE_projectId,
   storageBucket: process.env.REACT_APP_FIREBASE_FIREBASE_storageBucket,
-  messagingSenderId: '399365607114',
+  messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId,
+  appId: process.env.REACT_APP_FIREBASE_appId,
 };
 
 export const firebaseApp = firebase.initializeApp(config);
