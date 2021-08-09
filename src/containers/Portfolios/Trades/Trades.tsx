@@ -49,8 +49,19 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
 
   useEffect(() => {
     // let's create array of trades to display with calculated stuff
+    interface AssetTable {
+      [key: string]: Number
+    }
+    const assetTable: AssetTable = {};
+
     if (trades !== undefined) {
       const recordedTrades = Object.keys(trades).map((trade: string) => {
+        const { currency } = trades[trade];
+        if (assetTable[trades[trade].currency] === undefined) {
+          assetTable[currency] = 1;
+        } else {
+          assetTable[currency] = Number(assetTable[currency]) + 1;
+        }
         console.log('trade: ', trade);
         return {
           type: trades[trade].orderType,
@@ -58,6 +69,7 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
       });
 
       setTradesList(recordedTrades);
+      console.log('asset table: ', assetTable);
     }
   }, []);
 
