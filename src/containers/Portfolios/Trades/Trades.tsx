@@ -14,6 +14,8 @@ import { database } from '../../../firebase';
 
 import * as PortfoliosActions from '../actions';
 
+import styles from './Trades.module.scss';
+
 interface TradesPropTypes extends RouteComponentProps {
   removeTrade: (portfolioKey: string, tradeKey: string) => void,
   portfolioKey: string,
@@ -23,7 +25,13 @@ interface TradesPropTypes extends RouteComponentProps {
 }
 
 interface ITrades {
-  type: string,
+  key: string,
+  amount: string,
+  currency: string,
+  date: string,
+  orderType: string,
+  priceBTC: string,
+  priceEUR: string,
 }
 
 const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
@@ -38,10 +46,11 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
   const { trades } = portfolios[portfolioKey];
 
   const [tradesList, setTradesList] = useState<ITrades[]>([]);
+  const [tradeType, setTradeType] = useState<string>('buy');
 
   const handleRemove = (tradekey: string) => {
     // eslint-disable-next-line no-undef
-    if (window.confirm('Are you sure you want to remove trade tradekey?')) {
+    if (window.confirm(`Are you sure you want to remove trade ${tradekey}?`)) {
       database.ref(user.uid).child(`clients/own/portfolios/${portfolioKey}/trades/${tradekey}`).remove();
       removeTrade(portfolioKey, tradekey);
     }
@@ -50,37 +59,67 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
   useEffect(() => {
     // let's create array of trades to display with calculated stuff
     interface AssetTable {
-      [key: string]: Number
+      [key: string]: String[]
     }
     const assetTable: AssetTable = {};
 
     if (trades !== undefined) {
-      const recordedTrades = Object.keys(trades).map((trade: string) => {
+      Object.keys(trades).forEach((trade: string) => {
         const { currency } = trades[trade];
         if (assetTable[trades[trade].currency] === undefined) {
-          assetTable[currency] = 1;
+          assetTable[currency] = [];
+          assetTable[currency].push(trade);
         } else {
-          assetTable[currency] = Number(assetTable[currency]) + 1;
+          assetTable[currency].push(trade);
         }
-        console.log('trade: ', trade);
-        return {
-          type: trades[trade].orderType,
-        };
       });
-
-      setTradesList(recordedTrades);
-      console.log('asset table: ', assetTable);
     }
   }, []);
 
   useEffect(() => {
+    const filteredTrades:ITrades[] = [];
+    Object.keys(trades).forEach((trade) => {
+      if (trades[trade].orderType === tradeType) {
+        const singleTrade = {
+          key: trade,
+          ...trades[trade],
+        };
+        filteredTrades.push(singleTrade);
+      }
+    });
+    setTradesList(filteredTrades);
+  }, [tradeType]);
+
+  useEffect(() => {
     console.log('trades: ', tradesList);
+    console.log(tradeType);
   }, [tradesList]);
 
   return (
     <>
       <div>
         <h2>Trades</h2>
+        <div className={styles.tabs}>
+          <button
+            type="button"
+            onClick={() => { setTradeType('buy'); }}
+            className={cx({
+              [styles.active]: tradeType === 'buy',
+            })}
+          >
+            Long
+          </button>
+          &nbsp;|&nbsp;
+          <button
+            type="button"
+            onClick={() => { setTradeType('sell'); }}
+            className={cx({
+              [styles.active]: tradeType === 'sell',
+            })}
+          >
+            Short
+          </button>
+        </div>
         <table className="trades">
           <thead>
             <tr>
@@ -98,7 +137,8 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
             <tbody><tr><td>no trades</td></tr></tbody>
           ) : (
             <>
-              {Object.keys(trades).map((trade: string) => {
+              {tradesList.map((trade: ITrades) => {
+                console.log('trade: ', trade);
                 const {
                   date,
                   orderType,
@@ -106,34 +146,35 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
                   amount,
                   priceEUR,
                   priceBTC,
-                } = trades[trade];
+                  key,
+                } = trade;
                 let roiEUR = 0;
                 let roiBTC = 0;
                 let currentEUR = 0;
                 let currentBTC = 0;
 
                 if (rates[currency]) {
-                  currentEUR = Number((Number(rates[currency].EUR.PRICE) * amount).toFixed(2));
-                  currentBTC = Number((Number(rates[currency].BTC.PRICE) * amount).toFixed(4));
+                  currentEUR = Number((Number(rates[currency].EUR.PRICE) * Number(amount)).toFixed(2));
+                  currentBTC = Number((Number(rates[currency].BTC.PRICE) * Number(amount)).toFixed(4));
 
-                  if (priceEUR > 0) {
+                  if (Number(priceEUR) > 0) {
                     roiEUR = Number(Number((((Number(rates[currency].EUR.PRICE) * Number(amount)) / Number(priceEUR)) * 100) - 100).toFixed(2));
                   }
 
-                  if (priceBTC > 0) {
+                  if (Number(priceBTC) > 0) {
                     roiBTC = Number(Number((((Number(rates[currency].BTC.PRICE) * Number(amount)) / Number(priceBTC)) * 100) - 100).toFixed(2));
                   }
                 }
 
                 return (
-                  <tbody className="tradeTbody" key={trade}>
+                  <tbody className="tradeTbody" key={key}>
                     <tr>
                       <td rowSpan={2}>{date}</td>
                       <td rowSpan={2}>{orderType}</td>
                       <td rowSpan={2}>{currency}</td>
                       <td rowSpan={2}>{amount}</td>
                       <td>
-                        {priceEUR === 0 ? '--' : `€${priceEUR}`}
+                        {Number(priceEUR) === 0 ? '--' : `€${priceEUR}`}
                       </td>
                       <td>
                         {currentEUR === 0 ? '--' : `€${currentEUR}`}
@@ -149,11 +190,11 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
                           {roiEUR === 0 ? '--' : `${roiEUR}%`}
                         </span>
                       </td>
-                      <td rowSpan={2}><button className="fe-btn" type="button" onClick={() => handleRemove(trade)}>x</button></td>
+                      <td rowSpan={2}><button className="fe-btn" type="button" onClick={() => handleRemove(key)}>x</button></td>
                     </tr>
                     <tr>
                       <td>
-                        {priceBTC === 0 ? '--' : `₿${priceBTC}`}
+                        {Number(priceBTC) === 0 ? '--' : `₿${priceBTC}`}
                       </td>
                       <td>
                         {currentBTC === 0 ? '--' : `₿${currentBTC}`}
