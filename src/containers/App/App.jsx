@@ -29,6 +29,7 @@ import Rates from '../Rates';
 import ICOs from '../ICO';
 import CoinPotential from '../CoinPotential/CoinPotential';
 import Settings from '../Settings/Settings';
+import Archive from '../Archive/Archive';
 
 import * as cc from '../../cryptocompare';
 
@@ -208,6 +209,7 @@ class App extends React.Component {
                     <Route exact path="/ico" component={ICOs} />
                     <Route exact path="/coinPotential" component={CoinPotential} />
                     <Route exact path="/settings" component={Settings} />
+                    <Route exact path="/archive" component={Archive} />
                   </Switch>
                 </section>
               </main>

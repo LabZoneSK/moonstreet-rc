@@ -7,6 +7,7 @@ import wallets from '../containers/Wallets/reducer';
 import rates from '../containers/Rates/reducer';
 import user from '../containers/App/reducer';
 import icos from '../containers/ICO/reducer';
+import archive from '../containers/Archive/reducer';
 
 const reducers = combineReducers({
   /* Add imported reducers */
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   rates,
   user,
   icos,
+  archive,
 });
 
 export default reducers;

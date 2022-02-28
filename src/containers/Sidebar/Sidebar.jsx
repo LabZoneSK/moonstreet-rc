@@ -40,6 +40,7 @@ const Sidebar = (props) => {
               Coin potential
             </NavLink>
           </li>
+          <li><NavLink exact activeClassName="active" to="/archive">Archive</NavLink></li>
           <li><NavLink exact activeClassName="active" to="/settings">Settings</NavLink></li>
         </ul>
       </nav>
