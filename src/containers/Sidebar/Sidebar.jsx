@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 
+import { auth } from '../../firebase';
+
 import SubMenu from '../../components/Submenu';
 import Footer from '../../components/footer';
 
@@ -13,6 +15,15 @@ const getLinks = (settings, parentPath) => (
     return { path: dynamicPath, name: settings[w].name };
   })
 );
+
+const logout = () => {
+  localStorage.clear();
+  auth.signOut().then(() => {
+    // Sign-out successful.
+  }).catch(() => {
+    // An error happened.
+  });
+};
 
 const Sidebar = (props) => {
   const { location, wallets, portfolios } = props;
@@ -41,6 +52,9 @@ const Sidebar = (props) => {
             </NavLink>
           </li>
           <li><NavLink exact activeClassName="active" to="/settings">Settings</NavLink></li>
+          <li>
+            <NavLink onClick={logout} exact activeClassName="white" to="/">Logout</NavLink>
+          </li>
         </ul>
       </nav>
       <Footer />

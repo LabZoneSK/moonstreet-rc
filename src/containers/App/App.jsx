@@ -57,6 +57,13 @@ class App extends React.Component {
     } = this.props;
 
     auth.onAuthStateChanged((user) => {
+      console.log(user);
+      this.setState(() => ({
+        loading: {
+          database: true,
+          rates: true,
+        },
+      }));
       if (user) {
         // eslint-disable-next-line no-undef
         window.localStorage.setItem(storageKey, user.uid);
