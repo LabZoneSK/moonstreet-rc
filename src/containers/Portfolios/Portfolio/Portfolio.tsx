@@ -55,7 +55,7 @@ interface PieDataObject {
   labels: string[],
   datasets: [{
     label: string,
-    data: string[],
+    data: number[],
     backgroundColor: string[],
     hoverOffset: 4,
   }],
@@ -116,13 +116,20 @@ const Portfolio: React.FC<PortFolioTypes> = (props: PortFolioTypes) => {
     if (portfolios[identifyPortKey].trades && Object.keys(portfolios[identifyPortKey].trades).length > 0) {
       Object.keys(portfolios[identifyPortKey].trades).forEach((tradeKey) => {
         if (portfolios[identifyPortKey].trades[tradeKey].orderType === 'buy') {
-          pieDataObject.labels.push(portfolios[identifyPortKey].trades[tradeKey].currency);
+          const cc = portfolios[identifyPortKey].trades[tradeKey].currency;
+          const value = rates[cc] !== undefined ? Number(portfolios[identifyPortKey].trades[tradeKey].amount) * rates[cc].EUR.PRICE : 0;
+          const ccIndex = pieDataObject.labels.indexOf(cc);
 
-          const value = rates[portfolios[identifyPortKey].trades[tradeKey].currency] !== undefined ? Number(portfolios[identifyPortKey].trades[tradeKey].amount) * rates[portfolios[identifyPortKey].trades[tradeKey].currency].EUR.PRICE : 0;
-          pieDataObject.datasets[0].data.push(`${value}`);
+          if (ccIndex === -1) {
+            pieDataObject.labels.push(cc);
+            pieDataObject.datasets[0].data.push(value);
 
-          const color = `rgb(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)})`;
-          pieDataObject.datasets[0].backgroundColor.push(`${color}`);
+            const color = `rgb(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)})`;
+            pieDataObject.datasets[0].backgroundColor.push(`${color}`);
+          } else {
+            const incremetedValue = Number(pieDataObject.datasets[0].data[ccIndex]) + value;
+            pieDataObject.datasets[0].data[ccIndex] = incremetedValue;
+          }
 
           investmentCurrentValue += value;
           investmentInitialValue += Number(portfolios[identifyPortKey].trades[tradeKey].priceEUR);
