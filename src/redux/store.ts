@@ -21,6 +21,9 @@ import {configureStore} from '@reduxjs/toolkit';
 
 const store = configureStore ({ reducer: reducers})
 
+console.log("LOCAL STORAGE: " + localStorage.getItem('moonstreet-local-storage'));
+
+
 /* Apply middleware to the store and create store */
 
 

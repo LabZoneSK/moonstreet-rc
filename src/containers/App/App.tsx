@@ -1,11 +1,15 @@
-import React, { Fragment } from "react";
-
+import React, { Fragment, useState } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
   Routes,
   Route,
 } from "react-router-dom";
+
+import Login from '../Login/Login';
+
+import { database, auth, storageKey, isAutheticated } from "../../firebase";
+import { loadUserSettings } from "./actions";
 
 const router = createBrowserRouter([
   {
@@ -54,17 +58,52 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+
 function App() {
-  return (
-    <div>
-      {/* <Header /> */}
-      <main className="main">
+  const [isAutheticated, setIsAuthenticated] = useState(true);
+  const [loading, setLoading] = useState({ database: false, rates: false });
+
+  // auth.onAuthStateChanged((user) => {
+  //   console.log(user);
+  //   setLoading(() => ({
+  //       database: true,
+  //       rates: true,
+  //   }));
+  // });
+
+  const Page = () => {
+    if (!isAutheticated) {
+      if (!loading.database && !loading.rates) {
+      return (
+        <Fragment>
+          {/* <Header /> */}
+          <main className="main">
             {/* <Sidebar /> */}
             <section className="dashboard">
               <RouterProvider router={router} />
             </section>
           </main>
-    </div>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          Loading data
+        </Fragment>
+      )
+    } 
+  } else {
+    return (
+        <Login />
+    )
+  }
+  };
+
+  return (
+    <Fragment>
+      <Page />
+    </Fragment>
   );
 }
 
