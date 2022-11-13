@@ -1,16 +1,23 @@
 // due to webpack css order this file is imported manually into scss in styles folder
 
 a[id="menu"] {
-    width: 60px;
-    background-color: var(--sidebar-nav-active);
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 50px;
-    text-align: center;
-    background-image: linear-gradient(45deg, var(--sidebar-title-accent), var(--sidebar-nav-active));
+  width: 60px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 50px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    // remove menu button if it doesn't make sense to show/hide menu
-    @include ubreakpoint("large") {
-        display: none;
-    }
+  > svg {
+    fill: var(--sidebar-background-light);
+    width: 32px;
+    height: 32px;
+  }
+
+  // remove menu button if it doesn't make sense to show/hide menu
+  @include ubreakpoint("large") {
+      display: none;
+  }
 }
