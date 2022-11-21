@@ -22,14 +22,11 @@ type ComponentStateTypes = {
   currency: string,
   amount: number,
   priceEUR: string,
-  priceBTC: string,
-  dateInput: any
+  priceBTC: string
 }
 
-type TradeManagerTypes = TradeManagerPropTypes;
-
-class TradesManager extends React.Component<TradeManagerTypes, ComponentStateTypes> {
-  constructor(props: TradeManagerTypes) {
+class TradesManager extends React.Component<TradeManagerPropTypes, ComponentStateTypes> {
+  constructor(props: TradeManagerPropTypes) {
     super(props);
 
     this.state = {
@@ -40,7 +37,6 @@ class TradesManager extends React.Component<TradeManagerTypes, ComponentStateTyp
       amount: 0,
       priceEUR: '',
       priceBTC: '',
-      dateInput: null,
     };
 
     this.handleTradeAdd = this.handleTradeAdd.bind(this);
@@ -101,7 +97,7 @@ class TradesManager extends React.Component<TradeManagerTypes, ComponentStateTyp
   render() {
     const { user } = this.props;
     const {
-      dateInput,
+      date,
       currency,
       amount,
       priceBTC,
@@ -121,7 +117,7 @@ class TradesManager extends React.Component<TradeManagerTypes, ComponentStateTyp
           id="date"
           name="date"
           placeholder="2017-11-16"
-          value={dateInput}
+          value={date}
           onChange={this.handleInputChange}
         />
 

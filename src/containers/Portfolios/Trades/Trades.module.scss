@@ -1,0 +1,16 @@
+
+.tabs {
+  button {
+    border: none;
+    background: none;
+    font-size: 18px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.active {
+  font-weight: bold;
+}
