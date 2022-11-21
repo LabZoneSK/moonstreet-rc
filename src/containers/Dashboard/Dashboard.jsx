@@ -21,15 +21,37 @@ const Dashboard = (props) => {
     <>
       <div>Welcome</div>
       {ratesArray.length > 0 && (
-        <p>
-          Top coin in last 24h is
-          {` ${ratesArray[0].name} `}
-          with
-          <strong>
-            {` ${ratesArray[0].price} `}
-          </strong>
-          change.
-        </p>
+        <>
+          <p>Top coins in last 24h are:</p>
+          <p>
+            {` ${ratesArray[0].name} `}
+            with
+            <strong>
+              {` ${ratesArray[0].price}% `}
+            </strong>
+            change.
+          </p>
+          {ratesArray[1] && (
+            <p>
+              {` ${ratesArray[1].name} `}
+              with
+              <strong>
+                {` ${ratesArray[1].price}% `}
+              </strong>
+              change.
+            </p>
+          )}
+          {ratesArray[2] && (
+            <p>
+              {` ${ratesArray[2].name} `}
+              with
+              <strong>
+                {` ${ratesArray[2].price}% `}
+              </strong>
+              change.
+            </p>
+          )}
+        </>
       )}
     </>
   );

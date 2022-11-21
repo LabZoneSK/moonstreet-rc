@@ -57,7 +57,6 @@ class App extends React.Component {
     } = this.props;
 
     auth.onAuthStateChanged((user) => {
-      console.log(user);
       this.setState(() => ({
         loading: {
           database: true,
