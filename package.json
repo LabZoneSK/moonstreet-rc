@@ -1,6 +1,9 @@
 {
   "name": "moonstreet-rc",
   "version": "0.1.0",
+  "engines": {
+    "node": "10.x.x"
+  },
   "private": true,
   "dependencies": {
     "@types/jest": "^26.0.23",
