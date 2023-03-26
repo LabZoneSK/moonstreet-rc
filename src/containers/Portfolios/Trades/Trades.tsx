@@ -78,16 +78,18 @@ const Trades: React.FC<TradesPropTypes> = (props: TradesPropTypes) => {
 
   useEffect(() => {
     const filteredTrades:ITrades[] = [];
-    Object.keys(trades).forEach((trade) => {
-      if (trades[trade].orderType === tradeType) {
-        const singleTrade = {
-          key: trade,
-          ...trades[trade],
-        };
-        filteredTrades.push(singleTrade);
-      }
-    });
-    setTradesList(filteredTrades);
+    if (trades !== undefined) {
+      Object.keys(trades).forEach((trade) => {
+        if (trades[trade].orderType === tradeType) {
+          const singleTrade = {
+            key: trade,
+            ...trades[trade],
+          };
+          filteredTrades.push(singleTrade);
+        }
+      });
+      setTradesList(filteredTrades);
+    }
   }, [tradeType]);
 
   useEffect(() => {
